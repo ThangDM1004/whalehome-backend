@@ -1,9 +1,32 @@
 package com.example.vinhomeproject;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.models.annotations.OpenAPI30;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
+//@EnableWebSecurity
+@OpenAPIDefinition(
+        info = @Info(
+                title = "VINHOME_Apartment_Rent",
+                version = "1.0.0",
+                description = "SWD392 Project Spring24",
+                termsOfService = "Whale house",
+                contact = @Contact(
+                        name = "Mr.Thắng",
+                        email = "dmthang.longan@gmail.com"
+                ),
+                license = @License(
+                        name = "licence",
+                        url = "whalehouse"
+                )
+        )
+)
 public class VinHomeProjectApplication {
 
     public static void main(String[] args) {
