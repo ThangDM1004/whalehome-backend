@@ -24,9 +24,16 @@ public class Base {
     @CreatedBy
     private String createBy;
     @Column
+    @CreatedBy
+    private String deleteBy;
+    @Column
     @LastModifiedDate
     private Date modifiedDate;
     @Column
     @CreatedDate
     private Date createDate;
+    @Column
+    @CreatedDate
+    private Date deleteAt;
+
 }
