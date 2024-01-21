@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_issue")
+@Table
 public class Issue extends Base{
 
     private String name;

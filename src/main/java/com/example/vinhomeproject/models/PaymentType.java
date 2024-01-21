@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_payment_type")
+@Table
 public class PaymentType extends Base{
 
     private String name;

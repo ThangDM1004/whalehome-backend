@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_apartment_class")
+@Table
 public class ApartmentClass{
 
     @Id

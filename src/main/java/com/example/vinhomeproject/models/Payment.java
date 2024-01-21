@@ -18,7 +18,7 @@ import java.util.Locale;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_payment")
+@Table
 public class Payment extends Base{
 
     private LocalDate payment_time;

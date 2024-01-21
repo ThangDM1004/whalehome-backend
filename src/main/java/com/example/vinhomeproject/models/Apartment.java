@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_apartment")
+@Table
 public class Apartment extends Base{
 
     private String name;
