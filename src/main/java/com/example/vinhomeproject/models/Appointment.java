@@ -19,7 +19,8 @@ import java.util.Date;
 @Table
 public class Appointment extends Base{
     private String status;
-    private Date date;
+    private Date dateTime;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
