@@ -18,7 +18,7 @@ import java.util.Date;
 @Entity
 @Table
 public class Appointment extends Base{
-    private String status;
+    private String statusAppointment;
     private Date dateTime;
 
 

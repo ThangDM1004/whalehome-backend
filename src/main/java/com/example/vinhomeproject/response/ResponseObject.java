@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseEntity {
+public class ResponseObject {
     private String messages;
     private Object object;
 }

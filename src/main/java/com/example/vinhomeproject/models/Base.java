@@ -35,5 +35,8 @@ public class Base {
     @Column
     @CreatedDate
     private Date deleteAt;
+    @Column
+    @CreatedBy
+    private boolean status;
 
 }
