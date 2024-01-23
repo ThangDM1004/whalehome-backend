@@ -1,10 +1,8 @@
 package com.example.vinhomeproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -12,12 +10,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table
+@Builder
 public class Building extends Base{
 
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "zone")
+    @JsonIgnore
     private Zone zone;
 
 }

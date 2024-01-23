@@ -1,31 +1,24 @@
-package com.example.vinhomeproject.models;
+package com.example.vinhomeproject.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import com.example.vinhomeproject.models.Contract;
+import com.example.vinhomeproject.models.Users;
 import lombok.*;
 
 import java.util.Date;
 import java.util.Set;
 
-@Entity
-@Table
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
-public class ContractHistory extends Base {
+public class ContractHistoryDTO {
     private double price;
     private String description;
     private String image;
     private Date expiredTime;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     private Users users;
 
-    @OneToMany(mappedBy = "contractHistory")
-    @JsonIgnore
     private Set<Contract> contracts;
 }

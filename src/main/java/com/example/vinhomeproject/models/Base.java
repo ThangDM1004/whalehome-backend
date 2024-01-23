@@ -1,7 +1,6 @@
 package com.example.vinhomeproject.models;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -37,6 +36,6 @@ public class Base {
     private Date deleteAt;
     @Column
     @CreatedBy
-    private boolean status;
+    private boolean status = true;
 
 }
