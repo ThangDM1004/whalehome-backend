@@ -4,6 +4,7 @@ import com.example.vinhomeproject.dto.ApartmentClassDTO;
 import com.example.vinhomeproject.models.ApartmentClass;
 import com.example.vinhomeproject.repositories.ApartmentClassRepository;
 import com.example.vinhomeproject.response.ResponseObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Service
 public class ApartmentClassSerivce {
+    @Autowired
     private ApartmentClassRepository apartmentClassRepository;
 
     public ResponseEntity<ResponseObject> getAll(){
@@ -20,6 +22,20 @@ public class ApartmentClassSerivce {
         return ResponseEntity.ok(new ResponseObject(
                 "successfully",
                 apartmentClasses
+        ));
+    }
+
+    public ResponseEntity<ResponseObject> getById(Long id){
+        Optional<ApartmentClass> apartmentClass = apartmentClassRepository.findById(id);
+        if(apartmentClass.isPresent()){
+            return ResponseEntity.ok(new ResponseObject(
+                    "successfully",
+                    apartmentClass
+            ));
+        }
+        return ResponseEntity.badRequest().body(new ResponseObject(
+                "failed",
+                null
         ));
     }
 
