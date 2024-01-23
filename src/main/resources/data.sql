@@ -57,19 +57,19 @@ VALUES ('LA', '2024-01-22', NULL, NULL, 2, 48, 2, 'nha dep nhat vi', 1, 0, 3, 1,
        ('minh', '2024-01-22', NULL, NULL, 3, 50, 2, 'phong big', 1, 2, 3, 2, 1, 1, '0609', 2, true, 2, 2),
        ('minh', '2024-01-22', NULL, NULL, 3, 50, 2, 'small', 1, 2, 3, 2, 1, 1, '0608', 2, true, 3, 3);
 
-INSERT INTO appointment(create_by, create_date, modified_by, modified_date, date_time, status, apartment_id, user_id)
+INSERT INTO appointment(create_by, create_date, modified_by, modified_date, date_time, status_appointment, apartment_id, user_id,status)
 VALUES ('thang', '2024-01-22', NULL, NULL,
-        '2024-01-22', 'Access', 1, 8),
+        '2024-01-22', 'Access', 1, 8,true),
        ('nam', '2024-01-22', NULL, NULL,
-        '2024-01-22', 'Access', 2, 9),
+        '2024-01-22', 'Access', 2, 9,true),
        ('hieu', '2024-01-22', NULL, NULL,
-        '2024-01-22', 'Access', 3, 8),
+        '2024-01-22', 'Access', 3, 8,true),
        ('phu', '2024-01-22', NULL, NULL,
-        '2024-01-22', 'Finished', 4, 7),
+        '2024-01-22', 'Finished', 4, 7,true),
        ('kie', '2024-01-22', NULL, NULL,
-        '2024-01-22','Cancel', 5, 6),
+        '2024-01-22','Cancel', 5, 6,true),
        ('minh', '2024-01-22', NULL, NULL,
-        '2024-01-22', 'Pending', 6, 5);
+        '2024-01-22', 'Pending', 6, 5,true);
 
 INSERT INTO contract_history(create_by, create_date, modified_by, modified_date, description, expired_time, image,
                              price, status, user_id)
