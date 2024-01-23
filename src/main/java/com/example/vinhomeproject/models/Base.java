@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.models;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
@@ -37,6 +38,6 @@ public class Base {
     private Date deleteAt;
     @Column
     @CreatedBy
-    private boolean status;
+    private boolean status = true;
 
 }

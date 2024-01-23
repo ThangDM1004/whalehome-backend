@@ -2,10 +2,7 @@ package com.example.vinhomeproject.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
@@ -15,6 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table
+@Builder
 public class Apartment extends Base{
 
     private String name;
@@ -32,8 +30,6 @@ public class Apartment extends Base{
     private int floor;
 
     private int area;
-
-    private boolean status;
 
     private int air_conditioner;
 

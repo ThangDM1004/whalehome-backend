@@ -1,10 +1,7 @@
 package com.example.vinhomeproject.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -12,12 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table
-public class ApartmentClass{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@Builder
+public class ApartmentClass extends Base{
     private String name;
 
     private double rent_price;
