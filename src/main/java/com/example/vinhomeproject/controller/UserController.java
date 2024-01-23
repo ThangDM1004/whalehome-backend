@@ -1,44 +1,37 @@
 package com.example.vinhomeproject.controller;
 
-import com.example.vinhomeproject.models.Users;
+import com.example.vinhomeproject.dto.UserDTO;
 import com.example.vinhomeproject.response.ResponseObject;
-import com.example.vinhomeproject.service.UsersSerivce;
+import com.example.vinhomeproject.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
 
     @Autowired
-    private UsersSerivce serivce;
+    private UsersService serivce;
     @GetMapping()
-    public String test(){
-        return "User controller";
-    }
-    @GetMapping("/get-all-user")
     public ResponseEntity<ResponseObject> getAllUser(){
-        List<Users> users = serivce.getAllUser();
-        if(users.size()>0){
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-               "Successfully",
-               users
-            ));
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "List user null",
-                    null
-            ));
-        }
+        return serivce.getAllUser();
+    }
+    @PostMapping("")
+    public  ResponseEntity<ResponseObject> createUser(@RequestBody UserDTO users){
+        return serivce.createUser(users);
+    }
+    @PutMapping("/delete/{id}")
+    public ResponseEntity<ResponseObject> deleteUser(@PathVariable Long id){
+      return  serivce.deleteUser(id);
     }
 
-//    @PostMapping("/create-user")
-//    public  ResponseEntity<ResponseObject> createUser(@RequestBody Users users){
-//
-//    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResponseObject> updateUser(@PathVariable Long id,@RequestBody UserDTO userDTO){
+        return  serivce.updateUser(id,userDTO);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseObject> getbyId(@PathVariable Long id){
+        return serivce.getById(id);
+    }
 }

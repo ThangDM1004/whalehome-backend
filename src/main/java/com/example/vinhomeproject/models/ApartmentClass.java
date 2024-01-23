@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table
-public class ApartmentClass{
+public class ApartmentClass extends Base{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

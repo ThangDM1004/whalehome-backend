@@ -51,6 +51,7 @@ public class Users extends  Base {
     private Set<Appointment> appointments;
 
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     private List<Token> tokens;
 
 }

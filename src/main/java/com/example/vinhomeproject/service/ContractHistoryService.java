@@ -1,4 +1,4 @@
 package com.example.vinhomeproject.service;
 
-public class ContractHistorySerivce {
+public class ContractHistoryService {
 }
