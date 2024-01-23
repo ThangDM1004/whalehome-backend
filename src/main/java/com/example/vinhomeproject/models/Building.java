@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class Building extends Base{
 
     @ManyToOne
     @JoinColumn(name = "zone")
+    @JsonIgnore
     private Zone zone;
 
 }

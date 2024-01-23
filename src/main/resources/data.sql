@@ -23,26 +23,26 @@ VALUES ('user', '2024-01-22', NULL, NULL, 'vinhome quan 9', '2024-01-22', 'phuma
        ('user10', '2024-01-22', NULL, NULL, 'tan binh', '2024-01-22', 'binh@gmail.com', 'kim binh mai', 'nu', NULL, true,
         '123', '0934234234', true);
 
-INSERT INTO area(create_by, create_date, modified_by, modified_date, name)
-VALUES ('long', '2024-01-22', NULL, NULL, 'long'),
-       ('phat', '2024-01-22', NULL, NULL, 'phat'),
-       ('hieu', '2024-01-22', NULL, NULL, 'S203'),
-       ('thang', '2024-01-22', NULL, NULL, 'S202'),
-       ('nam', '2024-01-22', NULL, NULL, 'S201');
+INSERT INTO area(create_by, create_date, modified_by, modified_date, name,status)
+VALUES ('long', '2024-01-22', NULL, NULL, 'long',true),
+       ('phat', '2024-01-22', NULL, NULL, 'phat',true),
+       ('hieu', '2024-01-22', NULL, NULL, 'S203',true),
+       ('thang', '2024-01-22', NULL, NULL, 'S202',true),
+       ('nam', '2024-01-22', NULL, NULL, 'S201',true);
 
-INSERT INTO zone(create_by, create_date, modified_by, modified_date, name, area_id)
-VALUES ('long', '2024-01-22', NULL, NULL, 'long', 1),
-       ('phat', '2024-01-22', NULL, NULL, 'phat', 2),
-       ('hieu', '2024-01-22', NULL, NULL, 'hieu', 3),
-       ('thang','2024-01-22', NULL, NULL, 'thang', 4),
-       ('nam',  '2024-01-22', NULL, NULL, 'nam', 5);
+INSERT INTO zone(create_by, create_date, modified_by, modified_date, name, area_id,status)
+VALUES ('long', '2024-01-22', NULL, NULL, 'long', 1,true),
+       ('phat', '2024-01-22', NULL, NULL, 'phat', 2,true),
+       ('hieu', '2024-01-22', NULL, NULL, 'hieu', 3,true),
+       ('thang','2024-01-22', NULL, NULL, 'thang', 4,true),
+       ('nam',  '2024-01-22', NULL, NULL, 'nam', 5,true);
 
-INSERT INTO building(create_by, create_date, modified_by, modified_date, name, zone)
-VALUES ('long ', '2024-01-22', NULL, NULL, 'long', 1),
-       ('phat', '2024-01-22', NULL, NULL, 'phat', 2),
-       ('hieu', '2024-01-22', NULL, NULL, 'hieu', 3),
-       ('thang', '2024-01-22', NULL, NULL, 'thang', 4),
-       ('nam', '2024-01-22', NULL, NULL, 'nam', 5);
+INSERT INTO building(create_by, create_date, modified_by, modified_date, name, zone,status)
+VALUES ('long ', '2024-01-22', NULL, NULL, 'long', 1,true),
+       ('phat', '2024-01-22', NULL, NULL, 'phat', 2,true),
+       ('hieu', '2024-01-22', NULL, NULL, 'hieu', 3,true),
+       ('thang', '2024-01-22', NULL, NULL, 'thang', 4,true),
+       ('nam', '2024-01-22', NULL, NULL, 'nam', 5,true);
 
 INSERT INTO apartment(create_by, create_date, modified_by, modified_date, air_conditioner, area, bed_room, description,
                       electric_fan, electric_stoves, floor, gas_stoves, kitchen, living_room, name, rest_room, status,
@@ -164,14 +164,14 @@ VALUES ('user', '2024-01-22', NULL, NULL, 'ADMI', 1),
        ('user4', '2024-01-22', NULL, NULL, 'USER', 8),
        ('user5', '2024-01-22', NULL, NULL, 'USER', 9);
 
-INSERT INTO apartment_class(height, length, name, rent_price, width, apartment_id)
-VALUES (300, 600, 'abc', 3000000000, 600, 1),
-       (300, 500, 'xyz', 1500000000, 600, 2),
-       (300, 700, 'nha ngo', 2000000000, 600, 3),
-       (300, 550, 'nha xi', 2200000000, 700, 4),
-       (300, 480, 'nha bth', 1800000000, 500, 5),
-       (300, 500, 'nha nha nha', 2000000000, 600, 6),
-       (300, 580, 'nha to ', 3400000000, 700, 7);
+INSERT INTO apartment_class(height, length, name, rent_price, width, apartment_id,status)
+VALUES (300, 600, 'abc', 3000000000, 600, 1,true),
+       (300, 500, 'xyz', 1500000000, 600, 2,true),
+       (300, 700, 'nha ngo', 2000000000, 600, 3,true),
+       (300, 550, 'nha xi', 2200000000, 700, 4,true),
+       (300, 480, 'nha bth', 1800000000, 500, 5,true),
+       (300, 500, 'nha nha nha', 2000000000, 600, 6,true),
+       (300, 580, 'nha to ', 3400000000, 700, 7,true);
 
 INSERT INTO issue(create_by, create_date, modified_by, modified_date, name, status, problems)
 VALUES ('asss', '2024-01-22', NULL, NULL, 'nhat ', true, NULL),

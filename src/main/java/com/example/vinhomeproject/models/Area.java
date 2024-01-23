@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -18,5 +19,6 @@ public class Area extends Base{
     private String name;
 
     @OneToMany(mappedBy = "area")
+    @JsonIgnore
     private List<Zone> zones;
 }

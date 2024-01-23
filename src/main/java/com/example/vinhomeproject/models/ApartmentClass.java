@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,5 +24,6 @@ public class ApartmentClass extends Base{
 
     @ManyToOne
     @JoinColumn(name = "apartment_id")
+    @JsonIgnore
     private Apartment apartment;
 }
