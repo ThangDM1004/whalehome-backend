@@ -10,10 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
-
 @Service
-public class ApartmentClassSerivce {
+public class ApartmentClassService {
     @Autowired
     private ApartmentClassRepository apartmentClassRepository;
 
@@ -73,6 +71,4 @@ public class ApartmentClassSerivce {
         }
         return ResponseEntity.badRequest().body("id not exist");
     }
-
-
 }

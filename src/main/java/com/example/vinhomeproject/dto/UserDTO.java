@@ -1,13 +1,20 @@
-package com.example.vinhomeproject.dto.User;
+package com.example.vinhomeproject.dto;
 
 import com.example.vinhomeproject.models.Role;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Set;
 
-@Data
-public class CreateUserDTO {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Component
+public class UserDTO {
     private String email;
     private String password;
     private String phone;
@@ -19,5 +26,4 @@ public class CreateUserDTO {
     private String address;
     private boolean isVerified;
     private Set<Role> roles;
-
 }

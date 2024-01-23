@@ -2,7 +2,7 @@ package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.dto.ApartmentClassDTO;
 import com.example.vinhomeproject.response.ResponseObject;
-import com.example.vinhomeproject.service.ApartmentClassSerivce;
+import com.example.vinhomeproject.service.ApartmentClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/apartmentclasses")
 public class ApartmentClassController {
     @Autowired
-    private ApartmentClassSerivce apartmentClassSerivce;
+    private ApartmentClassService apartmentClassSerivce;
 
     @GetMapping
     public ResponseEntity<ResponseObject> getAll(){

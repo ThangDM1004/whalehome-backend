@@ -1,4 +1,4 @@
 package com.example.vinhomeproject.service;
 
-public class NotificationSerivce {
+public class NotificationService {
 }

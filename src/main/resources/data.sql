@@ -116,16 +116,16 @@ VALUES (NULL, '2024-01-22', NULL, NULL, 'long', true),
        ('nhat long', '2024-01-22', NULL, NULL, 'nhat', false),
        ('nhat long', '2024-01-22', NULL, NULL, 'hieu', true);
 
-INSERT INTO notifications(create_by, create_date, modified_by, modified_date, context, is_read, time, tittle, user_id)
-VALUES ('Người tạo 1', '2024-01-22', 'Người sửa đổi 1', '2024-01-22', 'Mô tả bài viết 1',true,'11:30:00', 'Tiêu đề bài viết 1', 1),
-       ('Người tạo 2', '2024-01-22', 'Người sửa đổi 2', '2024-01-22', 'Mô tả bài viết 2',true,'11:30:00', 'Tiêu đề bài viết 2', 2),
-       ('Người tạo 3', '2024-01-22', 'Người sửa đổi 3', '2024-01-22', 'Mô tả bài viết 3',true,'11:30:00', 'Tiêu đề bài viết 3', 3),
-       ('Người tạo 4', '2024-01-22', 'Người sửa đổi 4', '2024-01-22', 'Mô tả bài viết 4',true,'11:30:00', 'Tiêu đề bài viết 4', 4),
-       ('Người tạo 5', '2024-01-22', 'Người sửa đổi 5', '2024-01-22', 'Mô tả bài viết 5',false,'11:30:00', 'Tiêu đề bài viết 5', 5),
-       ('Người tạo 6', '2024-01-22', 'Người sửa đổi 6', '2024-01-22', 'Mô tả bài viết 6',false,'11:30:00', 'Tiêu đề bài viết 6', 6),
-       ('Người tạo 7', '2024-01-22', 'Người sửa đổi 7', '2024-01-22', 'Mô tả bài viết 7',true,'11:30:00', 'Tiêu đề bài viết 7', 7),
-       ('Người tạo 8', '2024-01-22', 'Người sửa đổi 8', '2024-01-22', 'Mô tả bài viết 8',false,'11:30:00', 'Tiêu đề bài viết 8', 8),
-       ('Người tạo 9', '2024-01-22', 'Người sửa đổi 9', '2024-01-22', 'Mô tả bài viết 9',false,'11:30:00', 'Tiêu đề bài viết 9', 9);
+INSERT INTO notifications(create_by, create_date, modified_by, modified_date, context, is_read, time, tittle, user_id,status)
+VALUES ('Người tạo 1', '2024-01-22', 'Người sửa đổi 1', '2024-01-22', 'Mô tả bài viết 1',true,'11:30:00', 'Tiêu đề bài viết 1', 1,true),
+       ('Người tạo 2', '2024-01-22', 'Người sửa đổi 2', '2024-01-22', 'Mô tả bài viết 2',true,'11:30:00', 'Tiêu đề bài viết 2', 2,true),
+       ('Người tạo 3', '2024-01-22', 'Người sửa đổi 3', '2024-01-22', 'Mô tả bài viết 3',true,'11:30:00', 'Tiêu đề bài viết 3', 3,true),
+       ('Người tạo 4', '2024-01-22', 'Người sửa đổi 4', '2024-01-22', 'Mô tả bài viết 4',true,'11:30:00', 'Tiêu đề bài viết 4', 4,true),
+       ('Người tạo 5', '2024-01-22', 'Người sửa đổi 5', '2024-01-22', 'Mô tả bài viết 5',false,'11:30:00', 'Tiêu đề bài viết 5', 5,true),
+       ('Người tạo 6', '2024-01-22', 'Người sửa đổi 6', '2024-01-22', 'Mô tả bài viết 6',false,'11:30:00', 'Tiêu đề bài viết 6', 6,true),
+       ('Người tạo 7', '2024-01-22', 'Người sửa đổi 7', '2024-01-22', 'Mô tả bài viết 7',true,'11:30:00', 'Tiêu đề bài viết 7', 7,true),
+       ('Người tạo 8', '2024-01-22', 'Người sửa đổi 8', '2024-01-22', 'Mô tả bài viết 8',false,'11:30:00', 'Tiêu đề bài viết 8', 8,true),
+       ('Người tạo 9', '2024-01-22', 'Người sửa đổi 9', '2024-01-22', 'Mô tả bài viết 9',false,'11:30:00', 'Tiêu đề bài viết 9', 9,true);
 
 INSERT INTO notification_notification_type(notification_id, notification_type_id)
 VALUES (1, 1),
@@ -134,35 +134,35 @@ VALUES (1, 1),
        (2, 5),
        (4, 4);
 
-INSERT INTO post(create_by, create_date, modified_by, modified_date, description, title, apartment_id)
-VALUES ('long', '2024-01-22', NULL, NULL, 'cho thue nha', 'qua dinh', 1),
-       ('nhat', '2024-01-22', NULL, NULL, 'dinh', '10 diem ', 2),
-       ('hieu', '2024-01-22', NULL, NULL, 'can cho thue', 'thue', 3),
-       ('a', '2024-01-22', NULL, NULL, 'can cho thue', 'thue', 4),
-       ('long', '2024-01-22', NULL, NULL, 'cho thue ne', 'thue', 5),
-       ('kie', '2024-01-22', NULL, NULL, NULL, 'thue 1 thang', 6),
-       ('thang', '2024-01-22', NULL, NULL, NULL, 'thue 2 thang', 7),
-       ('namm', '2024-01-22', NULL, NULL, NULL, 'thue 3 thang', 8),
-       ('minh', '2024-01-22', NULL, NULL, NULL, 'thue 4 thang', 8);
+INSERT INTO post(create_by, create_date, modified_by, modified_date, description, title, apartment_id,status)
+VALUES ('long', '2024-01-22', NULL, NULL, 'cho thue nha', 'qua dinh', 1,true),
+       ('nhat', '2024-01-22', NULL, NULL, 'dinh', '10 diem ', 2,true),
+       ('hieu', '2024-01-22', NULL, NULL, 'can cho thue', 'thue', 3,true),
+       ('a', '2024-01-22', NULL, NULL, 'can cho thue', 'thue', 4,true),
+       ('long', '2024-01-22', NULL, NULL, 'cho thue ne', 'thue', 5,true),
+       ('kie', '2024-01-22', NULL, NULL, NULL, 'thue 1 thang', 6,true),
+       ('thang', '2024-01-22', NULL, NULL, NULL, 'thue 2 thang', 7,true),
+       ('namm', '2024-01-22', NULL, NULL, NULL, 'thue 3 thang', 8,true),
+       ('minh', '2024-01-22', NULL, NULL, NULL, 'thue 4 thang', 8,true);
 
-INSERT INTO post_image(create_by, create_date, modified_by, modified_date, image_alt, image_url, post_id)
-VALUES ('long', '2024-01-22', NULL, NULL, NULL, NULL, 1),
-       ('nam', '2024-01-22', NULL, NULL, NULL, NULL, 2),
-       ('thang', '2024-01-22', NULL, NULL, NULL, NULL, 3),
-       ('hoa', '2024-01-22', NULL, NULL, NULL, NULL, 4),
-       ('kie', '2024-01-22', NULL, NULL, NULL, NULL, 5),
-       ('trung', '2024-01-22', NULL, NULL, NULL, NULL, 6),
-       ('hieu', '2024-01-22', NULL, NULL, NULL, NULL, 7),
-       ('phu', '2024-01-22', NULL, NULL, NULL, NULL, 8),
-       ('minh', '2024-01-22', NULL, NULL, NULL, NULL, 9);
+INSERT INTO post_image(create_by, create_date, modified_by, modified_date, image_alt, image_url, post_id,status)
+VALUES ('long', '2024-01-22', NULL, NULL, NULL, NULL, 1,true),
+       ('nam', '2024-01-22', NULL, NULL, NULL, NULL, 2,true),
+       ('thang', '2024-01-22', NULL, NULL, NULL, NULL, 3,true),
+       ('hoa', '2024-01-22', NULL, NULL, NULL, NULL, 4,true),
+       ('kie', '2024-01-22', NULL, NULL, NULL, NULL, 5,true),
+       ('trung', '2024-01-22', NULL, NULL, NULL, NULL, 6,true),
+       ('hieu', '2024-01-22', NULL, NULL, NULL, NULL, 7,true),
+       ('phu', '2024-01-22', NULL, NULL, NULL, NULL, 8,true),
+       ('minh', '2024-01-22', NULL, NULL, NULL, NULL, 9,true);
 
-INSERT INTO role(create_by, create_date, modified_by, modified_date, role, user_id)
-VALUES ('user', '2024-01-22', NULL, NULL, 'ADMI', 1),
-       ('user1', '2024-01-22', NULL, NULL, 'USER', 5),
-       ('user2', '2024-01-22', NULL, NULL, 'USER', 6),
-       ('user3', '2024-01-22', NULL, NULL, 'USER', 7),
-       ('user4', '2024-01-22', NULL, NULL, 'USER', 8),
-       ('user5', '2024-01-22', NULL, NULL, 'USER', 9);
+INSERT INTO role(create_by, create_date, modified_by, modified_date, role, user_id,status)
+VALUES ('user', '2024-01-22', NULL, NULL, 'ADMI', 1,true),
+       ('user1', '2024-01-22', NULL, NULL, 'USER', 5,true),
+       ('user2', '2024-01-22', NULL, NULL, 'USER', 6,true),
+       ('user3', '2024-01-22', NULL, NULL, 'USER', 7,true),
+       ('user4', '2024-01-22', NULL, NULL, 'USER', 8,true),
+       ('user5', '2024-01-22', NULL, NULL, 'USER', 9,true);
 
 INSERT INTO apartment_class(height, length, name, rent_price, width, apartment_id,status)
 VALUES (300, 600, 'abc', 3000000000, 600, 1,true),
@@ -184,15 +184,15 @@ VALUES ('asss', '2024-01-22', NULL, NULL, 'nhat ', true, NULL),
        ('asdfa', '2024-01-22', NULL, NULL, 'kie', false, NULL);
 
 INSERT INTO payment(create_by, create_date, modified_by, modified_date, content, payment_time, total_price, contract_id,
-                    payment_type_id)
-VALUES ('aaa', '2024-01-22', NULL, NULL, NULL, NULL, 500, NULL, NULL),
-       ('xxx', '2024-01-22', NULL, NULL, NULL, NULL, 600, NULL, NULL),
-       ('zzz', '2024-01-22', NULL, NULL, NULL, NULL, 700, NULL, NULL),
-       ('ccc', '2024-01-22', NULL, NULL, NULL, NULL, 800, NULL, NULL),
-       ('qqq', '2024-01-22', NULL, NULL, NULL, NULL, 900, NULL, NULL),
-       ('err', '2024-01-22', NULL, NULL, NULL, NULL, 100, NULL, NULL),
-       ('ttt', '2024-01-22', NULL, NULL, NULL, NULL, 443, NULL, NULL),
-       ('www', '2024-01-22', NULL, NULL, NULL, NULL, 8943, NULL, NULL);
+                    payment_type_id,status)
+VALUES ('aaa', '2024-01-22', NULL, NULL, NULL, NULL, 500, NULL, NULL,true),
+       ('xxx', '2024-01-22', NULL, NULL, NULL, NULL, 600, NULL, NULL,true),
+       ('zzz', '2024-01-22', NULL, NULL, NULL, NULL, 700, NULL, NULL,true),
+       ('ccc', '2024-01-22', NULL, NULL, NULL, NULL, 800, NULL, NULL,true),
+       ('qqq', '2024-01-22', NULL, NULL, NULL, NULL, 900, NULL, NULL,true),
+       ('err', '2024-01-22', NULL, NULL, NULL, NULL, 100, NULL, NULL,true),
+       ('ttt', '2024-01-22', NULL, NULL, NULL, NULL, 443, NULL, NULL,true),
+       ('www', '2024-01-22', NULL, NULL, NULL, NULL, 8943, NULL, NULL,true);
 
 INSERT INTO problems(create_by, create_date, modified_by, modified_date, description, status, title, contract_id)
 VALUES ('xxx', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 1', 1),
@@ -204,14 +204,14 @@ VALUES ('xxx', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true,
        ('afafasd', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 7', 7),
        ('fgdfgsd', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 8', 8);
 
-INSERT INTO review(create_by, create_date, modified_by, modified_date, content, rate, apartment_id, user_id)
-VALUES ('long', '2024-01-22', 'thang', '2024-01-22', 'danh gia', 4.5, 1, 2),
-       ('Nam handsome', '2024-01-22', NULL, '2024-01-22', NULL, 5, 2, 5),
-       ('Hieu handsome', '2024-01-22', NULL, '2024-01-22', NULL, 3, 3, 6),
-       ('Phu handsome', '2024-01-22', NULL, '2024-01-22', NULL, 4, 4, 8),
-       ('Kien handsome', '2024-01-22', NULL, '2024-01-22', NULL, 5, 5, 9),
-       ('Thang amdi', '2024-01-22', NULL, '2024-01-22', NULL, 1, 7, 6),
-       ('Minh LeeSin toc danh', '2024-01-22', NULL, '2024-01-22', NULL, 4, 6, 1);
+INSERT INTO review(create_by, create_date, modified_by, modified_date, content, rate, apartment_id, user_id,status)
+VALUES ('long', '2024-01-22', 'thang', '2024-01-22', 'danh gia', 4.5, 1, 2,true),
+       ('Nam handsome', '2024-01-22', NULL, '2024-01-22', NULL, 5, 2, 5,true),
+       ('Hieu handsome', '2024-01-22', NULL, '2024-01-22', NULL, 3, 3, 6,true),
+       ('Phu handsome', '2024-01-22', NULL, '2024-01-22', NULL, 4, 4, 8,true),
+       ('Kien handsome', '2024-01-22', NULL, '2024-01-22', NULL, 5, 5, 9,true),
+       ('Thang amdi', '2024-01-22', NULL, '2024-01-22', NULL, 1, 7, 6,true),
+       ('Minh LeeSin toc danh', '2024-01-22', NULL, '2024-01-22', NULL, 4, 6, 1,true);
 
 
 

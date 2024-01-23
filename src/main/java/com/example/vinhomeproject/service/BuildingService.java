@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.service;
 
+
 import com.example.vinhomeproject.dto.AreaDTO;
 import com.example.vinhomeproject.dto.BuildingDTO;
 import com.example.vinhomeproject.models.Area;
@@ -62,4 +63,5 @@ public class BuildingService {
         }
         return ResponseEntity.badRequest().body("failed");
     }
+
 }
