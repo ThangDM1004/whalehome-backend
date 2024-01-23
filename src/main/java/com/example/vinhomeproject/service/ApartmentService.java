@@ -40,5 +40,6 @@ public class ApartmentService {
                         .building(apartmentDTO.getBuilding())
                         .build());
         return ResponseEntity.ok("Create successfully");
+        //
     }
 }
