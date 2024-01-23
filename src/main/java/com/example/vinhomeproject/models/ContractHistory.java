@@ -17,7 +17,6 @@ import java.util.Set;
 
 public class ContractHistory extends Base {
     private double price;
-    private boolean status;
     private String description;
     private String image;
     private Date expiredTime;
