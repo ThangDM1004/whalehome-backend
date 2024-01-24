@@ -8,5 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 public class ResponseObject {
     private String messages;
-    private Object object;
+    private Object data;
 }
