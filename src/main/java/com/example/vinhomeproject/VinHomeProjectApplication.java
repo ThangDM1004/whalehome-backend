@@ -29,8 +29,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
                 )
         ),
         servers = {
-                @Server(url = "https://whalehome.up.railway.app/", description = ""),
-                @Server(url = "http://localhost:3000/", description = "")
+                @Server(url = "https://whalehome.up.railway.app/", description = "Default Server URL")
         }
 )
 public class VinHomeProjectApplication {
