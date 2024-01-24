@@ -18,6 +18,7 @@ public class Zone extends Base{
 
     @ManyToOne
     @JoinColumn(name = "area_id")
+    @JsonIgnore
     private Area area;
 
     @OneToMany(mappedBy = "zone")

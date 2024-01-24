@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,5 +16,6 @@ public class Role extends Base{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private Users users;
 }

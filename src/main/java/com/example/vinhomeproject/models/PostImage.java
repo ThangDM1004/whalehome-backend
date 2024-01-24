@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,6 +22,7 @@ public class PostImage extends Base{
 
     @ManyToOne
     @JoinColumn(name = "post_id")
+    @JsonIgnore
     private Post post;
 
 }
