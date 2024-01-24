@@ -26,6 +26,5 @@ public class Post extends Base{
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "apartment_id")
-    @JsonIgnore
     private Apartment apartment;
 }

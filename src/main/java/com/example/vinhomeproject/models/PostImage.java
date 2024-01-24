@@ -23,7 +23,6 @@ public class PostImage extends Base{
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "post_id")
-    @JsonIgnore
     private Post post;
 
 }
