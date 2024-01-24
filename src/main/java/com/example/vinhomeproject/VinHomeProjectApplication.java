@@ -30,7 +30,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
         ),
         servers = {
                 @Server(url = "https://whalehome.up.railway.app/", description = ""),
-                @Server(url = "https://localhost:3000/", description = "")
+                @Server(url = "http://localhost:3000/", description = "")
         }
 )
 public class VinHomeProjectApplication {
