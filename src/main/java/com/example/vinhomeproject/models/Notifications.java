@@ -31,5 +31,6 @@ public class Notifications extends  Base{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private Users users;
 }

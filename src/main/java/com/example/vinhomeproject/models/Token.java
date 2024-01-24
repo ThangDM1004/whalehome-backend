@@ -24,5 +24,6 @@ public class Token extends Base{
     private boolean expired;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private Users users;
 }

@@ -15,5 +15,6 @@ public class Role extends Base{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private Users users;
 }

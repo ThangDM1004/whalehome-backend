@@ -29,5 +29,6 @@ public class Contract extends Base{
 
     @ManyToOne
     @JoinColumn(name = "contract_id")
+    @JsonIgnore
     private ContractHistory contractHistory;
 }

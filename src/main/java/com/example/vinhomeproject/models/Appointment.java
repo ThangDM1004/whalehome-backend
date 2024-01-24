@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -22,10 +23,12 @@ public class Appointment extends Base{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private Users users;
 
     @ManyToOne
     @JoinColumn(name = "apartment_id")
+    @JsonIgnore
     private Apartment apartment;
 
 }

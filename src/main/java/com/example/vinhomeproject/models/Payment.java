@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -29,10 +30,12 @@ public class Payment extends Base{
 
     @ManyToOne
     @JoinColumn(name = "contract_id")
+    @JsonIgnore
     private Contract contract;
 
     @ManyToOne
     @JoinColumn(name = "payment_type_id")
+    @JsonIgnore
     private PaymentType paymentType;
 
 }
