@@ -24,6 +24,7 @@ public class Post extends Base{
     private Set<PostImage> postImages;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "apartment_id")
     @JsonIgnore
     private Apartment apartment;
