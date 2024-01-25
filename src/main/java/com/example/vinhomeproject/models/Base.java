@@ -6,6 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 @MappedSuperclass
@@ -30,10 +32,10 @@ public class Base {
     private Date modifiedDate;
     @Column
     @CreatedDate
-    private Date createDate;
+    private LocalDate createDate;
     @Column
     @CreatedDate
-    private Date deleteAt;
+    private LocalDate deleteAt;
     @Column
     @CreatedBy
     private boolean status = true;

@@ -31,7 +31,6 @@ public class Users extends  Base {
     private boolean isVerified;
 
     @OneToMany(mappedBy = "users")
-    @JsonIgnore
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "users")
