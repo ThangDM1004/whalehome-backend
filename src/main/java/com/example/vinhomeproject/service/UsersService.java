@@ -96,4 +96,19 @@ public class UsersService {
             ));
         }
     }
+
+    public ResponseEntity<ResponseObject> getListUserSortByDate(){
+        List<Users> users = repo.getUserSortByDate();
+        if(!users.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Get list user sort by date",
+                    users
+            ));
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "List user null",
+                    null
+            ));
+        }
+    }
 }
