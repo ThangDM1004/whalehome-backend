@@ -11,5 +11,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/api/**")
                 .allowedOrigins("http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
+        registry.addMapping("/api/**")
+                .allowedOrigins("https://whale-home-apartment-rent-front-end-web-admin-2.vercel.app")
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 }

@@ -23,7 +23,7 @@ public class Users extends  Base {
     private String password;
     private String phone;
     private String fullName;
-    private Date dataOfBirth;
+    private Date dateOfBirth;
     private boolean status;
     private String image;
     private String gender;
