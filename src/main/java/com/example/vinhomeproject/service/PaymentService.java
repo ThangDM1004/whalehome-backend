@@ -2,6 +2,8 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.models.Payment;
 import com.example.vinhomeproject.repositories.PaymentRepository;
+import com.example.vinhomeproject.response.ResponseObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,22 +17,40 @@ public class PaymentService {
         this.rs = rs;
     }
 
-    public List<Payment> getAllPayment(){
-        return rs.findAll();
+    public ResponseEntity<ResponseObject> getAllPayment(){
+        List<Payment> paymentList=rs.findAll();
+
+        return ResponseEntity.ok(new ResponseObject(
+                "successfully",
+                paymentList
+        ));
     }
-    public Payment getPaymentById(Long id){return rs.findPaymentById(id);}
-    public Payment deletePayment(Long id) {
+    public ResponseEntity<ResponseObject> getPaymentById(Long id){
+
+
+        return ResponseEntity.ok(new ResponseObject(
+                "successfully",
+                rs.findPaymentById(id)
+        ));
+
+    }
+
+
+    public  ResponseEntity<String> deletePayment(Long id) {
         Payment existingUser = rs.findPaymentById(id);
 
         if (existingUser != null) {
             existingUser.setStatus(false);
-            return rs.save(existingUser);
+            rs.save(existingUser);
+            return ResponseEntity.ok("delete successfully");
+        }else {
+            return ResponseEntity.ok("id not exist");
         }
 
-        return null;
+
     }
 
-    public Payment updatePayment(Payment id) {
+    public ResponseEntity<String> updatePayment(Payment id) {
         Payment existingUser = rs.findPaymentById(id.getId());
 
         if (existingUser != null) {
@@ -39,12 +59,13 @@ public class PaymentService {
             existingUser.setPaymentType(id.getPaymentType());
             existingUser.setTotal_price(id.getTotal_price());
             existingUser.setStatus(false);
-            return rs.save(existingUser);
+             rs.save(existingUser);
+             return ResponseEntity.ok("update successfully");
+        }else {
+            return ResponseEntity.ok("id not exist");
         }
-
-        return null;
     }
-    public Payment createPayment(Payment id) {
+    public ResponseEntity<String> createPayment(Payment id) {
         Payment existingUser = new Payment();
 
 
@@ -53,7 +74,8 @@ public class PaymentService {
         existingUser.setPaymentType(id.getPaymentType());
         existingUser.setTotal_price(id.getTotal_price());
         existingUser.setStatus(false);
-        return rs.save(existingUser);
+        rs.save(existingUser);
+        return ResponseEntity.ok("create successfully");
 
 
 

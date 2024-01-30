@@ -2,6 +2,8 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.models.Post;
 import com.example.vinhomeproject.repositories.PostRepository;
+import com.example.vinhomeproject.response.ResponseObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,22 +18,30 @@ public class PostService {
         this.rs = rs;
     }
 
-    public List<Post> getAllPost(){return rs.findAll();}
-    public Post getPostId(Long id){return rs.findPostById(id);}
+    public ResponseEntity<ResponseObject> getAllPost(){return ResponseEntity.ok(new ResponseObject(
+            "successfully",
+            rs.findAll()
+    ));}
+    public ResponseEntity<ResponseObject> getPostId(Long id){return ResponseEntity.ok(new ResponseObject(
+            "successfully",
+            rs.findPostById(id)
+    ));}
 
-    public Post deletePost(Long id) {
+    public ResponseEntity<String> deletePost(Long id) {
         Post existingUser = rs.findById(id).orElse(null);
 
         if (existingUser != null) {
             existingUser.setStatus(false);
 
 
-            return rs.save(existingUser);
+            return ResponseEntity.ok("delete successfully");
+        }else {
+            return ResponseEntity.ok("id not exist");
         }
 
-        return null;
+
     }
-    public Post updatePost(Post id){
+    public  ResponseEntity<String> updatePost(Post id){
         Post post=rs.findById(id.getId()).orElse(null);
         if (post!=null){
             post.setCreateBy(id.getCreateBy());
@@ -41,12 +51,12 @@ public class PostService {
             post.setDescription(id.getDescription());
             post.setCreateDate(id.getCreateDate());
             post.setModifiedBy(id.getModifiedBy());
-            return rs.save(post);
-
+            return ResponseEntity.ok("update successfully");
+        }else {
+            return ResponseEntity.ok("id not exist");
         }
-        return null;
     }
-    public Post createPost(Post id){
+    public  ResponseEntity<String> createPost(Post id){
         Post post=new Post();
         post.setStatus(id.isStatus());
         post.setApartment(id.getApartment());
@@ -55,6 +65,7 @@ public class PostService {
         post.setCreateDate(id.getCreateDate());
         post.setModifiedBy(id.getModifiedBy());
         post.setCreateBy(id.getCreateBy());
-        return rs.save(post);
+         rs.save(post);
+        return ResponseEntity.ok("create successfully");
     }
 }
