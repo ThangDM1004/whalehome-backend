@@ -10,7 +10,6 @@ import java.util.List;
 public class PaymentService {
     private final PaymentRepository rs;
 
-
     public PaymentService(PaymentRepository rs) {
         this.rs = rs;
     }

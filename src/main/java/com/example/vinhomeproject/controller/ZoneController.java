@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "https://whale-home-apartment-rent-front-end-web-admin-2.vercel.app"})
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/zone")
 public class ZoneController {
     @Autowired
