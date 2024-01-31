@@ -25,7 +25,7 @@ public class UsersService {
         List<Users> users = repo.findAll();
         if(!users.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Successfully",
+                    "Get all user successfully",
                     users
             ));
         }else {
@@ -54,20 +54,32 @@ public class UsersService {
     }
     public ResponseEntity<ResponseObject>  deleteUser(Long id){
        Optional<Users> user = repo.findById(id);
-       user.get().setStatus(false);
-       repo.save(user.get());
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Delete user successfully",
+       if(user.isPresent()){
+           user.get().setStatus(false);
+           repo.save(user.get());
+           return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                   "Delete user successfully",
+                   null
+           ));
+       }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found user",
                 null
         ));
     }
 
     public ResponseEntity<ResponseObject>  updateUser(Long id,UserDTO userDTO){
         Optional<Users> user = repo.findById(id);
-        mapper.updateUser(userDTO,user.get());
-        repo.save(user.get());
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Delete user successfully",
+        if(user.isPresent()){
+            mapper.updateUser(userDTO,user.get());
+            repo.save(user.get());
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Delete user successfully",
+                    null
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found user",
                 null
         ));
     }
@@ -86,12 +98,12 @@ public class UsersService {
         Optional<Users> users = repo.findById(id);
         if(users.isPresent()){
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Successfully",
+                    "Get user by id " + id + " successfully",
                     users.get()
             ));
         }else {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "List user null",
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                    "Not found user by id "+ id,
                     null
             ));
         }

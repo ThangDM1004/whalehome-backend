@@ -21,59 +21,73 @@ public class ProblemsService {
     @Autowired
     private ProblemsMapper mapper;
 
-    public ResponseEntity<ResponseObject> getListProblems(){
+    public ResponseEntity<ResponseObject> getListProblems() {
         List<Problems> problems = repo.findAll();
-        if(problems.size()>0){
+        if (problems.size() > 0) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Successfully",
+                    "Get all problem successfully",
                     problems
             ));
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "List user null",
+                    "List problem null",
                     null
             ));
         }
     }
-    public ResponseEntity<ResponseObject> getProblemsById(Long id){
+
+    public ResponseEntity<ResponseObject> getProblemsById(Long id) {
         Optional<Problems> problems = repo.findById(id);
-        if(problems.isPresent()){
+        if (problems.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Successfully",
+                    "Get problem by id : " + id + " successfully",
                     problems
             ));
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "List user null",
+                    "Not found problem by id: " + id,
                     null
             ));
         }
     }
-    public ResponseEntity<ResponseObject> createProblems(ProblemDTO problemDTO){
+
+    public ResponseEntity<ResponseObject> createProblems(ProblemDTO problemDTO) {
         repo.save(mapper.createProblemsToProblemsDto(problemDTO));
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
-                    "Create problems success",
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Create problems success",
+                null
+        ));
+    }
+
+    public ResponseEntity<ResponseObject> deleteProblems(Long id) {
+        Optional<Problems> problems = repo.findById(id);
+        if (problems.isPresent()) {
+            problems.get().setStatus(false);
+            repo.save(problems.get());
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Delete probelms successfully",
                     null
             ));
-    }
-    public ResponseEntity<ResponseObject>  deleteProblems(Long id){
-        Optional<Problems> problems = repo.findById(id);
-        problems.get().setStatus(false);
-        repo.save(problems.get());
+        }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Delete probelms successfully",
+                "Not found problem by id: " + id,
                 null
         ));
     }
 
-    public ResponseEntity<ResponseObject>  updateProblems(Long id,ProblemDTO problemDTO){
+    public ResponseEntity<ResponseObject> updateProblems(Long id, ProblemDTO problemDTO) {
         Optional<Problems> problems = repo.findById(id);
-        mapper.update(problemDTO,problems.get());
-        repo.save(problems.get());
+        if (problems.isPresent()) {
+            mapper.update(problemDTO, problems.get());
+            repo.save(problems.get());
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Update problems successfully",
+                    null
+            ));
+        }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Delete problems successfully",
+                "Not found problem by id: " + id,
                 null
         ));
     }
-
 }

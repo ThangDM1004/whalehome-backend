@@ -28,7 +28,7 @@ public class ZoneService {
         List<Zone> zones = repo.findAll();
         if(!zones.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Successfully",
+                    "Get all zone successfully",
                     zones
             ));
         }else {
@@ -42,40 +42,55 @@ public class ZoneService {
     public ResponseEntity<ResponseObject> createZone(ZoneDTO zoneDTO){
         zoneDTO.setStatus(true);
         repo.save(mapper.createZoneToZoneDto(zoneDTO));
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
-                    "Create zone successfully",
-                    null
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
+                "Create zone successfully",
+                null
             ));
     }
     public ResponseEntity<ResponseObject>  deleteZone(Long id){
         Optional<Zone> zone = repo.findById(id);
-        zone.get().setStatus(false);
-        repo.save(zone.get());
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Delete zone successfully",
-                null
-        ));
+        if(zone.isPresent()){
+            zone.get().setStatus(false);
+            repo.save(zone.get());
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Delete zone successfully",
+                    null
+            ));
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                    "Not found zone with id: " + id,
+                    null
+            ));
+        }
+
     }
 
     public ResponseEntity<ResponseObject>  updateZone(Long id,ZoneDTO zoneDTO){
         Optional<Zone> zone = repo.findById(id);
-        mapper.update(zoneDTO,zone.get());
-        repo.save(zone.get());
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Delete user successfully",
-                null
-        ));
+        if(zone.isPresent()){
+            mapper.update(zoneDTO,zone.get());
+            repo.save(zone.get());
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Update zone successfully",
+                    null
+            ));
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                    "Not found zone with id: " + id,
+                    null
+            ));
+        }
     }
     public ResponseEntity<ResponseObject> getById(Long id){
         Optional<Zone> zone = repo.findById(id);
         if(zone.isPresent()){
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Successfully",
+                    "Get zone with id: "+ id + " successfully",
                     zone.get()
             ));
         }else {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Zone null",
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                    "Not found zone with id " + id,
                     null
             ));
         }
