@@ -2,6 +2,8 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.models.PaymentType;
 import com.example.vinhomeproject.repositories.PaymentTypeRepository;
+import com.example.vinhomeproject.response.ResponseObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,25 +19,35 @@ public class PaymentTypeService {
         this.rs = rs;
     }
 
-    public List<PaymentType> getAllPaymentType(){
-        return rs.findAll();
+    public ResponseEntity<ResponseObject> getAllPaymentType(){
+         rs.findAll();
+        return ResponseEntity.ok(new ResponseObject(
+                "successfully",
+                rs.findAll()
+        ));
     }
-    public PaymentType getPaymentTypeById(Long id){
-        return rs.findPaymentTypeById(id);
+    public ResponseEntity<ResponseObject> getPaymentTypeById(Long id){
+        return ResponseEntity.ok(new ResponseObject(
+                "successfully",
+                rs.findPaymentTypeById(id)
+        ));
     }
-    public PaymentType deletePaymentType(Long id) {
+    public ResponseEntity<String> deletePaymentType(Long id) {
         PaymentType existingUser = rs.findById(id).orElse(null);
 
         if (existingUser != null) {
             existingUser.setStatus(false);
 
 
-            return rs.save(existingUser);
+             rs.save(existingUser);
+            return ResponseEntity.ok("delete successfully");
+        }else {
+            return ResponseEntity.ok("id not exist");
         }
 
-        return null;
+
     }
-    public PaymentType updatePaymentType(PaymentType id) {
+    public ResponseEntity<String> updatePaymentType(PaymentType id) {
         PaymentType existingUser =rs.findById(id.getId()).orElse(null);
 
         if (existingUser != null) {
@@ -46,13 +58,14 @@ public class PaymentTypeService {
             existingUser.setCreateDate(id.getCreateDate());
             existingUser.setModifiedBy(id.getModifiedBy());
             existingUser.setModifiedDate(id.getModifiedDate());
-            return rs.save(existingUser);
+            rs.save(existingUser);
+            return ResponseEntity.ok("update successfully");
+        }else {
+            return ResponseEntity.ok("id not exist");
         }
-
-        return null;
     }
 
-    public PaymentType createPaymentType(PaymentType id) {
+    public ResponseEntity<String> createPaymentType(PaymentType id) {
         PaymentType existingUser = new PaymentType();
 
 
@@ -63,7 +76,7 @@ public class PaymentTypeService {
         existingUser.setCreateDate(id.getCreateDate());
         existingUser.setModifiedBy(id.getModifiedBy());
         existingUser.setModifiedDate(id.getModifiedDate());
-        return rs.save(existingUser);
-
+        rs.save(existingUser);
+        return ResponseEntity.ok("create successfully");
     }
 }

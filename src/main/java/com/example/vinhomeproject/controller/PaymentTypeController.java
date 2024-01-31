@@ -1,8 +1,10 @@
 package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.models.PaymentType;
+import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.PaymentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,14 +19,14 @@ public class PaymentTypeController {
     public void PaymentTypeSerivce(PaymentTypeService sv){this.sv=sv;}
 
     @GetMapping
-    public List<PaymentType> getPaymentType(){return sv.getAllPaymentType();}
+    public ResponseEntity<ResponseObject> getPaymentType(){return sv.getAllPaymentType();}
     @PutMapping()
-    public PaymentType findPaymentType(Long id){return sv.getPaymentTypeById(id);}
+    public ResponseEntity<ResponseObject> findPaymentType(Long id){return sv.getPaymentTypeById(id);}
     @PutMapping("/delete")
-    public PaymentType deletePaymentType(Long id){return sv.deletePaymentType(id);}
+    public ResponseEntity<String> deletePaymentType(Long id){return sv.deletePaymentType(id);}
     @PutMapping("/update")
-    public PaymentType updatePaymentType(PaymentType id){return sv.updatePaymentType(id);}
+    public ResponseEntity<String> updatePaymentType(PaymentType id){return sv.updatePaymentType(id);}
 
     @PostMapping("/create")
-    public PaymentType createPaymentType(PaymentType id){return sv.createPaymentType(id);}
+    public ResponseEntity<String> createPaymentType(PaymentType id){return sv.createPaymentType(id);}
 }

@@ -1,8 +1,10 @@
 package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.models.PostImage;
+import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.PostImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,11 +17,11 @@ public class PostImageController {
     @Autowired
     public void PostImageSerivce(PostImageService sv){this.sv=sv;}
     @GetMapping
-    public List<PostImage> getPostImage(){return sv.getAllPostImage();}
+    public ResponseEntity<ResponseObject> getPostImage(){return sv.getAllPostImage();}
     @PutMapping("/delete")
-    public PostImage deletePostImage(Long id){return sv.deletePostImage(id);}
+    public ResponseEntity<String> deletePostImage(Long id){return sv.deletePostImage(id);}
     @PutMapping("/update")
-    public PostImage updatePostImage(PostImage ps){return sv.updatePostImage(ps);}
+    public ResponseEntity<String> updatePostImage(PostImage ps){return sv.updatePostImage(ps);}
     @PostMapping("/create")
-    public PostImage createPostImage(PostImage ps){return sv.createPostImage(ps);}
+    public ResponseEntity<String> createPostImage(PostImage ps){return sv.createPostImage(ps);}
 }

@@ -2,6 +2,8 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.models.PostImage;
 import com.example.vinhomeproject.repositories.PostImageRepository;
+import com.example.vinhomeproject.response.ResponseObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,25 +18,32 @@ public class PostImageService {
         this.rs = rs;
     }
 
-    public List<PostImage> getAllPostImage() {
-        return rs.findAll();
+    public ResponseEntity<ResponseObject> getAllPostImage() {
+        return ResponseEntity.ok(new ResponseObject(
+                "successfully",
+                rs.findAll()
+        ));
     }
 
-    public PostImage getPostImageById(Long id) {
-        return rs.findPostImageById(id);
+    public ResponseEntity<ResponseObject> getPostImageById(Long id) {
+
+        return ResponseEntity.ok(new ResponseObject(
+                "successfully",
+                rs.findPostImageById(id)
+        ));
     }
 
-    public PostImage deletePostImage(Long id) {
+    public ResponseEntity<String> deletePostImage(Long id) {
         PostImage ex = rs.findPostImageById(id);
         if (ex != null) {
             ex.setStatus(false);
-            return rs.save(ex);
-        } else {
-            return null;
+            return ResponseEntity.ok("delete successfully");
+        }else {
+            return ResponseEntity.ok("id not exist");
         }
     }
 
-    public PostImage updatePostImage(PostImage postImage) {
+    public ResponseEntity<String> updatePostImage(PostImage postImage) {
         PostImage ps = rs.findPostImageById(postImage.getId());
         if (ps != null) {
             ps.setStatus(postImage.isStatus());
@@ -44,16 +53,17 @@ public class PostImageService {
             ps.setImage_alt(postImage.getImage_alt());
             ps.setImage_url(postImage.getImage_url());
 
-            return rs.save(ps);
-        } else {
-            return null;
+            return ResponseEntity.ok("update successfully");
+        }else {
+            return ResponseEntity.ok("id not exist");
         }
 
     }
 
-    public PostImage createPostImage(PostImage ps) {
+    public ResponseEntity<String> createPostImage(PostImage ps) {
         if (ps != null) {
-            return rs.save(ps);
+             rs.save(ps);
+            return ResponseEntity.ok("create successfully");
         } else {
             return null;
         }
