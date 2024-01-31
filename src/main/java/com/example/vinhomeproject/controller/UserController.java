@@ -36,8 +36,4 @@ public class UserController {
         return serivce.getById(id);
     }
 
-    @GetMapping("/sort-by-date")
-    public ResponseEntity<ResponseObject> sortBydate(){
-        return  serivce.getListUserSortByDate();
-    }
 }
