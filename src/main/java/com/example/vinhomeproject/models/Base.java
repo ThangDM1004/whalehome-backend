@@ -29,7 +29,7 @@ public class Base {
     private String deleteBy;
     @Column
     @LastModifiedDate
-    private Date modifiedDate;
+    private LocalDate modifiedDate;
     @Column
     @CreatedDate
     private LocalDate createDate;

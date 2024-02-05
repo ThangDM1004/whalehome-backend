@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public class ContractHistory extends Base {
     private double price;
     private String description;
     private String image;
-    private Date expiredTime;
+    private LocalDate expiredTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

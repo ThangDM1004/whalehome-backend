@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -15,9 +16,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class Contract extends Base{
-    private Date dateSign;
+    private LocalDate dateSign;
     private String description;
-    private Date dateStartRent;
+    private LocalDate dateStartRent;
 
     @OneToMany(mappedBy = "contract")
     @JsonIgnore

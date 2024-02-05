@@ -6,6 +6,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +24,7 @@ public class Users extends  Base {
     private String password;
     private String phone;
     private String fullName;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private boolean status;
     private String image;
     private String gender;
