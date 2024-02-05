@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Table
 @AllArgsConstructor
@@ -14,8 +16,8 @@ import lombok.*;
 public class Role extends Base{
     private String role;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @OneToMany(mappedBy = "role")
     @JsonIgnore
-    private Users users;
+    private Set<Users> users;
+
 }

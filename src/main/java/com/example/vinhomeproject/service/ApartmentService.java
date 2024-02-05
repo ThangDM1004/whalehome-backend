@@ -54,7 +54,7 @@ public class ApartmentService {
                         .television(apartmentDTO.getTelevision())
                         .electric_stoves(apartmentDTO.getElectric_stoves())
                         .gas_stoves(apartmentDTO.getGas_stoves())
-                        .apartment_class(apartmentDTO.getApartment_class())
+                        .apartmentClass(apartmentDTO.getApartmentClass())
                         .building(apartmentDTO.getBuilding())
                         .build());
         return ResponseEntity.ok("successfully");
@@ -86,7 +86,7 @@ public class ApartmentService {
             apartment.get().setTelevision(apartmentDTO.getTelevision());
             apartment.get().setElectric_stoves(apartmentDTO.getElectric_stoves());
             apartment.get().setGas_stoves(apartmentDTO.getGas_stoves());
-            apartment.get().setApartment_class(apartmentDTO.getApartment_class());
+            apartment.get().setApartmentClass(apartmentDTO.getApartmentClass());
             apartment.get().setBuilding(apartmentDTO.getBuilding());
 
             apartmentRepository.save(apartment.get());

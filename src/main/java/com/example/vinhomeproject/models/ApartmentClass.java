@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,8 +24,7 @@ public class ApartmentClass extends Base{
 
     private double height;
 
-    @ManyToOne
-    @JoinColumn(name = "apartment_id")
+    @OneToMany(mappedBy = "apartmentClass")
     @JsonIgnore
-    private Apartment apartment;
+    private Set<Apartment> apartments;
 }

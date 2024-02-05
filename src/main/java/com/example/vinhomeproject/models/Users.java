@@ -1,9 +1,7 @@
 package com.example.vinhomeproject.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -31,8 +29,9 @@ public class Users extends  Base {
     private String address;
     private boolean isVerified;
 
-    @OneToMany(mappedBy = "users")
-    private Set<Role> roles;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @OneToMany(mappedBy = "users")
     @JsonIgnore
@@ -52,6 +51,6 @@ public class Users extends  Base {
 
     @OneToMany(mappedBy = "users")
     @JsonIgnore
-    private List<Token> tokens;
+    private Set<Token> tokens;
 
 }
