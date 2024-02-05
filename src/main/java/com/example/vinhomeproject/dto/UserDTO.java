@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public class UserDTO {
     private String password;
     private String phone;
     private String fullName;
-    private Date dataOfBirth;
+    private LocalDate dataOfBirth;
     private boolean status;
     private String image;
     private String gender;
