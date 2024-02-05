@@ -29,7 +29,7 @@ public class Apartment extends Base{
 
     private int floor;
 
-    private int area;
+    private double area;
 
     private int air_conditioner;
 
