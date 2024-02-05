@@ -4,6 +4,7 @@ import com.example.vinhomeproject.models.Apartment;
 import com.example.vinhomeproject.models.Users;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -13,7 +14,7 @@ import java.util.Date;
 @Builder
 public class AppointmentDTO {
     private String statusAppointment;
-    private Date dateTime;
+    private LocalDate dateTime;
     private Users users;
     private Apartment apartment;
 }

@@ -4,6 +4,7 @@ import com.example.vinhomeproject.models.Contract;
 import com.example.vinhomeproject.models.Users;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ public class ContractHistoryDTO {
     private double price;
     private String description;
     private String image;
-    private Date expiredTime;
+    private LocalDate expiredTime;
 
     private Users users;
 

@@ -5,6 +5,7 @@ import com.example.vinhomeproject.models.Payment;
 import com.example.vinhomeproject.models.Problems;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -14,9 +15,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class ContractDTO {
-    private Date dateSign;
+    private LocalDate dateSign;
     private String description;
-    private Date dateStartRent;
+    private LocalDate dateStartRent;
 
     private Set<Problems> problems;
 

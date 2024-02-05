@@ -7,6 +7,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -18,7 +19,7 @@ import java.util.Date;
 @Builder
 public class Appointment extends Base{
     private String statusAppointment;
-    private Date dateTime;
+    private LocalDate dateTime;
 
 
     @ManyToOne

@@ -1,4 +1,4 @@
--- INSERT INTO users(create_by, create_date, modified_by, modified_date, address, data_of_birth, email, full_name, gender,
+-- INSERT INTO users(create_by, create_date, modified_by, modified_date, address, date_of_birth, email, full_name, gender,
 --                   image, is_verified, password, phone, status)
 -- VALUES ('user', '2024-01-22', NULL, NULL, 'TP.HCM', '2024-01-22', 'user@gmail.com', 'User', 'Male', NULL,
 --         true, '123456', '0786999528', true),
