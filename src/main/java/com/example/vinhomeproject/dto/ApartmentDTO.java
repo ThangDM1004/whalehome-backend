@@ -38,7 +38,7 @@ public class ApartmentDTO {
 
     private int gas_stoves;
 
-    private Set<ApartmentClass> apartment_class;
+    private ApartmentClass apartmentClass;
 
     private Building building;
 }

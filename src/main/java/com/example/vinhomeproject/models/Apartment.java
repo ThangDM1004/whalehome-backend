@@ -41,10 +41,11 @@ public class Apartment extends Base{
 
     private int gas_stoves;
 
-
-    @OneToMany(mappedBy = "apartment")
+    @ManyToOne
+    @JoinColumn(name = "apartment_class_id")
     @JsonIgnore
-    private Set<ApartmentClass> apartment_class;
+    private ApartmentClass apartmentClass;
+
 
     @ManyToOne
     @JoinColumn(name = "building_id")

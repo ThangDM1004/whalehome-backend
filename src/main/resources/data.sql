@@ -1,28 +1,33 @@
+-- INSERT INTO role(create_by, create_date, modified_by, modified_date, role, status)
+-- VALUES ('Admin', '2024-01-22', NULL, NULL, 'ADMIN', true),
+--        ('Admin', '2024-01-22', NULL, NULL, 'USER', true);
+--
 -- INSERT INTO users(create_by, create_date, modified_by, modified_date, address, date_of_birth, email, full_name, gender,
---                   image, is_verified, password, phone, status)
--- VALUES ('user', '2024-01-22', NULL, NULL, 'TP.HCM', '2024-01-22', 'user@gmail.com', 'User', 'Male', NULL,
---         true, '123456', '0786999528', true),
+--                   image, is_verified, password, phone, status, role_id)
+-- VALUES ('Admin', '2024-01-22', NULL, NULL, 'TP.HCM', '2024-01-22', 'admin@gmail.com', 'Admin', 'Male', NULL,
+--         true, '123456', '0786999528', true, 1),
+--     ('user', '2024-01-22', NULL, NULL, 'TP.HCM', '2024-01-22', 'user@gmail.com', 'User', 'Male', NULL,
+--         true, '123456', '0786999528', true, 2),
 --        ('user1', '2024-01-21', NULL, NULL, 'Thu Duc', '2024-01-22', 'user1@gmail.com', 'User 1', 'Male ', NULL,
---         true, '123456', '0912213212', true),
+--         true, '123456', '0912213212', true, 2),
 --        ('user2', '2024-01-21', NULL, NULL, 'Dak Lak', '2024-01-21', 'user2@gmail.com', 'User 2', 'Male',
---         NULL, true, '123456', '0123244555', true),
+--         NULL, true, '123456', '0123244555', true, 2),
 --        ('user3', '2024-01-20', NULL, NULL, 'Dong Nai', '2024-01-20', 'user3@gmail.com', 'User 3', 'Female',
---         NULL, true, '123456', '0213123923', true),
+--         NULL, true, '123456', '0213123923', true, 2),
 --        ('user4', '2024-01-18', NULL, NULL, 'Da Lat', '2024-01-18', 'user4@gmail.com', 'User 4', 'nam ',
---         NULL, true, '123456', '0912353451', true),
+--         NULL, true, '123456', '0912353451', true, 2),
 --        ('user5', '2024-01-18', NULL, NULL, 'Long An', '2024-01-18', 'user5@gmail.com', 'User 5', 'Female',
---         NULL, true, '123456', '0873232338', true),
+--         NULL, true, '123456', '0873232338', true, 2),
 --        ('user6', '2024-01-17', NULL, NULL, 'Ca Mau', '2024-01-17', 'user6@gmail.com', 'User 6', 'Female', NULL,
---         true, '123456', '0923881391', true),
+--         true, '123456', '0923881391', true, 2),
 --        ('user7', '2024-01-10', NULL, NULL, 'TP.HCM', '2024-01-10', 'user7@gmail.com', 'User 7', 'Male', NULL, true,
---         '123456', '0231893131', true),
+--         '123456', '0231893131', true, 2),
 --        ('user8', '2024-01-9', NULL, NULL, 'Dong Nai', '2024-01-9', 'user8@gmail.com', 'User 8', 'Male', NULL,
---         true, '123456', '0412939121', true),
+--         true, '123456', '0412939121', true, 2),
 --        ('user9', '2024-01-2', NULL, NULL, 'Can Tho', '2024-01-5', 'user9@gmail.com', 'User 9', 'Female', NULL, false,
---         '123456', '0912325341', false),
+--         '123456', '0912325341', false, 2),
 --        ('user10', '2024-01-1', NULL, NULL, 'Tien Giang', '2024-01-1', 'user10@gmail.com', 'User 10', 'Female', NULL,
---         true,
---         '123456', '0934234234', true);
+--         true, '123456', '0934234234', true, 2);
 --
 -- INSERT INTO area(create_by, create_date, modified_by, modified_date, name, status)
 -- VALUES ('Admin', '2024-01-22', NULL, NULL, 'S', true),
@@ -83,23 +88,29 @@
 --        ('Admin', '2024-01-22', NULL, NULL, 'BE9', 4, true),
 --        ('Admin', '2024-01-22', NULL, NULL, 'BE10', 4, true);
 --
+-- INSERT INTO apartment_class(height, length, name, rent_price, width, status)
+-- VALUES (300, 600, 'Studio', 3800000, 600, true),
+--        (300, 500, '1PN+1', 4500000, 600, true),
+--        (300, 700, '2PN+1', 5000000, 600, true),
+--        (300, 550, '3PN', 6000000, 700, true);
+--
 -- INSERT INTO apartment(create_by, create_date, modified_by, modified_date, air_conditioner, area, bed_room, description,
 --                       electric_fan, electric_stoves, floor, gas_stoves, kitchen, living_room, name, rest_room, status,
---                       television, building_id)
--- VALUES ('Admin', '2024-01-22', NULL, NULL, 2, 30.5, 2, 'Căn Studio', 1, 0, 3, 1, 1, 1, 'CH-03', 3, true, 3, 1),
---        ('Admin', '2024-01-22', NULL, NULL, 3, 48.2, 2, 'Căn 1PN+1', 2, 0, 4, 2, 3, 2, 'CH-14', 3, true, 4, 1),
---        ('Admin', '2024-01-22', NULL, NULL, 3, 63.5, 3, 'Căn 2PN+1', 3, 0, 4, 3, 2, 2, 'CH-01', 3, true, 2, 4),
---        ('Admin', '2024-01-22', NULL, NULL, 2, 75.4, 3, 'Căn 3PN', 3, 0, 5, 2, 2, 4, 'CH-06', 3, true, 4, 4),
---        ('Admin', '2024-01-22', NULL, NULL, 2, 30.5, 2, 'Căn Studio', 1, 0, 3, 1, 1, 1, 'CH-08', 3, true, 3, 7),
---        ('Admin', '2024-01-22', NULL, NULL, 3, 48.2, 2, 'Căn 1PN+1', 2, 0, 4, 2, 3, 2, 'CH-09', 3, true, 4, 7),
---        ('Admin', '2024-01-22', NULL, NULL, 3, 63.5, 3, 'Căn 2PN+1', 3, 0, 4, 3, 2, 2, 'CH-14', 3, true, 2, 11),
---        ('Admin', '2024-01-22', NULL, NULL, 2, 48.2, 3, 'Căn 1PN+1', 3, 0, 5, 2, 2, 4, 'CH-13', 3, true, 4, 11),
---        ('Admin', '2024-01-22', NULL, NULL, 3, 30.5, 1, 'Căn Studio', 1, 1, 3, 1, 1, 1, 'CH21', 1, false, 1, 13),
---        ('Admin', '2024-01-22', NULL, NULL, 3, 75.4, 2, 'Căn 3PN', 1, 1, 3, 2, 1, 1, 'CH19', 2, false, 1, 13),
---        ('Admin', '2024-01-22', NULL, NULL, 3, 75.4, 2, 'Căn 3PN', 1, 2, 5, 2, 1, 1, 'CH11', 2, true, 3, 33),
---        ('Admin', '2024-01-22', NULL, NULL, 3, 63.5, 2, 'Căn 2PN+1', 1, 2, 3, 2, 1, 1, 'CH10', 2, true, 2, 33),
---        ('Admin', '2024-01-22', NULL, NULL, 3, 48.2, 2, 'Căn 1PN+1', 1, 2, 3, 2, 1, 1, 'CH05', 2, true, 2, 38),
---        ('Admin', '2024-01-22', NULL, NULL, 3, 30.5, 2, 'Căn Studio', 1, 2, 3, 2, 1, 1, 'CH04', 2, true, 3, 38);
+--                       television, building_id, apartment_class_id)
+-- VALUES ('Admin', '2024-01-22', NULL, NULL, 2, 30.5, 2, 'Căn Studio', 1, 0, 3, 1, 1, 1, 'CH-03', 3, true, 3, 1, 1),
+--        ('Admin', '2024-01-22', NULL, NULL, 3, 48.2, 2, 'Căn 1PN+1', 2, 0, 4, 2, 3, 2, 'CH-14', 3, true, 4, 1, 2),
+--        ('Admin', '2024-01-22', NULL, NULL, 3, 63.5, 3, 'Căn 2PN+1', 3, 0, 4, 3, 2, 2, 'CH-01', 3, true, 2, 4, 3),
+--        ('Admin', '2024-01-22', NULL, NULL, 2, 75.4, 3, 'Căn 3PN', 3, 0, 5, 2, 2, 4, 'CH-06', 3, true, 4, 4,4),
+--        ('Admin', '2024-01-22', NULL, NULL, 2, 30.5, 2, 'Căn Studio', 1, 0, 3, 1, 1, 1, 'CH-08', 3, true, 3, 7.1,1),
+--        ('Admin', '2024-01-22', NULL, NULL, 3, 48.2, 2, 'Căn 1PN+1', 2, 0, 4, 2, 3, 2, 'CH-09', 3, true, 4, 7, 2),
+--        ('Admin', '2024-01-22', NULL, NULL, 3, 63.5, 3, 'Căn 2PN+1', 3, 0, 4, 3, 2, 2, 'CH-14', 3, true, 2, 11,3),
+--        ('Admin', '2024-01-22', NULL, NULL, 2, 48.2, 3, 'Căn 1PN+1', 3, 0, 5, 2, 2, 4, 'CH-13', 3, true, 4, 11,2),
+--        ('Admin', '2024-01-22', NULL, NULL, 3, 30.5, 1, 'Căn Studio', 1, 1, 3, 1, 1, 1, 'CH21', 1, false, 1, 13,1),
+--        ('Admin', '2024-01-22', NULL, NULL, 3, 75.4, 2, 'Căn 3PN', 1, 1, 3, 2, 1, 1, 'CH19', 2, false, 1, 13, 4),
+--        ('Admin', '2024-01-22', NULL, NULL, 3, 75.4, 2, 'Căn 3PN', 1, 2, 5, 2, 1, 1, 'CH11', 2, true, 3, 33,4),
+--        ('Admin', '2024-01-22', NULL, NULL, 3, 63.5, 2, 'Căn 2PN+1', 1, 2, 3, 2, 1, 1, 'CH10', 2, true, 2, 33,3),
+--        ('Admin', '2024-01-22', NULL, NULL, 3, 48.2, 2, 'Căn 1PN+1', 1, 2, 3, 2, 1, 1, 'CH05', 2, true, 2, 38, 2),
+--        ('Admin', '2024-01-22', NULL, NULL, 3, 30.5, 2, 'Căn Studio', 1, 2, 3, 2, 1, 1, 'CH04', 2, true, 3, 38, 1);
 --
 -- INSERT INTO appointment(create_by, create_date, modified_by, modified_date, date_time, status_appointment, apartment_id,
 --                         user_id, status)
@@ -196,22 +207,7 @@
 --        ('Admin', '2024-01-22', NULL, NULL, 'CH30', NULL, 8, true),
 --        ('Admin', '2024-01-22', NULL, NULL, 'CH21', NULL, 9, true);
 --
--- INSERT INTO role(create_by, create_date, modified_by, modified_date, role, user_id, status)
--- VALUES ('Admin', '2024-01-22', NULL, NULL, 'ADMIN', 1, true),
---        ('Admin', '2024-01-22', NULL, NULL, 'USER', 2, true),
---        ('Admin', '2024-01-22', NULL, NULL, 'USER', 3, true),
---        ('Admin', '2024-01-22', NULL, NULL, 'USER', 4, true),
---        ('Admin', '2024-01-22', NULL, NULL, 'USER', 5, true),
---        ('Admin', '2024-01-22', NULL, NULL, 'USER', 6, true);
 --
--- INSERT INTO apartment_class(height, length, name, rent_price, width, apartment_id, status)
--- VALUES (300, 600, 'abc', 3000000000, 600, 1, true),
---        (300, 500, 'xyz', 1500000000, 600, 2, true),
---        (300, 700, 'nha ngo', 2000000000, 600, 3, true),
---        (300, 550, 'nha xi', 2200000000, 700, 4, true),
---        (300, 480, 'nha bth', 1800000000, 500, 5, true),
---        (300, 500, 'nha nha nha', 2000000000, 600, 6, true),
---        (300, 580, 'nha to ', 3400000000, 700, 7, true);
 --
 -- INSERT INTO issue(create_by, create_date, modified_by, modified_date, name, status, problems)
 -- VALUES ('asss', '2024-01-22', NULL, NULL, 'nhat ', true, NULL),
