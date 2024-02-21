@@ -35,5 +35,9 @@ public class UserController {
     public ResponseEntity<ResponseObject> getbyId(@PathVariable Long id){
         return serivce.getById(id);
     }
+    @GetMapping
+    public ResponseEntity<ResponseObject> countAll(){
+        return serivce.countAllUser();
+    }
 
 }

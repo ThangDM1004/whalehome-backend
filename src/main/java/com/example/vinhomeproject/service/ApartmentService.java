@@ -94,4 +94,11 @@ public class ApartmentService {
         }
         return ResponseEntity.badRequest().body("failed");
     }
+    public ResponseEntity<ResponseObject> countAll(){
+        List<Apartment> apartments = apartmentRepository.findAll();
+        return ResponseEntity.ok(new ResponseObject(
+                "successfully",
+                apartments.size()
+        ));
+    }
 }

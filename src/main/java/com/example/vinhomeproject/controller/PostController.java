@@ -25,4 +25,8 @@ public class PostController {
     public ResponseEntity<String> updatePost(Post post){return sv.updatePost(post);}
     @PostMapping("/create")
     public ResponseEntity<String> createPost(Post post){return sv.createPost(post);}
+    @GetMapping
+    public ResponseEntity<ResponseObject> countAll(){
+        return sv.countAllPost();
+    }
 }

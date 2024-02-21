@@ -21,14 +21,14 @@ public class UsersService {
     @Autowired
     private UserMapper mapper;
 
-    public ResponseEntity<ResponseObject> getAllUser(){
+    public ResponseEntity<ResponseObject> getAllUser() {
         List<Users> users = repo.findAll();
-        if(!users.isEmpty()){
+        if (!users.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get all user successfully",
                     users
             ));
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "List user null",
                     null
@@ -36,42 +36,27 @@ public class UsersService {
         }
     }
 
-    public ResponseEntity<ResponseObject> createUser(UserDTO user){
+    public ResponseEntity<ResponseObject> createUser(UserDTO user) {
         boolean exist = checkEmailDuplicate(user.getEmail());
         user.setStatus(true);
         repo.save(mapper.createClassDtoToClassSubject(user));
-        if(exist == true){
+        if (exist == true) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
                     "Email have exist",
                     null
             ));
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseObject(
                     "Create user successfully",
                     user
             ));
         }
     }
-    public ResponseEntity<ResponseObject>  deleteUser(Long id){
-       Optional<Users> user = repo.findById(id);
-       if(user.isPresent()){
-           user.get().setStatus(false);
-           repo.save(user.get());
-           return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                   "Delete user successfully",
-                   null
-           ));
-       }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
-                "Not found user",
-                null
-        ));
-    }
 
-    public ResponseEntity<ResponseObject>  updateUser(Long id,UserDTO userDTO){
+    public ResponseEntity<ResponseObject> deleteUser(Long id) {
         Optional<Users> user = repo.findById(id);
-        if(user.isPresent()){
-            mapper.updateUser(userDTO,user.get());
+        if (user.isPresent()) {
+            user.get().setStatus(false);
             repo.save(user.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Delete user successfully",
@@ -84,43 +69,68 @@ public class UsersService {
         ));
     }
 
-    public boolean checkEmailDuplicate(String email){
+    public ResponseEntity<ResponseObject> updateUser(Long id, UserDTO userDTO) {
+        Optional<Users> user = repo.findById(id);
+        if (user.isPresent()) {
+            mapper.updateUser(userDTO, user.get());
+            repo.save(user.get());
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Delete user successfully",
+                    null
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found user",
+                null
+        ));
+    }
+
+    public boolean checkEmailDuplicate(String email) {
         boolean isExist = false;
         Optional<Users> users = repo.getUsersByEmail(email);
-        if(users.isPresent()){
+        if (users.isPresent()) {
             isExist = true;
-        }else {
+        } else {
             isExist = false;
         }
         return isExist;
     }
-    public ResponseEntity<ResponseObject> getById(Long id){
+
+    public ResponseEntity<ResponseObject> getById(Long id) {
         Optional<Users> users = repo.findById(id);
-        if(users.isPresent()){
+        if (users.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get user by id " + id + " successfully",
                     users.get()
             ));
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
-                    "Not found user by id "+ id,
+                    "Not found user by id " + id,
                     null
             ));
         }
     }
 
-    public ResponseEntity<ResponseObject> getListUserSortByDate(){
+    public ResponseEntity<ResponseObject> getListUserSortByDate() {
         List<Users> users = repo.getUserSortByDate();
-        if(!users.isEmpty()){
+        if (!users.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get list user sort by date",
                     users
             ));
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "List user null",
                     null
             ));
         }
+    }
+
+    public ResponseEntity<ResponseObject> countAllUser() {
+        List<Users> users = repo.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Get all user successfully",
+                users.size()
+        ));
     }
 }
