@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.dto;
 
+import com.example.vinhomeproject.models.Base;
 import com.example.vinhomeproject.models.Role;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -15,16 +16,15 @@ import java.util.Set;
 @Getter
 @Setter
 @Component
-public class UserDTO {
+public class UserDTO extends Base {
     private String email;
     private String password;
     private String phone;
     private String fullName;
-    private LocalDate dataOfBirth;
+    private LocalDate dateOfBirth;
     private boolean status;
     private String image;
     private String gender;
     private String address;
     private boolean isVerified;
-    private Set<Role> roles;
 }

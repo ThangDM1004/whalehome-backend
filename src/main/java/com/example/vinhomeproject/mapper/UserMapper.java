@@ -11,13 +11,16 @@ import org.mapstruct.Mappings;
 public interface UserMapper {
 
     @Mapping(target = "review", ignore = true)
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "contractHistories", ignore = true)
     @Mapping(target = "notifications", ignore = true)
     @Mapping(target = "appointments", ignore = true)
     @Mapping(target = "tokens", ignore = true)
+    @Mapping(target = "role", ignore = true)
     Users createClassDtoToClassSubject(UserDTO userDTO);
 
     @Mappings({
+            @Mapping(target = "id", ignore = true),
             @Mapping(target = "email", ignore = true),
             @Mapping(target = "password", ignore = true),
             @Mapping(target = "review", ignore = true),
@@ -25,6 +28,8 @@ public interface UserMapper {
             @Mapping(target = "notifications", ignore = true),
             @Mapping(target = "appointments", ignore = true),
             @Mapping(target = "tokens", ignore = true),
+            @Mapping(target = "role", ignore = true),
+            @Mapping(target = "authorities", ignore = true)
     })
     void updateUser(UserDTO userDTO, @MappingTarget Users users);
 }
