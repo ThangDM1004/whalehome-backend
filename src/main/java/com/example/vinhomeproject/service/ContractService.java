@@ -71,4 +71,11 @@ public class ContractService {
         }
         return ResponseEntity.badRequest().body("failed");
     }
+    public ResponseEntity<ResponseObject> countAll(){
+        List<Contract> contracts = contractRepository.findAll();
+        return ResponseEntity.ok(new ResponseObject(
+                "successfully",
+                contracts.size()
+        ));
+    }
 }

@@ -37,7 +37,10 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createPost(Post post) {
-        return sv.createPost(post);
+    public ResponseEntity<String> createPost(Post post){return sv.createPost(post);}
+    @GetMapping
+    public ResponseEntity<ResponseObject> countAll(){
+        return sv.countAllPost();
+
     }
 }

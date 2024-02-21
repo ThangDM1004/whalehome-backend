@@ -33,4 +33,8 @@ public class ContractController {
     public ResponseEntity<String> update(@PathVariable Long id,@RequestBody ContractDTO contractDTO){
         return contractService.update(id,contractDTO);
     }
+    @GetMapping
+    public ResponseEntity<ResponseObject> countAll(){
+        return contractService.countAll();
+    }
 }

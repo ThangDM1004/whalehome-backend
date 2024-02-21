@@ -76,4 +76,9 @@ public class PostService {
         rs.save(post);
         return ResponseEntity.ok("create successfully");
     }
+
+    public ResponseEntity<ResponseObject> countAllPost(){return ResponseEntity.ok(new ResponseObject(
+            "successfully",
+            rs.findAll().size()
+    ));}
 }
