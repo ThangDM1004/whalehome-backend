@@ -34,7 +34,7 @@ public class ApartmentController {
     public ResponseEntity<String> update(@PathVariable Long id,@RequestBody ApartmentDTO apartmentDTO){
         return apartmentService.update(id, apartmentDTO);
     }
-    @GetMapping
+    @GetMapping("/count-all")
     public ResponseEntity<ResponseObject> countAll(){
         return apartmentService.countAll();
     }
