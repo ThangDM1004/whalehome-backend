@@ -1,33 +1,33 @@
--- INSERT INTO role(create_by, create_date, modified_by, modified_date, role, status)
--- VALUES ('Admin', '2024-01-22', NULL, NULL, 'ADMIN', true),
---        ('Admin', '2024-01-22', NULL, NULL, 'USER', true);
+-- -- INSERT INTO role(create_by, create_date, modified_by, modified_date, role, status)
+-- -- VALUES ('Admin', '2024-01-22', NULL, NULL, 'ADMIN', true),
+-- --        ('Admin', '2024-01-22', NULL, NULL, 'USER', true);
 --
 -- INSERT INTO users(create_by, create_date, modified_by, modified_date, address, date_of_birth, email, full_name, gender,
---                   image, is_verified, password, phone, status, role_id)
+--                   image, is_verified, password, phone, status, role)
 -- VALUES ('Admin', '2024-01-22', NULL, NULL, 'TP.HCM', '2024-01-22', 'admin@gmail.com', 'Admin', 'Male', NULL,
---         true, '123456', '0786999528', true, 1),
+--         true, '123456', '0786999528', true, 'ADMIN'),
 --     ('user', '2024-01-22', NULL, NULL, 'TP.HCM', '2024-01-22', 'user@gmail.com', 'User', 'Male', NULL,
---         true, '123456', '0786999528', true, 2),
+--         true, '123456', '0786999528', true, 'USER'),
 --        ('user1', '2024-01-21', NULL, NULL, 'Thu Duc', '2024-01-22', 'user1@gmail.com', 'User 1', 'Male ', NULL,
---         true, '123456', '0912213212', true, 2),
+--         true, '123456', '0912213212', true, 'USER'),
 --        ('user2', '2024-01-21', NULL, NULL, 'Dak Lak', '2024-01-21', 'user2@gmail.com', 'User 2', 'Male',
---         NULL, true, '123456', '0123244555', true, 2),
+--         NULL, true, '123456', '0123244555', true, 'USER'),
 --        ('user3', '2024-01-20', NULL, NULL, 'Dong Nai', '2024-01-20', 'user3@gmail.com', 'User 3', 'Female',
---         NULL, true, '123456', '0213123923', true, 2),
+--         NULL, true, '123456', '0213123923', true, 'USER'),
 --        ('user4', '2024-01-18', NULL, NULL, 'Da Lat', '2024-01-18', 'user4@gmail.com', 'User 4', 'nam ',
---         NULL, true, '123456', '0912353451', true, 2),
+--         NULL, true, '123456', '0912353451', true, 'USER'),
 --        ('user5', '2024-01-18', NULL, NULL, 'Long An', '2024-01-18', 'user5@gmail.com', 'User 5', 'Female',
---         NULL, true, '123456', '0873232338', true, 2),
+--         NULL, true, '123456', '0873232338', true, 'USER'),
 --        ('user6', '2024-01-17', NULL, NULL, 'Ca Mau', '2024-01-17', 'user6@gmail.com', 'User 6', 'Female', NULL,
---         true, '123456', '0923881391', true, 2),
+--         true, '123456', '0923881391', true, 'USER'),
 --        ('user7', '2024-01-10', NULL, NULL, 'TP.HCM', '2024-01-10', 'user7@gmail.com', 'User 7', 'Male', NULL, true,
---         '123456', '0231893131', true, 2),
+--         '123456', '0231893131', true, 'USER'),
 --        ('user8', '2024-01-9', NULL, NULL, 'Dong Nai', '2024-01-9', 'user8@gmail.com', 'User 8', 'Male', NULL,
---         true, '123456', '0412939121', true, 2),
+--         true, '123456', '0412939121', true, 'USER'),
 --        ('user9', '2024-01-2', NULL, NULL, 'Can Tho', '2024-01-5', 'user9@gmail.com', 'User 9', 'Female', NULL, false,
---         '123456', '0912325341', false, 2),
+--         '123456', '0912325341', false, 'USER'),
 --        ('user10', '2024-01-1', NULL, NULL, 'Tien Giang', '2024-01-1', 'user10@gmail.com', 'User 10', 'Female', NULL,
---         true, '123456', '0934234234', true, 2);
+--         true, '123456', '0934234234', true, 'USER');
 --
 -- INSERT INTO area(create_by, create_date, modified_by, modified_date, name, status)
 -- VALUES ('Admin', '2024-01-22', NULL, NULL, 'S', true),

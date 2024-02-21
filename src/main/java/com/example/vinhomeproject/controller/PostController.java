@@ -15,18 +15,32 @@ import java.util.List;
 @RequestMapping("/api/v1/post")
 public class PostController {
     private PostService sv;
+
     @Autowired
-    public void PostSerivce(PostService sv){this.sv=sv;}
+    public void PostSerivce(PostService sv) {
+        this.sv = sv;
+    }
+
     @GetMapping
-    public ResponseEntity<ResponseObject> getPost(){return sv.getAllPost();}
+    public ResponseEntity<ResponseObject> getPost() {
+        return sv.getAllPost();
+    }
+
     @PutMapping("/delete")
-    public ResponseEntity<String> deletePost(Long id){return sv.deletePost(id);}
+    public ResponseEntity<String> deletePost(Long id) {
+        return sv.deletePost(id);
+    }
+
     @PutMapping("/update")
-    public ResponseEntity<String> updatePost(Post post){return sv.updatePost(post);}
+    public ResponseEntity<String> updatePost(Post post) {
+        return sv.updatePost(post);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<String> createPost(Post post){return sv.createPost(post);}
     @GetMapping
     public ResponseEntity<ResponseObject> countAll(){
         return sv.countAllPost();
+
     }
 }

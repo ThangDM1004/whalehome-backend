@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users,Long> {
-    Optional<Users> getUsersByEmail(String email);
+    Optional<Users> findByEmail(String email);
     @Query("SELECT u FROM Users u ORDER BY u.createDate DESC ")
     List<Users> getUserSortByDate();
 }

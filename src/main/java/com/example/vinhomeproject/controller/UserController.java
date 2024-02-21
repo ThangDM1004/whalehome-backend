@@ -18,10 +18,10 @@ public class UserController {
     public ResponseEntity<ResponseObject> getAllUser(){
         return serivce.getAllUser();
     }
-    @PostMapping("")
-    public  ResponseEntity<ResponseObject> createUser(@RequestBody UserDTO users){
-        return serivce.createUser(users);
-    }
+//    @PostMapping("")
+//    public  ResponseEntity<ResponseObject> createUser(@RequestBody UserDTO users){
+//        return serivce.createUser(users);
+//    }
     @PutMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> deleteUser(@PathVariable Long id){
       return  serivce.deleteUser(id);

@@ -87,8 +87,9 @@ public class UsersService {
 
     public boolean checkEmailDuplicate(String email) {
         boolean isExist = false;
-        Optional<Users> users = repo.getUsersByEmail(email);
-        if (users.isPresent()) {
+
+        Optional<Users> users = repo.findByEmail(email);
+        if(users.isPresent()){
             isExist = true;
         } else {
             isExist = false;
