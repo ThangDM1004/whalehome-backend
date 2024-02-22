@@ -9,19 +9,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import static com.example.vinhomeproject.models.Role.ADMIN;
-import static com.example.vinhomeproject.models.Role.USER;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-//import static com.example.springseurity.model.Permission.ADMIN_READ;
-//import static com.example.springseurity.model.Role.ADMIN;
-//import static org.springframework.http.HttpMethod.GET;
-//import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
