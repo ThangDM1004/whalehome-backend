@@ -1,6 +1,7 @@
 package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.ApartmentDTO;
+import com.example.vinhomeproject.dto.ApartmentDTO_2;
 import com.example.vinhomeproject.models.Apartment;
 import com.example.vinhomeproject.repositories.ApartmentRepository;
 import com.example.vinhomeproject.response.ResponseObject;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ApartmentService {
@@ -99,6 +101,27 @@ public class ApartmentService {
         return ResponseEntity.ok(new ResponseObject(
                 "successfully",
                 apartments.size()
+        ));
+    }
+
+    public ResponseEntity<ResponseObject> findAllApartmentsWithDetails(){
+        Set<ApartmentDTO_2> apartments = apartmentRepository.findAllApartmentsWithDetails();
+        return ResponseEntity.ok(new ResponseObject(
+                "successfully",
+                apartments
+        ));
+    }
+    public ResponseEntity<ResponseObject> findApartmentByIdWithDetails(Long id){
+        ApartmentDTO_2 apartment = apartmentRepository.findApartmentByIdWithDetails(id);
+        if(apartment != null){
+            return ResponseEntity.ok(new ResponseObject(
+                    "successfully",
+                    apartment
+            ));
+        }
+        return ResponseEntity.ok(new ResponseObject(
+                "failed",
+                null
         ));
     }
 }

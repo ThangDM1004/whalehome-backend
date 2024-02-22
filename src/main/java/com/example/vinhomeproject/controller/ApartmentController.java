@@ -38,4 +38,13 @@ public class ApartmentController {
     public ResponseEntity<ResponseObject> countAll(){
         return apartmentService.countAll();
     }
+
+    @GetMapping("/get-all-details")
+    public ResponseEntity<ResponseObject> getAllDetails(){
+        return apartmentService.findAllApartmentsWithDetails();
+    }
+    @GetMapping("/get-details/{id}")
+    public ResponseEntity<ResponseObject> getByIdDetail(@PathVariable Long id){
+        return apartmentService.findApartmentByIdWithDetails(id);
+    }
 }
