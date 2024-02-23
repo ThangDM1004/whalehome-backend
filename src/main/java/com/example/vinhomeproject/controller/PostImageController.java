@@ -22,5 +22,5 @@ public class PostImageController {
     @PutMapping("/update")
     public ResponseEntity<String> updatePostImage(PostImage ps){return sv.updatePostImage(ps);}
     @PostMapping("/create")
-    public ResponseEntity<String> createPostImage(PostImage ps , @RequestParam("file") MultipartFile multipartFile){return sv.createPostImage(ps,multipartFile);}
+    public ResponseEntity<String> createPostImage(@RequestParam("file") MultipartFile multipartFile){return sv.createPostImage(multipartFile);}
 }

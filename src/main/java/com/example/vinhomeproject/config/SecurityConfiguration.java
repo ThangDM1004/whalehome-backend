@@ -27,7 +27,8 @@ public class SecurityConfiguration {
             "/v3/api-docs.yaml/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
-            "/api/v1/**"
+            "/api/v1/**",
+            "/**"
     };
     @Autowired
     private JwtAuthenticationFilter jwtAuthFilter;

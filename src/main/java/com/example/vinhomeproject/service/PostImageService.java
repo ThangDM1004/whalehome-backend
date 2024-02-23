@@ -74,17 +74,18 @@ public class PostImageService {
 
     }
 
-    public ResponseEntity<String> createPostImage(PostImage ps, MultipartFile multipartFile) {
-        if (ps != null) {
+    public ResponseEntity<String> createPostImage(MultipartFile multipartFile) {
+        PostImage ps = new PostImage();
+        if (multipartFile != null) {
             String imageUrl = this.upload(multipartFile);
             ps.setImage_url(imageUrl);
+            ps.setImage_alt("image");
+            ps.setStatus(true);
             rs.save(ps);
-
             return ResponseEntity.ok("Image uploaded successfully. Image URL: " + imageUrl);
         } else {
             return ResponseEntity.badRequest().body("PostImage object is null");
         }
-
     }
 
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
@@ -96,14 +97,14 @@ public class PostImageService {
     }
 
     private String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of("whalehome-project.appspot.com", fileName); // Replace with your bucker name
+        BlobId blobId = BlobId.of("whalehome-project.appspot.com", fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        InputStream inputStream = PostImageService.class.getClassLoader().getResourceAsStream("/firebase.json"); // change the file name with your one
+        InputStream inputStream = PostImageService.class.getClassLoader().getResourceAsStream("firebase.json");
         Credentials credentials = GoogleCredentials.fromStream(inputStream);
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
 
-        String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/<bucket-name>/o/%s?alt=media";
+        String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/whalehome-project.appspot.com/o/%s?alt=media";
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
     private String getExtension(String fileName) {
