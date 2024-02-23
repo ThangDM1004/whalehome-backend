@@ -1,7 +1,5 @@
 package com.example.vinhomeproject.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -12,6 +10,7 @@ import java.util.stream.Collectors;
 
 import static com.example.vinhomeproject.models.Permission.*;
 
+@Getter
 @RequiredArgsConstructor
 public enum Role {
     USER(Collections.emptySet()),
@@ -23,7 +22,6 @@ public enum Role {
                     ADMIN_CREATE
             )
     );
-    @Getter
     private final Set<Permission> permissions;
 
     public List<SimpleGrantedAuthority> getAuthorities(){
@@ -33,5 +31,7 @@ public enum Role {
                 .collect(Collectors.toList());
         authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return authorities;
+
+
     }
 }

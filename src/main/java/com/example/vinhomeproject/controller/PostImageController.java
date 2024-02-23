@@ -6,8 +6,7 @@ import com.example.vinhomeproject.service.PostImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -23,5 +22,5 @@ public class PostImageController {
     @PutMapping("/update")
     public ResponseEntity<String> updatePostImage(PostImage ps){return sv.updatePostImage(ps);}
     @PostMapping("/create")
-    public ResponseEntity<String> createPostImage(PostImage ps){return sv.createPostImage(ps);}
+    public ResponseEntity<String> createPostImage(@RequestParam("file") MultipartFile multipartFile){return sv.createPostImage(multipartFile);}
 }
