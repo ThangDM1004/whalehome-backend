@@ -10,11 +10,13 @@ import com.example.vinhomeproject.repositories.TokenRepository;
 import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.request.AuthenticationRequest;
 import com.example.vinhomeproject.response.AuthenticationResponse;
+import com.example.vinhomeproject.response.ResponseObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -126,5 +128,15 @@ public class AuthenticationService  {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+    }
+
+    public ResponseEntity<ResponseObject> getUserFromAccessToken(String accessToken){
+        String userEmail = jwtService.extractUsername(accessToken);
+        if (userEmail != null) {
+            var user = this.repository.findByEmail(userEmail)
+                    .orElseThrow();
+            return ResponseEntity.ok(new ResponseObject("Access Token is valid", user));
+        }
+        return ResponseEntity.badRequest().body(new ResponseObject("Access Token is not valid", null));
     }
 }
