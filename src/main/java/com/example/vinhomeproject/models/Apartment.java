@@ -61,7 +61,6 @@ public class Apartment extends Base{
     private Set<Appointment> appointments;
 
     @OneToMany(mappedBy = "apartment")
-    @JsonIgnore
     private Set<Post> posts;
 
 }
