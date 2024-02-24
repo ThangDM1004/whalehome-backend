@@ -26,7 +26,7 @@ public class PostService {
     public ResponseEntity<ResponseObject> getAllPost() {
         return ResponseEntity.ok(new ResponseObject(
                 "successfully",
-                rs.findAllPosts()
+                rs.findAll()
         ));
     }
 

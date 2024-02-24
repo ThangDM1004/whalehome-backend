@@ -21,7 +21,6 @@ public class PostImage extends Base{
     private String image_alt;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "post_id")
     private Post post;
 

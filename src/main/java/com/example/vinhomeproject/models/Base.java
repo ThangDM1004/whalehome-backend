@@ -1,4 +1,5 @@
 package com.example.vinhomeproject.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -20,24 +21,30 @@ public class Base {
     private Long id;
     @Column
     @LastModifiedBy
+    @JsonIgnore
     private String modifiedBy;
     @Column
     @CreatedBy
+    @JsonIgnore
     private String createBy;
     @Column
     @CreatedBy
+    @JsonIgnore
     private String deleteBy;
     @Column
     @LastModifiedDate
+    @JsonIgnore
     private LocalDate modifiedDate;
     @Column
     @CreatedDate
     private LocalDate createDate;
     @Column
     @CreatedDate
+    @JsonIgnore
     private LocalDate deleteAt;
     @Column
     @CreatedBy
+    @JsonIgnore
     private boolean status = true;
 
 }
