@@ -2,6 +2,8 @@ package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.dto.UserDTO;
 import com.example.vinhomeproject.request.AuthenticationRequest;
+import com.example.vinhomeproject.request.AuthenticationUserRequest;
+import com.example.vinhomeproject.response.AuthenticationResponse;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,8 +39,8 @@ public class AuthenticationController {
         ));
 
     }
-    @GetMapping("/getUser")
-    public ResponseEntity<ResponseObject> getUserFromAccessToken(@RequestBody String accessToken){
-        return service.getUserFromAccessToken(accessToken);
+    @PostMapping("/getUser")
+    public ResponseEntity<ResponseObject> getUserFromAccessToken(@RequestBody AuthenticationUserRequest ar){
+        return service.getUserFromAccessToken(ar.getAccess_token());
     }
 }
