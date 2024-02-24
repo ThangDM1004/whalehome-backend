@@ -43,7 +43,6 @@ public class Apartment extends Base{
 
     @ManyToOne
     @JoinColumn(name = "apartment_class_id")
-    @JsonIgnore
     private ApartmentClass apartmentClass;
 
 
