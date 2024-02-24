@@ -14,6 +14,4 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             "FROM Post p " +
             "JOIN p.apartment a ")
     Set<PostDTO> findAllPosts();
-
-
 }
