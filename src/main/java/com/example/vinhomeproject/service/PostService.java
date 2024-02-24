@@ -1,35 +1,39 @@
 package com.example.vinhomeproject.service;
 
+
+import com.example.vinhomeproject.dto.PostDTO;
 import com.example.vinhomeproject.models.Post;
+import com.example.vinhomeproject.repositories.ApartmentRepository;
 import com.example.vinhomeproject.repositories.PostRepository;
 import com.example.vinhomeproject.response.ResponseObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class PostService {
-    private final PostRepository rs;
+    @Autowired
+    private  PostRepository rs;
+    @Autowired
+    private ApartmentRepository apartmentRepository;
 
 
-    public PostService(PostRepository rs) {
-        this.rs = rs;
-    }
 
     public ResponseEntity<ResponseObject> getAllPost() {
         return ResponseEntity.ok(new ResponseObject(
                 "successfully",
-                rs.findAll()
+                rs.findAllPosts()
         ));
     }
 
     public ResponseEntity<ResponseObject> getPostId(Long id) {
         return ResponseEntity.ok(new ResponseObject(
                 "successfully",
-                rs.findPostById(id)
+                rs.findById(id)
         ));
     }
 
@@ -64,16 +68,11 @@ public class PostService {
         }
     }
 
-    public ResponseEntity<String> createPost(Post id) {
-        Post post = new Post();
-        post.setStatus(id.isStatus());
-        post.setApartment(id.getApartment());
-        post.setTitle(id.getTitle());
-        post.setDescription(id.getDescription());
-        post.setCreateDate(id.getCreateDate());
-        post.setModifiedBy(id.getModifiedBy());
-        post.setCreateBy(id.getCreateBy());
-        rs.save(post);
+    public ResponseEntity<String> createPost(PostDTO postDTO) {
+        rs.save(Post.builder().apartment(apartmentRepository.findById(postDTO.getApartmentId()).get())
+                        .description(postDTO.getDescription())
+                        .title(postDTO.getTitle())
+                .build());
         return ResponseEntity.ok("create successfully");
     }
 
@@ -81,4 +80,8 @@ public class PostService {
             "successfully",
             rs.findAll().size()
     ));}
+
+    public Page<Post> getPage(int currentPage, int pageSize, String field) {
+        return rs.findAll(PageRequest.of(currentPage, pageSize, Sort.by(Sort.Direction.ASC, field)));
+    }
 }

@@ -1,9 +1,12 @@
 package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.dto.ApartmentDTO;
+import com.example.vinhomeproject.dto.PageList;
+import com.example.vinhomeproject.models.Apartment;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.ApartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,5 +49,18 @@ public class ApartmentController {
     @GetMapping("/get-details/{id}")
     public ResponseEntity<ResponseObject> getByIdDetail(@PathVariable Long id){
         return apartmentService.findApartmentByIdWithDetails(id);
+    }
+    @GetMapping("/get-page/{currentPage}")
+    public ResponseEntity<ResponseObject> getPage(@PathVariable int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "name") String field){
+        Page<Apartment> apartments = apartmentService.getPage(currentPage,sizePage,field);
+        var pageList = PageList.<Apartment>builder()
+                .totalPage(apartments.getTotalPages())
+                .currentPage(currentPage)
+                .listResult(apartments.getContent())
+                .build();
+        return ResponseEntity.ok(new ResponseObject(
+                "Get page "+currentPage+" successfully",
+                pageList
+        ));
     }
 }
