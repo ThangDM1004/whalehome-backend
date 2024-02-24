@@ -88,11 +88,11 @@
 --        ('Admin', '2024-01-22', NULL, NULL, 'BE9', 4, true),
 --        ('Admin', '2024-01-22', NULL, NULL, 'BE10', 4, true);
 --
--- INSERT INTO apartment_class(height, length, name, rent_price, width, status)
--- VALUES (300, 600, 'Studio', 3800000, 600, true),
---        (300, 500, '1PN+1', 4500000, 600, true),
---        (300, 700, '2PN+1', 5000000, 600, true),
---        (300, 550, '3PN', 6000000, 700, true);
+-- INSERT INTO apartment_class(height, length, name, rent_price,buy_price, width, status)
+-- VALUES (300, 600, 'Studio', 3800000,2000000000, 600, true),
+--        (300, 500, '1PN+1', 4500000,4500000000, 600, true),
+--        (300, 700, '2PN+1', 5000000,800000000, 600, true),
+--        (300, 550, '3PN', 6000000,9000000000, 700, true);
 --
 -- INSERT INTO apartment(create_by, create_date, modified_by, modified_date, air_conditioner, area, bed_room, description,
 --                       electric_fan, electric_stoves, floor, gas_stoves, kitchen, living_room, name, rest_room, status,

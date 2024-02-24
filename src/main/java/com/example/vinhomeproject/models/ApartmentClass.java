@@ -18,6 +18,8 @@ public class ApartmentClass extends Base{
 
     private double rent_price;
 
+    private double buy_price;
+
     private double width;
 
     private double length;
