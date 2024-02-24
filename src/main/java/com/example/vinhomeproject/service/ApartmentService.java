@@ -6,6 +6,9 @@ import com.example.vinhomeproject.models.Apartment;
 import com.example.vinhomeproject.repositories.ApartmentRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -123,5 +126,9 @@ public class ApartmentService {
                 "failed",
                 null
         ));
+    }
+
+    public Page<Apartment> getPage(int currentPage, int pageSize, String field) {
+        return apartmentRepository.findAll(PageRequest.of(currentPage, pageSize, Sort.by(Sort.Direction.ASC, field)));
     }
 }
