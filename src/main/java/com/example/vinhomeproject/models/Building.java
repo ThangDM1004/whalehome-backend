@@ -17,7 +17,6 @@ public class Building extends Base{
 
     @ManyToOne
     @JoinColumn(name = "zone")
-    @JsonIgnore
     private Zone zone;
 
 }
