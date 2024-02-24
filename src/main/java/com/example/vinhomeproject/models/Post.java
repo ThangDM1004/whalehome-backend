@@ -18,10 +18,10 @@ public class Post extends Base{
     private String description;
 
     @OneToMany(mappedBy = "post")
+    @JsonIgnore
     private Set<PostImage> postImages;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "apartment_id")
     private Apartment apartment;
 }

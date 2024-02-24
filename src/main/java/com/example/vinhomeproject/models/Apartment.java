@@ -48,7 +48,6 @@ public class Apartment extends Base{
 
     @ManyToOne
     @JoinColumn(name = "building_id")
-    @JsonIgnore
     private Building building;
 
     @OneToMany(mappedBy = "apartment")
@@ -60,6 +59,7 @@ public class Apartment extends Base{
     private Set<Appointment> appointments;
 
     @OneToMany(mappedBy = "apartment")
+    @JsonIgnore
     private Set<Post> posts;
 
 }
