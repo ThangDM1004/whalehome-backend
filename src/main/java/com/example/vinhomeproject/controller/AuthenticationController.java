@@ -38,7 +38,7 @@ public class AuthenticationController {
 
     }
     @GetMapping("/getUser")
-    public ResponseEntity<ResponseObject> getUserFromAccessToken(String accessToken){
+    public ResponseEntity<ResponseObject> getUserFromAccessToken(@RequestBody String accessToken){
         return service.getUserFromAccessToken(accessToken);
     }
 }
