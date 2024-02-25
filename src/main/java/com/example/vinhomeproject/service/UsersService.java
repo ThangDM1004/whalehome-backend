@@ -4,12 +4,16 @@ import com.example.vinhomeproject.dto.UserDTO;
 import com.example.vinhomeproject.mapper.UserMapper;
 import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.repositories.UsersRepository;
+import com.example.vinhomeproject.request.ChangePasswordRequest;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +24,8 @@ public class UsersService {
     private UsersRepository repo;
     @Autowired
     private UserMapper mapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public ResponseEntity<ResponseObject> getAllUser() {
         List<Users> users = repo.findAll();
@@ -133,5 +139,38 @@ public class UsersService {
                 "Get all user successfully",
                 users.size()
         ));
+    }
+    public ResponseEntity<ResponseObject> changePassword(ChangePasswordRequest request, Principal connectUser) {
+        String message = "";
+        var user = (Users) ((UsernamePasswordAuthenticationToken) connectUser).getPrincipal();
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            message = "Wrong password";
+        }
+        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+            message = "Password are not the same";
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        repo.save(user);
+        if (message.equals("Wrong password")) {
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
+                            "Wrong password",
+                            null
+                    )
+            );
+        } else if (message.equals("Password are not the same")) {
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
+                            "Password are not the same",
+                            null
+                    )
+            );
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                            "Change password successfully",
+                            null
+                    )
+            );
+        }
+
     }
 }

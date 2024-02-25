@@ -1,11 +1,15 @@
 package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.dto.UserDTO;
+import com.example.vinhomeproject.request.ChangePasswordRequest;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -39,5 +43,10 @@ public class UserController {
     public ResponseEntity<ResponseObject> countAll(){
         return serivce.countAllUser();
     }
-
+    @PatchMapping("/change-password" )
+    public ResponseEntity<ResponseObject> changePassword(
+            @RequestBody ChangePasswordRequest request,
+            Principal connectdUser) {
+        return serivce.changePassword(request, connectdUser);
+    }
 }
