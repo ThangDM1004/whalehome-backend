@@ -35,7 +35,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class AuthenticationService  {
+public class AuthenticationService {
 
     @Autowired
     private UsersRepository repository;
@@ -86,11 +86,11 @@ public class AuthenticationService  {
                 .build();
         Optional<Users> saved = Optional.of(repository.save(user));
         saved.ifPresent(users -> {
-            try{
+            try {
                 String token = UUID.randomUUID().toString();
-                verificationTokenService.save(saved.get(),token);
+                verificationTokenService.save(saved.get(), token);
                 emailService.sendMail(users);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -102,7 +102,7 @@ public class AuthenticationService  {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public ResponseEntity<ResponseObject> authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -112,13 +112,24 @@ public class AuthenticationService  {
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
+        if (user.isVerified() && user.isStatus()) {
 //        var refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(user,jwtToken);
-        return AuthenticationResponse.builder()
-                .access_token(jwtToken)
+            saveUserToken(user, jwtToken);
+            AuthenticationResponse auth = AuthenticationResponse.builder()
+                    .access_token(jwtToken)
 //                .refresh_token(refreshToken)
-                .build();
+                    .build();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Login successfully",
+                    auth
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseObject(
+                "Login failed",
+                null
+        ));
     }
+
     private void saveUserToken(Users user, String jwtToken) {
         var token = Token.builder()
                 .users(user)
@@ -129,6 +140,7 @@ public class AuthenticationService  {
                 .build();
         tokenRepository.save(token);
     }
+
     private void revokeAllUserTokens(Users user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty())
@@ -139,6 +151,7 @@ public class AuthenticationService  {
         });
         tokenRepository.saveAll(validUserTokens);
     }
+
     public void refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
@@ -146,7 +159,7 @@ public class AuthenticationService  {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String userEmail;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return;
         }
         refreshToken = authHeader.substring(7);
@@ -167,7 +180,7 @@ public class AuthenticationService  {
         }
     }
 
-    public ResponseEntity<ResponseObject> getUserFromAccessToken(String accessToken){
+    public ResponseEntity<ResponseObject> getUserFromAccessToken(String accessToken) {
         String userEmail = jwtService.extractUsername(accessToken);
         if (userEmail != null) {
             Users user = repository.findByEmail(userEmail)
@@ -176,10 +189,11 @@ public class AuthenticationService  {
         }
         return ResponseEntity.badRequest().body(new ResponseObject("Access Token is not valid", null));
     }
+
     public ResponseEntity<ResponseObject> resetPassword(ResetPasswordRequest request) {
         boolean result = false;
         Optional<Users> user = repository.findByEmail(request.getEmail());
-        if (user.isPresent()){
+        if (user.isPresent()) {
             user.get().setPassword(passwordEncoder.encode(request.getNewPassword()));
             repository.save(user.get());
             result = true;
@@ -196,13 +210,14 @@ public class AuthenticationService  {
         ));
 
     }
+
     public ResponseEntity<ResponseObject> sendCode(String email) {
         SendCodeResponse sendCodeResponse = new SendCodeResponse();
         String _email = "";
         try {
-            Optional<Users> user =  repository.findByEmail(email);
-            if (user.isPresent()){
-                if (user.get().isStatus()){
+            Optional<Users> user = repository.findByEmail(email);
+            if (user.isPresent()) {
+                if (user.get().isStatus()) {
                     String code = verificationCodeUtils.generateVerificationCode(user.get().getEmail());
                     sendMailUtils.sendSimpleEmail(
                             email,
@@ -211,7 +226,7 @@ public class AuthenticationService  {
                                     "\n" +
                                     "Bạn đã yêu cầu đổi mật khẩu cho tài khoản của mình trên Whalhome. Dưới đây là mã xác nhận của bạn:\n" +
                                     "\n" +
-                                    "Mã Xác Nhận: "+ code + "\n" +
+                                    "Mã Xác Nhận: " + code + "\n" +
                                     "\n" +
                                     "Vui lòng sử dụng mã này để xác nhận quy trình đổi mật khẩu. Hãy nhớ rằng mã xác nhận chỉ có hiệu lực trong một khoảng thời gian ngắn.\n" +
                                     "\n" +
@@ -225,7 +240,7 @@ public class AuthenticationService  {
                     throw new LockedException("");
                 }
             }
-            if (!Objects.equals(_email, "")){
+            if (!Objects.equals(_email, "")) {
                 sendCodeResponse.setEmail(_email);
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                         "Successfully",
@@ -238,7 +253,7 @@ public class AuthenticationService  {
                         sendCodeResponse
                 ));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             if (e instanceof LockedException) {
                 sendCodeResponse.setMessage("This email account has been disabled!");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
@@ -256,19 +271,20 @@ public class AuthenticationService  {
         }
 
     }
+
     public ResponseEntity<ResponseObject> verifyCode(VerifyCodeRequest request) {
         VerifyCodeResponse verifyCodeResponse = new VerifyCodeResponse();
         String email = "";
-        if (verificationCodeUtils.isValidCode(request.getCode())){
+        if (verificationCodeUtils.isValidCode(request.getCode())) {
             String emailOfCode = verificationCodeUtils.getEmailByCode(request.getCode());
-            if (Objects.equals(emailOfCode, request.getEmail())){
+            if (Objects.equals(emailOfCode, request.getEmail())) {
                 email = emailOfCode;
             }
         } else {
             email = "";
         }
 
-        if (!Objects.equals(email, "")){
+        if (!Objects.equals(email, "")) {
             verifyCodeResponse.setMail(email);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Successfully",
@@ -283,23 +299,24 @@ public class AuthenticationService  {
         }
 
     }
-    public ResponseEntity<ResponseObject> activeAccount(String token){
+
+    public ResponseEntity<ResponseObject> activeAccount(String token) {
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
-        if(verificationToken == null){
+        if (verificationToken == null) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Token not exist",
                     null
             ));
-        }else {
+        } else {
             Users users = verificationToken.getUsers();
-            if(!users.isVerified()){
+            if (!users.isVerified()) {
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                if(verificationToken.getExpiryDate().before(timestamp)){
+                if (verificationToken.getExpiryDate().before(timestamp)) {
                     return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                             "Token has expired",
                             null
                     ));
-                }else {
+                } else {
                     users.setVerified(true);
                     userRepository.save(users);
                     return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
@@ -307,7 +324,7 @@ public class AuthenticationService  {
                             null
                     ));
                 }
-            }else{
+            } else {
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                         "Account already active",
                         null

@@ -41,11 +41,7 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<ResponseObject> authenticate(@RequestBody AuthenticationRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Login successfully",
-                service.authenticate(request)
-        ));
-
+          return service.authenticate(request);
     }
     @PostMapping("/getUser")
     public ResponseEntity<ResponseObject> getUserFromAccessToken(@RequestBody AuthenticationUserRequest ar) {
