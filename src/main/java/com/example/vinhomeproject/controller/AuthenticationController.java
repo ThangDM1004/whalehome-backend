@@ -1,11 +1,16 @@
 package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.dto.UserDTO;
+import com.example.vinhomeproject.models.Users;
+import com.example.vinhomeproject.models.VerificationToken;
+import com.example.vinhomeproject.repositories.UsersRepository;
+import com.example.vinhomeproject.repositories.VerificationTokenRepository;
 import com.example.vinhomeproject.request.*;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.response.SendCodeResponse;
 import com.example.vinhomeproject.response.VerifyCodeRequest;
 import com.example.vinhomeproject.service.AuthenticationService;
+import com.example.vinhomeproject.service.UsersService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +21,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @RestController
@@ -56,5 +62,9 @@ public class AuthenticationController {
     @PostMapping("/verify")
     public ResponseEntity<ResponseObject> verifyCode(@RequestBody VerifyCodeRequest code) {
         return service.verifyCode(code);
+    }
+    @GetMapping("/verified-account")
+    public ResponseEntity<ResponseObject> activeAccount(@RequestParam("token") String token){
+        return service.activeAccount(token);
     }
 }
