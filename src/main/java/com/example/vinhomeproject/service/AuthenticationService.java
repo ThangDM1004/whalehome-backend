@@ -2,12 +2,10 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.config.JwtService;
 import com.example.vinhomeproject.dto.UserDTO;
-import com.example.vinhomeproject.models.Role;
-import com.example.vinhomeproject.models.Token;
-import com.example.vinhomeproject.models.TokenType;
-import com.example.vinhomeproject.models.Users;
+import com.example.vinhomeproject.models.*;
 import com.example.vinhomeproject.repositories.TokenRepository;
 import com.example.vinhomeproject.repositories.UsersRepository;
+import com.example.vinhomeproject.repositories.VerificationTokenRepository;
 import com.example.vinhomeproject.request.AuthenticationRequest;
 import com.example.vinhomeproject.request.ResetPasswordRequest;
 import com.example.vinhomeproject.request.VerifyCodeResponse;
@@ -31,8 +29,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AuthenticationService  {
@@ -58,6 +58,18 @@ public class AuthenticationService  {
     @Autowired
     private SendMailUtils sendMailUtils;
 
+    @Autowired
+    private VerificationTokenService verificationTokenService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private VerificationTokenRepository verificationTokenRepository;
+
+    @Autowired
+    private UsersRepository userRepository;
+
     public AuthenticationResponse register(UserDTO request) {
         var user = Users.builder()
                 .email(request.getEmail())
@@ -72,7 +84,16 @@ public class AuthenticationService  {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
-        repository.save(user);
+        Optional<Users> saved = Optional.of(repository.save(user));
+        saved.ifPresent(users -> {
+            try{
+                String token = UUID.randomUUID().toString();
+                verificationTokenService.save(saved.get(),token);
+                emailService.sendMail(users);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
         var jwtToken = jwtService.generateToken(user);
 //        var refreshToken = jwtService.generateRefreshToken(user);
         return AuthenticationResponse.builder()
@@ -261,5 +282,37 @@ public class AuthenticationService  {
             ));
         }
 
+    }
+    public ResponseEntity<ResponseObject> activeAccount(String token){
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        if(verificationToken == null){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Token not exist",
+                    null
+            ));
+        }else {
+            Users users = verificationToken.getUsers();
+            if(!users.isVerified()){
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                if(verificationToken.getExpiryDate().before(timestamp)){
+                    return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                            "Token has expired",
+                            null
+                    ));
+                }else {
+                    users.setVerified(true);
+                    userRepository.save(users);
+                    return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                            "Account has active",
+                            null
+                    ));
+                }
+            }else{
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                        "Account already active",
+                        null
+                ));
+            }
+        }
     }
 }
