@@ -28,12 +28,9 @@ public class EmailService {
                             "You have been added to Whale Home System.\n" +
                             "\n" +
                             "Active Your Account now\n" +
-                            "To enjoy the service, please click the \"Active Account\" to activate\n" +
-                            "your account first. The activation lick is valid for 7 days and can only be\n" +
+                            "To enjoy the service, this is code: "+token +" to activate\n" +
+                            "your account first. The activation is valid for 1 days and can only be\n" +
                             "used once.\n" +
-                            "\n" +
-                            "<a href=\"http://localhost:8080/api/v1/auth/verified-account?token="+token+"\">Active account</a>\n" +
-                            "\n" +
                             "Trân trọng,\n" +
                             "Whalhome"
                     );

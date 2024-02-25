@@ -11,6 +11,7 @@ import com.example.vinhomeproject.response.SendCodeResponse;
 import com.example.vinhomeproject.response.VerifyCodeRequest;
 import com.example.vinhomeproject.service.AuthenticationService;
 import com.example.vinhomeproject.service.UsersService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -56,8 +57,12 @@ public class AuthenticationController {
     public ResponseEntity<ResponseObject> verifyCode(@RequestBody VerifyCodeRequest code) {
         return service.verifyCode(code);
     }
-    @GetMapping("/verified-account")
+    @PostMapping("/verified-account")
     public ResponseEntity<ResponseObject> activeAccount(@RequestParam("token") String token){
         return service.activeAccount(token);
+    }
+    @PostMapping("/refresh-send-mail")
+    public ResponseEntity<ResponseObject> refreshSendMail(@RequestParam("email") String email) throws MessagingException {
+        return service.refreshSendMail(email);
     }
 }
