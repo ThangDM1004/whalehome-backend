@@ -9,20 +9,30 @@ import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.repositories.TokenRepository;
 import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.request.AuthenticationRequest;
+import com.example.vinhomeproject.request.ResetPasswordRequest;
+import com.example.vinhomeproject.request.VerifyCodeResponse;
 import com.example.vinhomeproject.response.AuthenticationResponse;
 import com.example.vinhomeproject.response.ResponseObject;
+import com.example.vinhomeproject.response.SendCodeResponse;
+import com.example.vinhomeproject.response.VerifyCodeRequest;
+import com.example.vinhomeproject.utils.SendMailUtils;
+import com.example.vinhomeproject.utils.VerificationCodeUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AuthenticationService  {
@@ -42,6 +52,12 @@ public class AuthenticationService  {
     @Autowired
     private TokenRepository tokenRepository;
 
+    @Autowired
+    private VerificationCodeUtils verificationCodeUtils;
+
+    @Autowired
+    private SendMailUtils sendMailUtils;
+
     public AuthenticationResponse register(UserDTO request) {
         var user = Users.builder()
                 .email(request.getEmail())
@@ -51,8 +67,8 @@ public class AuthenticationService  {
                 .address(request.getAddress())
                 .fullName(request.getFullName())
                 .dateOfBirth(request.getDateOfBirth())
-                .isVerified(request.isVerified())
-                .status(request.isStatus())
+                .isVerified(false)
+                .status(true)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
@@ -138,5 +154,112 @@ public class AuthenticationService  {
             return ResponseEntity.ok(new ResponseObject("Access Token is valid", user));
         }
         return ResponseEntity.badRequest().body(new ResponseObject("Access Token is not valid", null));
+    }
+    public ResponseEntity<ResponseObject> resetPassword(ResetPasswordRequest request) {
+        boolean result = false;
+        Optional<Users> user = repository.findByEmail(request.getEmail());
+        if (user.isPresent()){
+            user.get().setPassword(passwordEncoder.encode(request.getNewPassword()));
+            repository.save(user.get());
+            result = true;
+        }
+        if (result) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Successfully",
+                    null
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
+                "Bad request",
+                null
+        ));
+
+    }
+    public ResponseEntity<ResponseObject> sendCode(String email) {
+        SendCodeResponse sendCodeResponse = new SendCodeResponse();
+        String _email = "";
+        try {
+            Optional<Users> user =  repository.findByEmail(email);
+            if (user.isPresent()){
+                if (user.get().isStatus()){
+                    String code = verificationCodeUtils.generateVerificationCode(user.get().getEmail());
+                    sendMailUtils.sendSimpleEmail(
+                            email,
+                            "Verification code - Whalhome",
+                            "Xin chào,\n" +
+                                    "\n" +
+                                    "Bạn đã yêu cầu đổi mật khẩu cho tài khoản của mình trên Whalhome. Dưới đây là mã xác nhận của bạn:\n" +
+                                    "\n" +
+                                    "Mã Xác Nhận: "+ code + "\n" +
+                                    "\n" +
+                                    "Vui lòng sử dụng mã này để xác nhận quy trình đổi mật khẩu. Hãy nhớ rằng mã xác nhận chỉ có hiệu lực trong một khoảng thời gian ngắn.\n" +
+                                    "\n" +
+                                    "Nếu bạn không yêu cầu đổi mật khẩu, vui lòng bỏ qua email này. Để bảo vệ tài khoản của bạn, không chia sẻ mã xác nhận với người khác.\n" +
+                                    "\n" +
+                                    "Trân trọng,\n" +
+                                    "Whalhome"
+                    );
+                    _email = user.get().getEmail();
+                } else {
+                    throw new LockedException("");
+                }
+            }
+            if (!Objects.equals(_email, "")){
+                sendCodeResponse.setEmail(_email);
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                        "Successfully",
+                        sendCodeResponse
+                ));
+            } else {
+                sendCodeResponse.setMessage("The email account does not exist in the system!");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
+                        "Failed",
+                        sendCodeResponse
+                ));
+            }
+        } catch (Exception e){
+            if (e instanceof LockedException) {
+                sendCodeResponse.setMessage("This email account has been disabled!");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
+                        "Failed",
+                        sendCodeResponse
+                ));
+            } else {
+                e.printStackTrace();
+                sendCodeResponse.setMessage("Error!");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
+                        "Failed",
+                        sendCodeResponse
+                ));
+            }
+        }
+
+    }
+    public ResponseEntity<ResponseObject> verifyCode(VerifyCodeRequest request) {
+        VerifyCodeResponse verifyCodeResponse = new VerifyCodeResponse();
+        String email = "";
+        if (verificationCodeUtils.isValidCode(request.getCode())){
+            String emailOfCode = verificationCodeUtils.getEmailByCode(request.getCode());
+            if (Objects.equals(emailOfCode, request.getEmail())){
+                email = emailOfCode;
+            }
+        } else {
+            email = "";
+        }
+
+        if (!Objects.equals(email, "")){
+            verifyCodeResponse.setMail(email);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Successfully",
+                    verifyCodeResponse
+            ));
+        } else {
+            verifyCodeResponse.setMessage("Code is incorrect or has expired.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
+                    "Failed",
+                    verifyCodeResponse
+            ));
+        }
+
     }
 }
