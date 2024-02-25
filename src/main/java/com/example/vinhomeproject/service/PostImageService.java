@@ -1,9 +1,11 @@
 package com.example.vinhomeproject.service;
 
+import com.example.vinhomeproject.dto.PostDTO_2;
 import com.example.vinhomeproject.models.Apartment;
 import com.example.vinhomeproject.models.Post;
 import com.example.vinhomeproject.models.PostImage;
 import com.example.vinhomeproject.repositories.PostImageRepository;
+import com.example.vinhomeproject.repositories.PostRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -11,6 +13,7 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -25,17 +28,16 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class PostImageService {
-    private final PostImageRepository rs;
+    @Autowired
+    private  PostImageRepository rs;
+    @Autowired
+    private PostRepository postRepository;
 
-
-
-    public PostImageService(PostImageRepository rs) {
-        this.rs = rs;
-    }
 
     public ResponseEntity<ResponseObject> getAllPostImage() {
         return ResponseEntity.ok(new ResponseObject(
@@ -79,18 +81,23 @@ public class PostImageService {
 
     }
 
-    public ResponseEntity<String> createPostImage(MultipartFile multipartFile) {
-        PostImage ps = new PostImage();
-        if (multipartFile != null) {
-            String imageUrl = this.upload(multipartFile);
-            ps.setImage_url(imageUrl);
-            ps.setImage_alt("image");
-            ps.setStatus(true);
-            rs.save(ps);
-            return ResponseEntity.ok("Image uploaded successfully. Image URL: " + imageUrl);
-        } else {
-            return ResponseEntity.badRequest().body("PostImage object is null");
+    public ResponseEntity<String> createPostImage(MultipartFile multipartFile, Long id) {
+        Optional<Post> post = postRepository.findById(id);
+        if(post.isPresent()){
+            PostImage ps = new PostImage();
+            if (multipartFile != null) {
+                String imageUrl = this.upload(multipartFile);
+                ps.setImage_url(imageUrl);
+                ps.setPost(post.get());
+                ps.setImage_alt("image");
+                ps.setStatus(true);
+                rs.save(ps);
+                return ResponseEntity.ok("Image uploaded successfully. Image URL: " + imageUrl);
+            } else {
+                return ResponseEntity.badRequest().body("PostImage object is null");
+            }
         }
+        return ResponseEntity.badRequest().body("Post is not exist");
     }
 
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {

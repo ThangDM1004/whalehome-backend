@@ -133,7 +133,7 @@ public class AuthenticationService  {
     public ResponseEntity<ResponseObject> getUserFromAccessToken(String accessToken){
         String userEmail = jwtService.extractUsername(accessToken);
         if (userEmail != null) {
-            var user = this.repository.findByEmail(userEmail)
+            Users user = repository.findByEmail(userEmail)
                     .orElseThrow();
             return ResponseEntity.ok(new ResponseObject("Access Token is valid", user));
         }
