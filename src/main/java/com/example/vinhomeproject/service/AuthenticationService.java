@@ -16,6 +16,7 @@ import com.example.vinhomeproject.response.VerifyCodeRequest;
 import com.example.vinhomeproject.utils.SendMailUtils;
 import com.example.vinhomeproject.utils.VerificationCodeUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +112,22 @@ public class AuthenticationService {
                 null
         ));
     }
-
+    public ResponseEntity<ResponseObject> refreshSendMail(String email) throws MessagingException {
+        Optional<Users> user = repository.findByEmail(email);
+        if(user.isPresent()){
+            String token = UUID.randomUUID().toString();
+            verificationTokenService.save(user.get(), token);
+            emailService.sendMail(user.get());
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
+                    "Resend token in email successfully",
+                    null
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
+                "Email not exist",
+                null
+        ));
+    }
     public ResponseEntity<ResponseObject> authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

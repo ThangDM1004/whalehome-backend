@@ -27,7 +27,7 @@ public class VerificationTokenService {
     @Transactional
     public void save(Users users, String token){
         VerificationToken verificationToken = new VerificationToken(token,users);
-        verificationToken.setExpiryDate(calculateExpiryDate(24*60*7));
+        verificationToken.setExpiryDate(calculateExpiryDate(24*60));
         repository.save(verificationToken);
     }
 
