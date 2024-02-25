@@ -70,36 +70,46 @@ public class AuthenticationService {
     @Autowired
     private UsersRepository userRepository;
 
-    public AuthenticationResponse register(UserDTO request) {
-        var user = Users.builder()
-                .email(request.getEmail())
-                .gender(request.getGender())
-                .image(request.getImage())
-                .phone(request.getPhone())
-                .address(request.getAddress())
-                .fullName(request.getFullName())
-                .dateOfBirth(request.getDateOfBirth())
-                .isVerified(false)
-                .status(true)
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
-                .build();
-        Optional<Users> saved = Optional.of(repository.save(user));
-        saved.ifPresent(users -> {
-            try {
-                String token = UUID.randomUUID().toString();
-                verificationTokenService.save(saved.get(), token);
-                emailService.sendMail(users);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        var jwtToken = jwtService.generateToken(user);
+    public ResponseEntity<ResponseObject> register(UserDTO request) {
+        if (!userRepository.findByEmail(request.getEmail()).isPresent()) {
+            var user = Users.builder()
+                    .email(request.getEmail())
+                    .gender(request.getGender())
+                    .image(request.getImage())
+                    .phone(request.getPhone())
+                    .address(request.getAddress())
+                    .fullName(request.getFullName())
+                    .dateOfBirth(request.getDateOfBirth())
+                    .isVerified(false)
+                    .status(true)
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(Role.USER)
+                    .build();
+            Optional<Users> saved = Optional.of(repository.save(user));
+            saved.ifPresent(users -> {
+                try {
+                    String token = UUID.randomUUID().toString();
+                    verificationTokenService.save(saved.get(), token);
+                    emailService.sendMail(users);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            var jwtToken = jwtService.generateToken(user);
 //        var refreshToken = jwtService.generateRefreshToken(user);
-        return AuthenticationResponse.builder()
-                .access_token(jwtToken)
+            AuthenticationResponse auth = AuthenticationResponse.builder()
+                    .access_token(jwtToken)
 //                .refresh_token(refreshToken)
-                .build();
+                    .build();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Login successfully",
+                    auth
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
+                "Email already exist",
+                null
+        ));
     }
 
     public ResponseEntity<ResponseObject> authenticate(AuthenticationRequest request) {

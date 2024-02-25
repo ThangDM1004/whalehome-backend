@@ -33,10 +33,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<ResponseObject> register(@RequestBody UserDTO request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseObject(
-                "Register successfully",
-                service.register(request)
-        ));
+        return  service.register(request);
     }
 
     @PostMapping("/authenticate")
