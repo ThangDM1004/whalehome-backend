@@ -66,8 +66,6 @@ public class PaymentService {
     }
     public ResponseEntity<String> createPayment(Payment id) {
         Payment existingUser = new Payment();
-
-
         existingUser.setContent(id.getContent());
         existingUser.setPayment_time(id.getPayment_time());
         existingUser.setPaymentType(id.getPaymentType());
