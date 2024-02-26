@@ -28,6 +28,11 @@ public class PostController {
         return sv.getAllPost();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseObject> getPostById(@PathVariable Long id){
+        return sv.getPostId(id);
+    }
+
     @PutMapping("/delete")
     public ResponseEntity<String> deletePost(Long id) {
         return sv.deletePost(id);

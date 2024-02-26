@@ -25,6 +25,11 @@ public class PostImageController {
         return sv.getAllPostImage();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseObject> getPostImageById(@PathVariable Long id){
+        return sv.getPostImageById(id);
+    }
+
     @PutMapping("/delete")
     public ResponseEntity<String> deletePostImage(Long id) {
         return sv.deletePostImage(id);

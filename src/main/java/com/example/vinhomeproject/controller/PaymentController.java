@@ -19,12 +19,14 @@ public class PaymentController {
     public void PaymentSerivce(PaymentService sv){this.sv=sv;}
     @GetMapping
     public ResponseEntity<ResponseObject> getPayment(){return sv.getAllPayment();}
-    @PutMapping
-    public ResponseEntity<ResponseObject> findPayment(Long id){return sv.getPaymentById(id);}
-    @PutMapping("/delete")
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseObject> getPaymentById(@PathVariable Long id){
+        return sv.getPaymentById(id);
+    }
+    @PutMapping("/delete/{id}")
     public ResponseEntity<String> deletePayment(Long id){return sv.deletePayment(id);}
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<String>  updatePayment(Payment id){return sv.updatePayment(id);}
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<String>  createPayment(Payment id){return sv.createPayment(id);}
 }
