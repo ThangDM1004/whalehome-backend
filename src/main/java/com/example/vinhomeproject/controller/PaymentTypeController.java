@@ -20,13 +20,15 @@ public class PaymentTypeController {
 
     @GetMapping
     public ResponseEntity<ResponseObject> getPaymentType(){return sv.getAllPaymentType();}
-    @PutMapping()
-    public ResponseEntity<ResponseObject> findPaymentType(Long id){return sv.getPaymentTypeById(id);}
-    @PutMapping("/delete")
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseObject> getPaymentTypeById(@PathVariable Long id){
+        return sv.getPaymentTypeById(id);
+    }
+    @PutMapping("/delete/{id}")
     public ResponseEntity<String> deletePaymentType(Long id){return sv.deletePaymentType(id);}
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<String> updatePaymentType(PaymentType id){return sv.updatePaymentType(id);}
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<String> createPaymentType(PaymentType id){return sv.createPaymentType(id);}
 }
