@@ -81,7 +81,7 @@ public class UsersService {
             mapper.updateUser(userDTO, user.get());
             repo.save(user.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Delete user successfully",
+                    "Update user successfully",
                     null
             ));
         }
