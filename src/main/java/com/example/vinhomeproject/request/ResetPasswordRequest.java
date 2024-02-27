@@ -8,5 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 public class ResetPasswordRequest {
     String newPassword;
+    String confirmPassword;
     String email;
 }

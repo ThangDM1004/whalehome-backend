@@ -218,23 +218,28 @@ public class AuthenticationService {
 
     public ResponseEntity<ResponseObject> resetPassword(ResetPasswordRequest request) {
         boolean result = false;
-        Optional<Users> user = repository.findByEmail(request.getEmail());
-        if (user.isPresent()) {
-            user.get().setPassword(passwordEncoder.encode(request.getNewPassword()));
-            repository.save(user.get());
-            result = true;
-        }
-        if (result) {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Successfully",
+        if(Objects.equals(request.getNewPassword(), request.getConfirmPassword())){
+            Optional<Users> user = repository.findByEmail(request.getEmail());
+            if (user.isPresent()) {
+                user.get().setPassword(passwordEncoder.encode(request.getNewPassword()));
+                repository.save(user.get());
+                result = true;
+            }
+            if (result) {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                        "Successfully",
+                        null
+                ));
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
+                    "Bad request",
                     null
             ));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
-                "Bad request",
+                "New password not equals confirm password",
                 null
         ));
-
     }
 
     public ResponseEntity<ResponseObject> sendCode(String email) {
