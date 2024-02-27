@@ -2,6 +2,7 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.UserDTO;
 import com.example.vinhomeproject.mapper.UserMapper;
+import com.example.vinhomeproject.models.Post;
 import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.request.ChangePasswordRequest;
@@ -12,7 +13,11 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -191,6 +196,14 @@ public class UsersService {
             );
         }
     }
+    public Page<Users> getPage(int currentPage, int pageSize, String field) {
+        return repo.findAll(PageRequest.of(currentPage, pageSize, Sort.by(Sort.Direction.ASC, field)));
+    }
+
+    public int count() {
+        return repo.findAll().size();
+    }
+
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
         File tempFile = new File(fileName);
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {

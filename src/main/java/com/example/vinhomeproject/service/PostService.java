@@ -3,6 +3,7 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.PostDTO;
 import com.example.vinhomeproject.models.Post;
+import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.repositories.ApartmentRepository;
 import com.example.vinhomeproject.repositories.PostRepository;
 import com.example.vinhomeproject.response.ResponseObject;
@@ -10,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -83,5 +87,9 @@ public class PostService {
 
     public Page<Post> getPage(int currentPage, int pageSize, String field) {
         return rs.findAll(PageRequest.of(currentPage, pageSize, Sort.by(Sort.Direction.ASC, field)));
+    }
+
+    public int count() {
+        return rs.findAll().size();
     }
 }

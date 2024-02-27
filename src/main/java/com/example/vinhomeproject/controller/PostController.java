@@ -52,6 +52,9 @@ public class PostController {
     }
     @GetMapping("/get-page/{currentPage}")
     public ResponseEntity<ResponseObject> getPage(@PathVariable int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "title") String field){
+        if(sv.count() < sizePage){
+            return sv.getAllPost();
+        }
         Page<Post> posts = sv.getPage(currentPage,sizePage,field);
         var pageList = PageList.<Post>builder()
                 .totalPage(posts.getTotalPages())

@@ -52,6 +52,9 @@ public class ApartmentController {
     }
     @GetMapping("/get-page/{currentPage}")
     public ResponseEntity<ResponseObject> getPage(@PathVariable int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "name") String field){
+        if(sizePage > apartmentService.count()){
+            return apartmentService.getAll();
+        }
         Page<Apartment> apartments = apartmentService.getPage(currentPage,sizePage,field);
         var pageList = PageList.<Apartment>builder()
                 .totalPage(apartments.getTotalPages())

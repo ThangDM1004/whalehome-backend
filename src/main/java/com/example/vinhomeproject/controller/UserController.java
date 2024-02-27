@@ -1,10 +1,14 @@
 package com.example.vinhomeproject.controller;
 
+import com.example.vinhomeproject.dto.PageList;
 import com.example.vinhomeproject.dto.UserDTO;
+import com.example.vinhomeproject.models.Apartment;
+import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.request.ChangePasswordRequest;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,5 +60,22 @@ public class UserController {
             @RequestBody ChangePasswordRequest request,
             Principal connectdUser) {
         return serivce.changePassword(request, connectdUser);
+    }
+
+    @GetMapping("/get-page/{currentPage}")
+    public ResponseEntity<ResponseObject> getPage(@PathVariable int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "email") String field){
+        if(sizePage > serivce.count()){
+            return serivce.getAllUser();
+        }
+        Page<Users> users = serivce.getPage(currentPage,sizePage,field);
+        var pageList = PageList.<Users>builder()
+                .totalPage(users.getTotalPages())
+                .currentPage(currentPage)
+                .listResult(users.getContent())
+                .build();
+        return ResponseEntity.ok(new ResponseObject(
+                "Get page "+currentPage+" successfully",
+                pageList
+        ));
     }
 }
