@@ -6,16 +6,31 @@ import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.request.ChangePasswordRequest;
 import com.example.vinhomeproject.response.ResponseObject;
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UsersService {
@@ -75,10 +90,30 @@ public class UsersService {
         ));
     }
 
+    public ResponseEntity<ResponseObject> updateImageUser(Long id, MultipartFile multipartFile) {
+        Optional<Users> user = repo.findById(id);
+        if (user.isPresent()) {
+            if (multipartFile != null) {
+                String imageUrl = this.upload(multipartFile);
+                user.get().setImage(imageUrl);
+            }
+            repo.save(user.get());
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Update image user successfully",
+                    null
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found user",
+                null
+        ));
+    }
+
     public ResponseEntity<ResponseObject> updateUser(Long id, UserDTO userDTO) {
         Optional<Users> user = repo.findById(id);
         if (user.isPresent()) {
-            mapper.updateUser(userDTO, user.get());
+            userDTO.setImage(user.get().getImage());
+            mapper.updateUser(userDTO,user.get());
             repo.save(user.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update user successfully",
@@ -117,22 +152,6 @@ public class UsersService {
             ));
         }
     }
-
-    public ResponseEntity<ResponseObject> getListUserSortByDate() {
-        List<Users> users = repo.getUserSortByDate();
-        if (!users.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Get list user sort by date",
-                    users
-            ));
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "List user null",
-                    null
-            ));
-        }
-    }
-
     public ResponseEntity<ResponseObject> countAllUser() {
         List<Users> users = repo.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
@@ -171,6 +190,41 @@ public class UsersService {
                     )
             );
         }
+    }
+    private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
+        File tempFile = new File(fileName);
+        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            fos.write(multipartFile.getBytes());
+        }
+        return tempFile;
+    }
 
+    private String uploadFile(File file, String fileName) throws IOException {
+        BlobId blobId = BlobId.of("whalehome-project.appspot.com", fileName);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+        InputStream inputStream = PostImageService.class.getClassLoader().getResourceAsStream("firebase.json");
+        Credentials credentials = GoogleCredentials.fromStream(inputStream);
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        storage.create(blobInfo, Files.readAllBytes(file.toPath()));
+        String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/whalehome-project.appspot.com/o/%s?alt=media";
+        return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+    }
+    private String getExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf("."));
+    }
+
+    private String upload(MultipartFile multipartFile) {
+        try {
+            String fileName = multipartFile.getOriginalFilename();
+            fileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));
+
+            File file = this.convertToFile(multipartFile, fileName);
+            String URL = this.uploadFile(file, fileName);
+            file.delete();
+            return URL;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Image couldn't upload, Something went wrong";
+        }
     }
 }
