@@ -11,5 +11,4 @@ import lombok.*;
 public class IssueDTO {
     private String name;
     private boolean status;
-    private Problems problems;
 }

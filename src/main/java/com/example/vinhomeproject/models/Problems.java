@@ -24,11 +24,13 @@ public class Problems extends Base{
     private boolean status;
 
     @OneToMany(mappedBy = "problems")
-    @JsonIgnore
     private Set<Issue> issues;
 
     @ManyToOne
     @JoinColumn(name = "contract_id")
     @JsonIgnore
     private Contract contract;
+
+    @OneToMany(mappedBy = "problems")
+    private Set<ProblemImage> problemImages;
 }

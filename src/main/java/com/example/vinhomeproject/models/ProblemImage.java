@@ -10,31 +10,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.Locale;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table
-public class Payment extends Base{
-
-    private LocalDate payment_time;
-
-    private String content;
-
-    private double total_price;
+public class ProblemImage extends Base {
+    private String image_url;
 
     @ManyToOne
-    @JoinColumn(name = "contract_id")
+    @JoinColumn(name = "problems_id")
     @JsonIgnore
-    private Contract contract;
-
-    @ManyToOne
-    @JoinColumn(name = "payment_type_id")
-    private PaymentType paymentType;
-
+    private Problems problems;
 }
