@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
@@ -32,8 +33,15 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseObject> updateUser(@PathVariable Long id,@RequestBody UserDTO userDTO){
+    public ResponseEntity<ResponseObject> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
         return  serivce.updateUser(id,userDTO);
+    }
+    @PutMapping("/update-image/{id}")
+    public ResponseEntity<ResponseObject> updateImageUser(@RequestParam(value = "file") MultipartFile multipartFile,
+                                                     @PathVariable Long id
+                                                     )
+    {
+        return  serivce.updateImageUser(id,multipartFile);
     }
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject> getbyId(@PathVariable Long id){
