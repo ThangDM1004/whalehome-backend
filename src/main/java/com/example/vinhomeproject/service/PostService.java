@@ -84,9 +84,10 @@ public class PostService {
     ));}
 
     public Page<Post> getPage(int currentPage, int pageSize, String field) {
-        return rs.findAll(PageRequest.of(currentPage, pageSize, Sort.by(Sort.Direction.ASC, field)));
+        return rs.findAll(PageRequest.of(currentPage-1, pageSize, Sort.by(Sort.Direction.ASC, field)));
     }
     public Page<Post> searchByTitle(String title, int currentPage, int pageSize, String field) {
+        currentPage -=1;
         List<Post> allPosts = rs.findAll();
 
         // Chuẩn hóa từ khóa tìm kiếm
@@ -98,7 +99,7 @@ public class PostService {
                 .collect(Collectors.toList());
 
         // Tạo trang từ danh sách đã lọc
-        int startItem = (currentPage-1) * pageSize;
+        int startItem = currentPage * pageSize;
         List<Post> pageList;
 
         if (filteredPosts.size() < startItem) {
