@@ -129,7 +129,7 @@ public class ApartmentService {
     }
 
     public Page<Apartment> getPage(int currentPage, int pageSize, String field) {
-        return apartmentRepository.findAll(PageRequest.of(currentPage, pageSize, Sort.by(Sort.Direction.ASC, field)));
+        return apartmentRepository.findAll(PageRequest.of(currentPage-1, pageSize, Sort.by(Sort.Direction.ASC, field)));
     }
     public int count(){
         return apartmentRepository.findAll().size();

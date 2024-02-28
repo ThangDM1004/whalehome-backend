@@ -56,6 +56,11 @@ public class PostController {
             return sv.getAllPost();
         }
         Page<Post> posts = sv.getPage(currentPage,sizePage,field);
+        if(posts.getTotalPages() < currentPage){
+            return ResponseEntity.badRequest().body(new ResponseObject(
+                    "Page number out of range",null
+            ));
+        }
         var pageList = PageList.<Post>builder()
                 .totalPage(posts.getTotalPages())
                 .currentPage(currentPage)
@@ -69,6 +74,11 @@ public class PostController {
     @GetMapping("/find-by-title")
     public ResponseEntity<ResponseObject> getByTitle(@RequestParam String title, @RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "title") String field) {
         Page<Post> posts = sv.searchByTitle(title, currentPage, sizePage, field);
+        if(posts.getTotalPages() < currentPage){
+            return ResponseEntity.badRequest().body(new ResponseObject(
+                    "Page number out of range",null
+            ));
+        }
         var pageList = PageList.<Post>builder()
                 .totalPage(posts.getTotalPages())
                 .currentPage(currentPage)
