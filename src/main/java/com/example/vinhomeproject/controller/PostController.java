@@ -66,4 +66,17 @@ public class PostController {
                 pageList
         ));
     }
+    @GetMapping("/find-by-title")
+    public ResponseEntity<ResponseObject> getByTitle(@RequestParam String title, @RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "title") String field) {
+        Page<Post> posts = sv.searchByTitle(title, currentPage, sizePage, field);
+        var pageList = PageList.<Post>builder()
+                .totalPage(posts.getTotalPages())
+                .currentPage(currentPage)
+                .listResult(posts.getContent())
+                .build();
+        return ResponseEntity.ok(new ResponseObject(
+                "Get page " + currentPage + " successfully",
+                pageList
+        ));
+    }
 }
