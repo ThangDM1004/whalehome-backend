@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +39,6 @@ public class ProblemsService {
             ));
         }
     }
-
     public ResponseEntity<ResponseObject> getProblemsById(Long id) {
         Optional<Problems> problems = repo.findById(id);
         if (problems.isPresent()) {
@@ -50,7 +53,6 @@ public class ProblemsService {
             ));
         }
     }
-
     public ResponseEntity<ResponseObject> createProblems(ProblemDTO problemDTO) {
         repo.save(mapper.createProblemsToProblemsDto(problemDTO));
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
@@ -58,7 +60,6 @@ public class ProblemsService {
                 null
         ));
     }
-
     public ResponseEntity<ResponseObject> deleteProblems(Long id) {
         Optional<Problems> problems = repo.findById(id);
         if (problems.isPresent()) {
@@ -74,7 +75,6 @@ public class ProblemsService {
                 null
         ));
     }
-
     public ResponseEntity<ResponseObject> updateProblems(Long id, ProblemDTO problemDTO) {
         Optional<Problems> problems = repo.findById(id);
         if (problems.isPresent()) {
@@ -90,4 +90,5 @@ public class ProblemsService {
                 null
         ));
     }
+
 }

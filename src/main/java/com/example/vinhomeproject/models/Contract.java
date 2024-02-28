@@ -25,11 +25,9 @@ public class Contract extends Base{
     private Set<Problems> problems;
 
     @OneToMany(mappedBy = "contract")
-    @JsonIgnore
     private Set<Payment> payments;
 
     @ManyToOne
     @JoinColumn(name = "contract_id")
-    @JsonIgnore
     private ContractHistory contractHistory;
 }

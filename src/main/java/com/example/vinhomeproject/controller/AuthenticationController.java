@@ -49,7 +49,7 @@ public class AuthenticationController {
     public ResponseEntity<ResponseObject> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
         return  service.resetPassword(resetPasswordRequest);
     }
-    @PostMapping("/send")
+    @PostMapping("/forgot-password")
     public ResponseEntity<ResponseObject> sendCode(@RequestBody SendCodeRequest email) {
         return service.sendCode(email.getEmail());
     }

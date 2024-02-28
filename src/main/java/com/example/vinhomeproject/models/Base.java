@@ -44,7 +44,6 @@ public class Base {
     private LocalDate deleteAt;
     @Column
     @CreatedBy
-    @JsonIgnore
     private boolean status = true;
 
 }
