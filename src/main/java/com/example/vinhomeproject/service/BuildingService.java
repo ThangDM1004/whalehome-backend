@@ -5,14 +5,17 @@ import com.example.vinhomeproject.dto.AreaDTO;
 import com.example.vinhomeproject.dto.BuildingDTO;
 import com.example.vinhomeproject.models.Area;
 import com.example.vinhomeproject.models.Building;
+import com.example.vinhomeproject.models.Post;
 import com.example.vinhomeproject.repositories.BuildingRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BuildingService {
@@ -63,5 +66,15 @@ public class BuildingService {
         }
         return ResponseEntity.badRequest().body("failed");
     }
+    public Page<Building> getPage(int currentPage, int pageSize, String field) {
+        return buildingRepository.findAll(PageRequest.of(currentPage-1, pageSize, Sort.by(Sort.Direction.ASC, field)));
+    }
+    public int count() {
+        return buildingRepository.findAll().size();
+    }
 
+    public Page<Building> filterByArea(Long id,int currentPage, int pageSize, String field) {
+        Pageable pageable = PageRequest.of(currentPage-1, pageSize, Sort.by(Sort.Direction.ASC, field));
+        return buildingRepository.findAllBuildingsByAreaId(id,pageable);
+    }
 }
