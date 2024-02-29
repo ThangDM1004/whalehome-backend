@@ -41,7 +41,7 @@ public class BuildingController {
         return buildingService.update(id,buildingDTO);
     }
     @GetMapping("/get-page/{currentPage}")
-    public ResponseEntity<ResponseObject> getPage(@PathVariable int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "title") String field){
+    public ResponseEntity<ResponseObject> getPage(@PathVariable int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "name") String field){
         if(buildingService.count() < sizePage){
             return buildingService.getAll();
         }
