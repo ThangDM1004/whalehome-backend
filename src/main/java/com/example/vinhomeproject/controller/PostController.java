@@ -74,6 +74,10 @@ public class PostController {
     @GetMapping("/find-by-title")
     public ResponseEntity<ResponseObject> getByTitle(@RequestParam String title, @RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "title") String field) {
         Page<Post> posts = sv.searchByTitle(title, currentPage, sizePage, field);
+        if(posts == null) return ResponseEntity.ok(new ResponseObject(
+                "Can not find",
+                null
+        ));
         if(posts.getTotalPages() < currentPage){
             return ResponseEntity.badRequest().body(new ResponseObject(
                     "Page number out of range",null
