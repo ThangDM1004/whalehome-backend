@@ -55,7 +55,7 @@ public class UsersService {
                     users
             ));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
                     "List user null",
                     null
             ));

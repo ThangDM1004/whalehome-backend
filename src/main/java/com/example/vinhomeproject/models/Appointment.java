@@ -24,12 +24,10 @@ public class Appointment extends Base{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private Users users;
 
     @ManyToOne
     @JoinColumn(name = "apartment_id")
-    @JsonIgnore
     private Apartment apartment;
 
 }
