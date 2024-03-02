@@ -29,7 +29,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseObject> getPostById(@PathVariable Long id){
+    public ResponseEntity<ResponseObject> getPostById(@PathVariable Long id) {
         return sv.getPostId(id);
     }
 
@@ -44,21 +44,25 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createPost(PostDTO post){return sv.createPost(post);}
+    public ResponseEntity<String> createPost(PostDTO post) {
+        return sv.createPost(post);
+    }
+
     @GetMapping("/count-all")
-    public ResponseEntity<ResponseObject> countAll(){
+    public ResponseEntity<ResponseObject> countAll() {
         return sv.countAllPost();
 
     }
+
     @GetMapping("/get-page/{currentPage}")
-    public ResponseEntity<ResponseObject> getPage(@PathVariable int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "title") String field){
-        if(sv.count() < sizePage){
+    public ResponseEntity<ResponseObject> getPage(@PathVariable int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "title") String field) {
+        if (sv.count() < sizePage) {
             return sv.getAllPost();
         }
-        Page<Post> posts = sv.getPage(currentPage,sizePage,field);
-        if(posts.getTotalPages() < currentPage){
+        Page<Post> posts = sv.getPage(currentPage, sizePage, field);
+        if (posts.getTotalPages() < currentPage) {
             return ResponseEntity.badRequest().body(new ResponseObject(
-                    "Page number out of range",null
+                    "Page number out of range", null
             ));
         }
         var pageList = PageList.<Post>builder()
@@ -67,20 +71,22 @@ public class PostController {
                 .listResult(posts.getContent())
                 .build();
         return ResponseEntity.ok(new ResponseObject(
-                "Get page "+currentPage+" successfully",
+                "Get page " + currentPage + " successfully",
                 pageList
         ));
     }
+
     @GetMapping("/find-by-title")
     public ResponseEntity<ResponseObject> getByTitle(@RequestParam String title, @RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "title") String field) {
         Page<Post> posts = sv.searchByTitle(title, currentPage, sizePage, field);
-        if(posts == null) return ResponseEntity.ok(new ResponseObject(
+        if (posts == null) return ResponseEntity.ok(new ResponseObject(
                 "Can not find",
                 null
         ));
-        if(posts.getTotalPages() < currentPage){
+        if (posts.getTotalPages() < currentPage) {
             return ResponseEntity.badRequest().body(new ResponseObject(
-                    "Page number out of range",null
+                    "Can not find",
+                    null
             ));
         }
         var pageList = PageList.<Post>builder()
