@@ -55,7 +55,7 @@ public class IssueService {
                     null
             ));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
                 "Not found issues ",
                 null
         ));
@@ -71,7 +71,7 @@ public class IssueService {
                     null
             ));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
                 "Not found issues ",
                 null
         ));
@@ -84,7 +84,7 @@ public class IssueService {
                     issues
             ));
         }else {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
                     "Not found issues by id",
                     null
             ));

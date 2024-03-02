@@ -16,6 +16,7 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,8 +62,8 @@ public class ProblemImageService {
                    null
             ));
         }else {
-            return ResponseEntity.ok(new ResponseObject(
-                    "Not found problem image",
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                    "Not found problemImage ",
                     null
             ));
         }
@@ -77,8 +78,8 @@ public class ProblemImageService {
                     null
             ));
         }else {
-            return ResponseEntity.ok(new ResponseObject(
-                    "Not found problem image",
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                    "Not found problemImage ",
                     null
             ));
         }
@@ -95,10 +96,10 @@ public class ProblemImageService {
                 repository.save(ps);
                 return ResponseEntity.ok("Image uploaded successfully. Image URL: " + imageUrl);
             } else {
-                return ResponseEntity.badRequest().body("PostImage object is null");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PostImage object is null");
             }
         }
-        return ResponseEntity.badRequest().body("Problems is not exist");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Problems is not exist");
     }
 
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {

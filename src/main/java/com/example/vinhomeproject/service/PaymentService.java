@@ -3,6 +3,7 @@ package com.example.vinhomeproject.service;
 import com.example.vinhomeproject.models.Payment;
 import com.example.vinhomeproject.repositories.PaymentRepository;
 import com.example.vinhomeproject.response.ResponseObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,7 @@ public class PaymentService {
             rs.save(existingUser);
             return ResponseEntity.ok("delete successfully");
         }else {
-            return ResponseEntity.ok("id not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not exist");
         }
 
 
@@ -61,7 +62,7 @@ public class PaymentService {
              rs.save(existingUser);
              return ResponseEntity.ok("update successfully");
         }else {
-            return ResponseEntity.ok("id not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not exist");
         }
     }
     public ResponseEntity<String> createPayment(Payment id) {

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,9 +59,10 @@ public class PostImageService {
         PostImage ex = rs.findPostImageById(id);
         if (ex != null) {
             ex.setStatus(false);
+            rs.save(ex);
             return ResponseEntity.ok("Delete successfully");
         }else {
-            return ResponseEntity.ok("id not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not exist");
         }
     }
 
@@ -73,10 +75,10 @@ public class PostImageService {
             ps.setCreateDate(postImage.getCreateDate());
             ps.setImage_alt(postImage.getImage_alt());
             ps.setImage_url(postImage.getImage_url());
-
+            rs.save(ps);
             return ResponseEntity.ok("update successfully");
         }else {
-            return ResponseEntity.ok("id not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not exist");
         }
 
     }

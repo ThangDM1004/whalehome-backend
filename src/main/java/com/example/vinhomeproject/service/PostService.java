@@ -8,6 +8,7 @@ import com.example.vinhomeproject.repositories.PostRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -44,11 +45,11 @@ public class PostService {
 
         if (existingUser != null) {
             existingUser.setStatus(false);
-
+            rs.save(existingUser);
 
             return ResponseEntity.ok("delete successfully");
         } else {
-            return ResponseEntity.ok("id not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not exist");
         }
 
 
@@ -64,9 +65,10 @@ public class PostService {
             post.setDescription(id.getDescription());
             post.setCreateDate(id.getCreateDate());
             post.setModifiedBy(id.getModifiedBy());
+            rs.save(post);
             return ResponseEntity.ok("update successfully");
         } else {
-            return ResponseEntity.ok("id not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not exist");
         }
     }
 

@@ -7,6 +7,7 @@ import com.example.vinhomeproject.models.Area;
 import com.example.vinhomeproject.repositories.AreaRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,7 @@ public class AreaService {
             areaRepository.save(area.get());
             return ResponseEntity.ok("successfully");
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("failed");
     }
 
     public ResponseEntity<String> update(Long id, AreaDTO areaDTO){
@@ -58,6 +59,6 @@ public class AreaService {
             areaRepository.save(area.get());
             return ResponseEntity.ok("successfully");
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("failed");
     }
 }

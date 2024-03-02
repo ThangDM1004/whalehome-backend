@@ -5,6 +5,7 @@ import com.example.vinhomeproject.models.Appointment;
 import com.example.vinhomeproject.repositories.AppointmentRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,7 @@ public class AppointmentService {
             appointmentRepository.save(appointment.get());
             return ResponseEntity.ok("successfully");
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("failed");
     }
 
     public ResponseEntity<String> update(Long id, AppointmentDTO appointmentDTO){
@@ -62,6 +63,6 @@ public class AppointmentService {
             appointmentRepository.save(appointment.get());
             return ResponseEntity.ok("successfully");
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("failed");
     }
 }

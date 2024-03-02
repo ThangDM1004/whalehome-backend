@@ -8,6 +8,7 @@ import com.example.vinhomeproject.models.Contract;
 import com.example.vinhomeproject.repositories.ContractRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +55,7 @@ public class ContractService {
             contractRepository.save(contract.get());
             return ResponseEntity.ok("successfully");
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("failed");
     }
 
     public ResponseEntity<String> update(Long id, ContractDTO contractDTO){
@@ -69,7 +70,7 @@ public class ContractService {
             contractRepository.save(contract.get());
             return ResponseEntity.ok("successfully");
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("failed");
     }
     public ResponseEntity<ResponseObject> countAll(){
         List<Contract> contracts = contractRepository.findAll();

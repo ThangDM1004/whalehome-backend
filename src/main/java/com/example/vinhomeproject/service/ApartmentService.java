@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +39,8 @@ public class ApartmentService {
                     apartment
             ));
         }
-        return ResponseEntity.ok(new ResponseObject(
-                "failed",
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found Apartment",
                 null
         ));
     }
@@ -72,7 +73,7 @@ public class ApartmentService {
             apartmentRepository.save(apartment.get());
             return ResponseEntity.ok("successfully");
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("failed");
     }
 
     public ResponseEntity<String> update(Long id, ApartmentDTO apartmentDTO){
@@ -97,7 +98,7 @@ public class ApartmentService {
             apartmentRepository.save(apartment.get());
             return ResponseEntity.ok("successfully");
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("failed");
     }
     public ResponseEntity<ResponseObject> countAll(){
         List<Apartment> apartments = apartmentRepository.findAll();
@@ -122,8 +123,8 @@ public class ApartmentService {
                     apartment
             ));
         }
-        return ResponseEntity.ok(new ResponseObject(
-                "failed",
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found",
                 null
         ));
     }

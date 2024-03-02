@@ -5,6 +5,7 @@ import com.example.vinhomeproject.models.ApartmentClass;
 import com.example.vinhomeproject.repositories.ApartmentClassRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,8 @@ public class ApartmentClassService {
                     apartmentClass
             ));
         }
-        return ResponseEntity.badRequest().body(new ResponseObject(
-                "failed",
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found ApartmentClass",
                 null
         ));
     }
@@ -55,7 +56,7 @@ public class ApartmentClassService {
             apartmentClassRepository.save(apartmentClass.get());
             return ResponseEntity.ok("delete successfully");
         }
-        return ResponseEntity.badRequest().body("id not exist");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not exist");
     }
 
     public ResponseEntity<String> update(Long id,ApartmentClassDTO apartmentClassDTO){
@@ -69,6 +70,6 @@ public class ApartmentClassService {
             apartmentClassRepository.save(apartmentClass.get());
             return ResponseEntity.ok("update successfully");
         }
-        return ResponseEntity.badRequest().body("id not exist");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not exist");
     }
 }
