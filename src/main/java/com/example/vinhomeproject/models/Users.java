@@ -55,6 +55,10 @@ public class Users  implements UserDetails {
     @JsonIgnore
     private Set<Token> tokens;
 
+    @OneToMany(mappedBy = "users")
+    @JsonIgnore
+    private Set<Cart> carts;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();
