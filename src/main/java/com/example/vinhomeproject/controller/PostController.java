@@ -84,7 +84,7 @@ public class PostController {
                 null
         ));
         if (posts.getTotalPages() < currentPage) {
-            return ResponseEntity.badRequest().body(new ResponseObject(
+            return ResponseEntity.ok(new ResponseObject(
                     "Can not find",
                     null
             ));
