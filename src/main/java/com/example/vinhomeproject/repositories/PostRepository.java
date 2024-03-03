@@ -19,4 +19,8 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     Set<PostDTO> findAllPosts();
     @Query("SELECT p FROM Post p WHERE p.apartment.id = :apartmentId")
     List<Post> findPostByApartmentId(@Param("apartmentId") Long apartmentId);
+
+    List<Post> findByApartment_Building_Id(Long buildingId);
+    List<Post> findByApartment_Building_Zone_Id(Long zoneId);
+    List<Post> findByApartment_Building_Zone_Area_Id(Long areaId);
 }

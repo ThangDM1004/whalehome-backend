@@ -122,20 +122,20 @@ public class PostService {
         return rs.findAll().size();
     }
 
-    public List<?> filterPost(Long areaId, Long zoneId, Long buildingId, Long apartmentId){
+    public List<Post> filterPost(Long areaId, Long zoneId, Long buildingId, Long apartmentId){
         if(apartmentId != null){
             return rs.findPostByApartmentId(apartmentId);
         }
         if(buildingId != null){
-            return apartmentRepository.findApartmentByBuildingId(buildingId);
+            return rs.findByApartment_Building_Id(buildingId);
         }
         if(zoneId != null){
-            return buildingRepository.findBuildingByZoneId(zoneId);
+            return rs.findByApartment_Building_Zone_Id(zoneId);
         }
         if(areaId != null){
-            return zoneRepository.findZoneByAreaId(areaId);
+            return rs.findByApartment_Building_Zone_Area_Id(areaId);
         }
-        return areaRepository.findAll();
+        return rs.findAll();
     }
 
     private String normalizeString(String input) {
