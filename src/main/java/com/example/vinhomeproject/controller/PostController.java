@@ -99,4 +99,13 @@ public class PostController {
                 pageList
         ));
     }
+    @GetMapping("/filterPost")
+    public ResponseEntity<ResponseObject> filterPost(
+            @RequestParam(required = false) Long areaId,
+            @RequestParam(required = false) Long zoneId,
+            @RequestParam(required = false) Long buildingId,
+            @RequestParam(required = false) Long apartmentId
+    ){
+        return ResponseEntity.ok(new ResponseObject("",sv.filterPost(areaId, zoneId, buildingId, apartmentId)));
+    }
 }

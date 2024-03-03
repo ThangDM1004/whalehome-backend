@@ -3,8 +3,7 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.PostDTO;
 import com.example.vinhomeproject.models.Post;
-import com.example.vinhomeproject.repositories.ApartmentRepository;
-import com.example.vinhomeproject.repositories.PostRepository;
+import com.example.vinhomeproject.repositories.*;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +22,12 @@ public class PostService {
     private  PostRepository rs;
     @Autowired
     private ApartmentRepository apartmentRepository;
+    @Autowired
+    private ZoneRepository zoneRepository;
+    @Autowired
+    private AreaRepository areaRepository;
+    @Autowired
+    private BuildingRepository buildingRepository;
 
 
 
@@ -112,14 +118,31 @@ public class PostService {
         return new PageImpl<>(pageList, PageRequest.of(currentPage, pageSize, Sort.by(Sort.Direction.ASC, field)), filteredPosts.size());
     }
 
+    public int count() {
+        return rs.findAll().size();
+    }
+
+    public List<?> filterPost(Long areaId, Long zoneId, Long buildingId, Long apartmentId){
+        if(apartmentId != null){
+            return rs.findPostByApartmentId(apartmentId);
+        }
+        if(buildingId != null){
+            return apartmentRepository.findApartmentByBuildingId(buildingId);
+        }
+        if(zoneId != null){
+            return buildingRepository.findBuildingByZoneId(zoneId);
+        }
+        if(areaId != null){
+            return zoneRepository.findZoneByAreaId(areaId);
+        }
+        return areaRepository.findAll();
+    }
+
     private String normalizeString(String input) {
         if (input == null) {
             return null;
         }
         String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
         return normalized.replaceAll("\\p{M}", "").toLowerCase();
-    }
-    public int count() {
-        return rs.findAll().size();
     }
 }
