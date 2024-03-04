@@ -1,8 +1,6 @@
 package com.example.vinhomeproject.controller;
 
-import com.example.vinhomeproject.dto.ApartmentClassDTO;
 import com.example.vinhomeproject.dto.CartDTO;
-import com.example.vinhomeproject.models.Cart;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/v1/cart")
-public class CartController {
+@RequestMapping("/api/v1/card")
+public class CardController {
 
     @Autowired
     private CartService service;
