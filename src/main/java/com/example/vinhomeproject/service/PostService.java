@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -122,20 +121,20 @@ public class PostService {
         return rs.findAll().size();
     }
 
-    public List<Post> filterPost(Long areaId, Long zoneId, Long buildingId, Long apartmentId){
+    public Page<Post> filterPost(Long areaId, Long zoneId, Long buildingId, Long apartmentId,  Pageable pageable){
         if(apartmentId != null){
-            return rs.findPostByApartmentId(apartmentId);
+            return rs.findPostByApartmentId(apartmentId, pageable);
         }
         if(buildingId != null){
-            return rs.findByApartment_Building_Id(buildingId);
+            return rs.findByApartment_Building_Id(buildingId, pageable);
         }
         if(zoneId != null){
-            return rs.findByApartment_Building_Zone_Id(zoneId);
+            return rs.findByApartment_Building_Zone_Id(zoneId, pageable);
         }
         if(areaId != null){
-            return rs.findByApartment_Building_Zone_Area_Id(areaId);
+            return rs.findByApartment_Building_Zone_Area_Id(areaId, pageable);
         }
-        return rs.findAll();
+        return rs.findAll(pageable);
     }
 
     private String normalizeString(String input) {

@@ -2,6 +2,8 @@ package com.example.vinhomeproject.repositories;
 
 import com.example.vinhomeproject.dto.PostDTO;
 import com.example.vinhomeproject.models.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,9 +20,9 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             "JOIN p.apartment a ")
     Set<PostDTO> findAllPosts();
     @Query("SELECT p FROM Post p WHERE p.apartment.id = :apartmentId")
-    List<Post> findPostByApartmentId(@Param("apartmentId") Long apartmentId);
+    Page<Post> findPostByApartmentId(@Param("apartmentId") Long apartmentId, Pageable pageable);
 
-    List<Post> findByApartment_Building_Id(Long buildingId);
-    List<Post> findByApartment_Building_Zone_Id(Long zoneId);
-    List<Post> findByApartment_Building_Zone_Area_Id(Long areaId);
+    Page<Post> findByApartment_Building_Id(Long buildingId, Pageable pageable);
+    Page<Post> findByApartment_Building_Zone_Id(Long zoneId, Pageable pageable);
+    Page<Post> findByApartment_Building_Zone_Area_Id(Long areaId, Pageable pageable);
 }

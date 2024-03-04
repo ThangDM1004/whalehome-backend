@@ -8,6 +8,10 @@ import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -104,8 +108,12 @@ public class PostController {
             @RequestParam(required = false) Long areaId,
             @RequestParam(required = false) Long zoneId,
             @RequestParam(required = false) Long buildingId,
-            @RequestParam(required = false) Long apartmentId
-    ){
-        return ResponseEntity.ok(new ResponseObject("",sv.filterPost(areaId, zoneId, buildingId, apartmentId)));
+            @RequestParam(required = false) Long apartmentId,
+            @RequestParam(defaultValue = "1") int currentPage,
+            @RequestParam(defaultValue = "3") int sizePage,
+            @RequestParam(defaultValue = "description") String field
+            ){
+        Pageable pageable = PageRequest.of(currentPage-1,sizePage, Sort.by(Sort.Direction.ASC, field));
+        return ResponseEntity.ok(new ResponseObject("",sv.filterPost(areaId, zoneId, buildingId, apartmentId, pageable)));
     }
 }
