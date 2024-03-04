@@ -65,7 +65,7 @@ public class AuthenticationController {
     public ResponseEntity<ResponseObject> refreshSendMail(@RequestParam("email") String email) throws MessagingException {
         return service.refreshSendMail(email);
     }
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public ResponseEntity<ResponseObject> logout(@RequestParam("token") String token){
         return service.logout(token);
     }
