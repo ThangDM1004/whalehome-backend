@@ -89,12 +89,11 @@ public class CartService {
 
     public ResponseEntity<ResponseObject> create(CartDTO cartDTO) {
         Cart cart = mapper.createCart(cartDTO);
-        Optional<Users> user = usersRepository.findById(cartDTO.getUsers().getId());
         cart.setStatus(true);
         repository.save(cart);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create card successfully",
-                user
+                ""
         ));
     }
 
