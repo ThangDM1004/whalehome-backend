@@ -36,7 +36,7 @@ public class PaymentTypeService {
         PaymentType existingUser = rs.findById(id).orElse(null);
 
         if (existingUser != null) {
-            existingUser.setStatus(false);
+            existingUser.setStatus(!existingUser.isStatus());
 
 
              rs.save(existingUser);

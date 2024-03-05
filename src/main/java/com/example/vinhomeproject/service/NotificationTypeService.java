@@ -43,7 +43,7 @@ public class NotificationTypeService {
         NotificationType existingUser = rs.findNotificationTypeById(id);
 
         if (existingUser != null) {
-            existingUser.setStatus(false);
+            existingUser.setStatus(!existingUser.isStatus());
             rs.save(existingUser);
             return ResponseEntity.ok("delete successfully");
         }else {

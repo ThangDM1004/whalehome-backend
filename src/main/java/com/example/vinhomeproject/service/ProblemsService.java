@@ -63,7 +63,7 @@ public class ProblemsService {
     public ResponseEntity<ResponseObject> deleteProblems(Long id) {
         Optional<Problems> problems = repo.findById(id);
         if (problems.isPresent()) {
-            problems.get().setStatus(false);
+            problems.get().setStatus(!problems.get().isStatus());
             repo.save(problems.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Delete probelms successfully",

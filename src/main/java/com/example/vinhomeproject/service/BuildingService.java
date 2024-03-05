@@ -10,6 +10,7 @@ import com.example.vinhomeproject.repositories.BuildingRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -49,23 +50,29 @@ public class BuildingService {
     public ResponseEntity<String> delete(Long id){
         Optional<Building> building = buildingRepository.findById(id);
         if(building.isPresent()){
-            building.get().setStatus(false);
+            building.get().setStatus(!building.get().isStatus());
             buildingRepository.save(building.get());
             return ResponseEntity.ok("successfully");
         }
         return ResponseEntity.badRequest().body("failed");
     }
 
-    public ResponseEntity<String> update(Long id, BuildingDTO buildingDTO){
+    public ResponseEntity<ResponseObject> update(Long id, BuildingDTO buildingDTO){
         Optional<Building> building = buildingRepository.findById(id);
         if(building.isPresent()){
             if (buildingDTO.getName()!=null){building.get().setName(buildingDTO.getName());}
             if(buildingDTO.getZone()!=null){building.get().setZone(buildingDTO.getZone());}
 
             buildingRepository.save(building.get());
-            return ResponseEntity.ok("successfully");
+            return ResponseEntity.ok(new ResponseObject(
+                    "Update successfully",
+                    building
+            ));
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found building",
+                ""
+        ));
     }
     public Page<Building> getPage(int currentPage, int pageSize, String field) {
         return buildingRepository.findAll(PageRequest.of(currentPage-1, pageSize, Sort.by(Sort.Direction.ASC, field)));

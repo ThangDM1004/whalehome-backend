@@ -48,9 +48,7 @@ public class PostService {
         Post existingUser = rs.findById(id).orElse(null);
 
         if (existingUser != null) {
-            existingUser.setStatus(false);
-
-
+            existingUser.setStatus(!existingUser.isStatus());
             return ResponseEntity.ok("delete successfully");
         } else {
             return ResponseEntity.ok("id not exist");
@@ -59,7 +57,7 @@ public class PostService {
 
     }
 
-    public ResponseEntity<String> updatePost(Post id) {
+    public ResponseEntity<ResponseObject> updatePost(Post id) {
         Post post = rs.findById(id.getId()).orElse(null);
         if (post != null) {
             post.setCreateBy(id.getCreateBy());
@@ -69,9 +67,15 @@ public class PostService {
             post.setDescription(id.getDescription());
             post.setCreateDate(id.getCreateDate());
             post.setModifiedBy(id.getModifiedBy());
-            return ResponseEntity.ok("update successfully");
+            return ResponseEntity.ok(new ResponseObject(
+                    "Update post successfully",
+                    post
+            ));
         } else {
-            return ResponseEntity.ok("id not exist");
+            return ResponseEntity.ok(new ResponseObject(
+                    "Not found post ",
+                    post
+            ));
         }
     }
 

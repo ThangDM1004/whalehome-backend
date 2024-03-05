@@ -43,7 +43,7 @@ public class PostController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<String> updatePost(Post post) {
+    public ResponseEntity<ResponseObject> updatePost(Post post) {
         return sv.updatePost(post);
     }
 
