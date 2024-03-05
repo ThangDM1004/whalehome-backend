@@ -50,7 +50,7 @@ public class ZoneService {
     public ResponseEntity<ResponseObject>  deleteZone(Long id){
         Optional<Zone> zone = repo.findById(id);
         if(zone.isPresent()){
-            zone.get().setStatus(false);
+            zone.get().setStatus(!zone.get().isStatus());
             repo.save(zone.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Delete zone successfully",
