@@ -59,8 +59,9 @@ public class BuildingService {
     public ResponseEntity<String> update(Long id, BuildingDTO buildingDTO){
         Optional<Building> building = buildingRepository.findById(id);
         if(building.isPresent()){
-            building.get().setName(buildingDTO.getName());
-            building.get().setZone(buildingDTO.getZone());
+            if (buildingDTO.getName()!=null){building.get().setName(buildingDTO.getName());}
+            if(buildingDTO.getZone()!=null){building.get().setZone(buildingDTO.getZone());}
+
             buildingRepository.save(building.get());
             return ResponseEntity.ok("successfully");
         }
