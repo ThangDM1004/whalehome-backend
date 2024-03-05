@@ -60,12 +60,13 @@ public class ContractService {
     public ResponseEntity<String> update(Long id, ContractDTO contractDTO){
         Optional<Contract> contract = contractRepository.findById(id);
         if(contract.isPresent()){
-            contract.get().setDateSign(contractDTO.getDateSign());
-            contract.get().setDescription(contractDTO.getDescription());
-            contract.get().setDateStartRent(contractDTO.getDateStartRent());
-            contract.get().setProblems(contractDTO.getProblems());
-            contract.get().setPayments(contractDTO.getPayments());
-            contract.get().setContractHistory(contractDTO.getContractHistory());
+            if(contractDTO.getDateSign()!=null){contract.get().setDateSign(contractDTO.getDateSign());}
+            if(contractDTO.getDescription()!=null){contract.get().setDescription(contractDTO.getDescription());}
+            if(contractDTO.getDateStartRent()!=null){contract.get().setDateStartRent(contractDTO.getDateStartRent());}
+            if(contractDTO.getProblems()!=null){contract.get().setProblems(contractDTO.getProblems());}
+            if(contractDTO.getPayments()!=null){contract.get().setPayments(contractDTO.getPayments());}
+            if(contractDTO.getContractHistory()!=null){contract.get().setContractHistory(contractDTO.getContractHistory());}
+
             contractRepository.save(contract.get());
             return ResponseEntity.ok("successfully");
         }
