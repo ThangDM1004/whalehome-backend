@@ -78,21 +78,33 @@ public class ApartmentService {
     public ResponseEntity<String> update(Long id, ApartmentDTO apartmentDTO){
         Optional<Apartment> apartment = apartmentRepository.findById(id);
         if(apartment.isPresent()){
-            apartment.get().setName(apartmentDTO.getName());
-            apartment.get().setDescription(apartmentDTO.getDescription());
-            apartment.get().setLiving_room(apartmentDTO.getLiving_room());
-            apartment.get().setBed_room(apartmentDTO.getBed_room());
-            apartment.get().setKitchen(apartmentDTO.getKitchen());
-            apartment.get().setRest_room(apartmentDTO.getRest_room());
-            apartment.get().setFloor(apartmentDTO.getFloor());
-            apartment.get().setArea(apartmentDTO.getArea());
-            apartment.get().setAir_conditioner(apartmentDTO.getAir_conditioner());
-            apartment.get().setElectric_fan(apartmentDTO.getElectric_fan());
-            apartment.get().setTelevision(apartmentDTO.getTelevision());
-            apartment.get().setElectric_stoves(apartmentDTO.getElectric_stoves());
-            apartment.get().setGas_stoves(apartmentDTO.getGas_stoves());
-            apartment.get().setApartmentClass(apartmentDTO.getApartmentClass());
-            apartment.get().setBuilding(apartmentDTO.getBuilding());
+            if(apartmentDTO.getName()!=null){apartment.get().setName(apartmentDTO.getName());}
+
+            if(apartmentDTO.getDescription()!=null){apartment.get().setDescription(apartmentDTO.getDescription());}
+
+            if(apartmentDTO.getLiving_room()!=0){ apartment.get().setLiving_room(apartmentDTO.getLiving_room());}
+
+            if(apartmentDTO.getBed_room()!=0){apartment.get().setBed_room(apartmentDTO.getBed_room());}
+            if (apartmentDTO.getKitchen()!=0){apartment.get().setKitchen(apartmentDTO.getKitchen());}
+            if (apartmentDTO.getRest_room()!=0){apartment.get().setRest_room(apartmentDTO.getRest_room());}
+            if (apartmentDTO.getFloor()!=0){apartment.get().setFloor(apartmentDTO.getFloor());}
+            if (apartmentDTO.getArea()!=0){apartment.get().setArea(apartmentDTO.getArea());}
+            if (apartmentDTO.getAir_conditioner()!=0){apartment.get().setAir_conditioner(apartmentDTO.getAir_conditioner());}
+            if (apartmentDTO.getElectric_fan()!=0){apartment.get().setElectric_fan(apartmentDTO.getElectric_fan());}
+            if (apartmentDTO.getTelevision()!=0){apartment.get().setTelevision(apartmentDTO.getTelevision());}
+            if (apartmentDTO.getElectric_stoves()!=0){apartment.get().setElectric_stoves(apartmentDTO.getElectric_stoves());}
+            if (apartmentDTO.getGas_stoves()!=0){apartment.get().setGas_stoves(apartmentDTO.getGas_stoves());}
+            if (apartmentDTO.getApartmentClass()!=null){apartment.get().setApartmentClass(apartmentDTO.getApartmentClass());}
+            if (apartmentDTO.getBuilding()!=null){apartment.get().setBuilding(apartmentDTO.getBuilding());}
+
+
+
+
+
+
+
+
+
 
             apartmentRepository.save(apartment.get());
             return ResponseEntity.ok("successfully");
