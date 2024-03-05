@@ -122,7 +122,7 @@ public class UsersService {
             repo.save(user.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update user successfully",
-                    null
+                    user
             ));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
