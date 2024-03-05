@@ -45,12 +45,13 @@ public class ZoneService {
 
     public ResponseEntity<ResponseObject> createZone(ZoneDTO zoneDTO){
         zoneDTO.setStatus(true);
+        zoneDTO.setArea(areaRepository.findById(zoneDTO.getArea().getId()).get());
         Zone zone = mapper.createZoneToZoneDto(zoneDTO);
         zone.setCreateDate(LocalDate.now());
         repo.save(zone);
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
                 "Create zone successfully",
-                zoneDTO
+                zone
             ));
     }
     public ResponseEntity<ResponseObject>  deleteZone(Long id){
