@@ -88,6 +88,7 @@ public class ZoneService {
             ));
         }
     }
+    //f
     public ResponseEntity<ResponseObject> getById(Long id){
         Optional<Zone> zone = repo.findById(id);
         if(zone.isPresent()){
