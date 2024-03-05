@@ -53,7 +53,6 @@ public class AreaService {
         Optional<Area> area = areaRepository.findById(id);
         if(area.isPresent()){
             if(areaDTO.getName()!=null){area.get().setName(areaDTO.getName());}
-            
             areaRepository.save(area.get());
             return ResponseEntity.ok("successfully");
         }
