@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -41,7 +42,9 @@ public class ZoneService {
 
     public ResponseEntity<ResponseObject> createZone(ZoneDTO zoneDTO){
         zoneDTO.setStatus(true);
-        repo.save(mapper.createZoneToZoneDto(zoneDTO));
+        Zone zone = mapper.createZoneToZoneDto(zoneDTO);
+        zone.setCreateBy(String.valueOf(LocalDate.now()));
+        repo.save(zone);
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
                 "Create zone successfully",
                 zoneDTO

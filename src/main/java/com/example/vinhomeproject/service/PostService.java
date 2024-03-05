@@ -5,6 +5,7 @@ import com.example.vinhomeproject.dto.PostDTO;
 import com.example.vinhomeproject.models.Post;
 import com.example.vinhomeproject.repositories.*;
 import com.example.vinhomeproject.response.ResponseObject;
+import com.google.type.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,13 +83,16 @@ public class PostService {
     }
 
     public ResponseEntity<ResponseObject> createPost(PostDTO postDTO) {
-        rs.save(Post.builder().apartment(apartmentRepository.findById(postDTO.getApartmentId()).get())
-                        .description(postDTO.getDescription())
-                        .title(postDTO.getTitle())
-                .build());
+        Post post = new Post();
+        post.setCreateBy(String.valueOf(LocalDate.now()));
+        post.setStatus(true);
+        post.setTitle(postDTO.getTitle());
+        post.setDescription(postDTO.getDescription());
+        post.setApartment(apartmentRepository.findById(postDTO.getApartmentId()).get());
+        rs.save(post);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create post successfully",
-                postDTO
+                post
         ));
     }
 

@@ -6,6 +6,7 @@ import com.example.vinhomeproject.models.*;
 import com.example.vinhomeproject.repositories.TokenRepository;
 import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.repositories.VerificationTokenRepository;
+import com.example.vinhomeproject.request.AuthenticationMobileRequest;
 import com.example.vinhomeproject.request.AuthenticationRequest;
 import com.example.vinhomeproject.request.ResetPasswordRequest;
 import com.example.vinhomeproject.request.VerifyCodeResponse;
@@ -132,12 +133,12 @@ public class AuthenticationService {
         ));
     }
     public ResponseEntity<ResponseObject> authenticate(AuthenticationRequest request) {
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        request.getEmail(),
-//                        request.getPassword()
-//                )
-//        );
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
@@ -159,6 +160,27 @@ public class AuthenticationService {
         ));
     }
 
+    public ResponseEntity<ResponseObject> authenticateMobile(AuthenticationMobileRequest request) {
+        var user = repository.findByEmail(request.getEmail())
+                .orElseThrow();
+        var jwtToken = jwtService.generateToken(user);
+        if (user.isVerified() && user.isStatus()) {
+//        var refreshToken = jwtService.generateRefreshToken(user);
+            saveUserToken(user, jwtToken);
+            AuthenticationResponse auth = AuthenticationResponse.builder()
+                    .access_token(jwtToken)
+//                .refresh_token(refreshToken)
+                    .build();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Login successfully",
+                    auth
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseObject(
+                "Login failed",
+                null
+        ));
+    }
     private void saveUserToken(Users user, String jwtToken) {
         var token = Token.builder()
                 .users(user)
