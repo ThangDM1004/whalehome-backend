@@ -128,18 +128,18 @@ public class UsersService {
             if (userDTO.getDateOfBirth() != null) {
                 user.get().setDateOfBirth(userDTO.getDateOfBirth());
             }
-            if (userDTO.isStatus()!= user.get().isStatus()) {
-                user.get().setStatus(userDTO.isStatus());
-            }
+
+                user.get().setStatus(true);
+
             if (userDTO.getGender() != null) {
                 user.get().setGender(userDTO.getGender());
             }
             if (userDTO.getAddress() != null) {
                 user.get().setAddress(userDTO.getAddress());
             }
-            if (userDTO.isVerified() != user.get().isVerified()) {
-                user.get().setVerified(userDTO.isVerified());
-            }
+
+                user.get().setVerified(true);
+
 
             repo.save(user.get());
 
