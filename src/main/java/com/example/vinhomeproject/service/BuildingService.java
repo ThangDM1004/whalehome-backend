@@ -43,7 +43,7 @@ public class BuildingService {
     public ResponseEntity<ResponseObject> create(BuildingDTO buildingDTO){
         Building building = new Building();
         building.setStatus(true);
-        building.setCreateBy(String.valueOf(LocalDate.now()));
+        building.setCreateDate(LocalDate.now());
         building.setName(buildingDTO.getName());
         building.setZone(buildingDTO.getZone());
         buildingRepository.save(building);

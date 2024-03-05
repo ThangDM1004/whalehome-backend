@@ -84,7 +84,7 @@ public class PostService {
 
     public ResponseEntity<ResponseObject> createPost(PostDTO postDTO) {
         Post post = new Post();
-        post.setCreateBy(String.valueOf(LocalDate.now()));
+        post.setCreateDate(LocalDate.now());
         post.setStatus(true);
         post.setTitle(postDTO.getTitle());
         post.setDescription(postDTO.getDescription());

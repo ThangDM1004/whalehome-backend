@@ -43,7 +43,7 @@ public class ZoneService {
     public ResponseEntity<ResponseObject> createZone(ZoneDTO zoneDTO){
         zoneDTO.setStatus(true);
         Zone zone = mapper.createZoneToZoneDto(zoneDTO);
-        zone.setCreateBy(String.valueOf(LocalDate.now()));
+        zone.setCreateDate(LocalDate.now());
         repo.save(zone);
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
                 "Create zone successfully",
