@@ -10,9 +10,11 @@ import com.example.vinhomeproject.repositories.BuildingRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,34 +40,45 @@ public class BuildingService {
         ));
     }
 
-    public ResponseEntity<String> create(BuildingDTO buildingDTO){
-        buildingRepository.save(Building.builder()
-                .name(buildingDTO.getName())
-                .zone(buildingDTO.getZone())
-                .build());
-        return ResponseEntity.ok("successfully");
+    public ResponseEntity<ResponseObject> create(BuildingDTO buildingDTO){
+        Building building = new Building();
+        building.setStatus(true);
+        building.setCreateDate(LocalDate.now());
+        building.setName(buildingDTO.getName());
+        building.setZone(buildingDTO.getZone());
+        buildingRepository.save(building);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Create building successfully",
+                building
+        ));
     }
 
     public ResponseEntity<String> delete(Long id){
         Optional<Building> building = buildingRepository.findById(id);
         if(building.isPresent()){
-            building.get().setStatus(false);
+            building.get().setStatus(!building.get().isStatus());
             buildingRepository.save(building.get());
             return ResponseEntity.ok("successfully");
         }
         return ResponseEntity.badRequest().body("failed");
     }
 
-    public ResponseEntity<String> update(Long id, BuildingDTO buildingDTO){
+    public ResponseEntity<ResponseObject> update(Long id, BuildingDTO buildingDTO){
         Optional<Building> building = buildingRepository.findById(id);
         if(building.isPresent()){
             if (buildingDTO.getName()!=null){building.get().setName(buildingDTO.getName());}
             if(buildingDTO.getZone()!=null){building.get().setZone(buildingDTO.getZone());}
 
             buildingRepository.save(building.get());
-            return ResponseEntity.ok("successfully");
+            return ResponseEntity.ok(new ResponseObject(
+                    "Update successfully",
+                    building
+            ));
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found building",
+                ""
+        ));
     }
     public Page<Building> getPage(int currentPage, int pageSize, String field) {
         return buildingRepository.findAll(PageRequest.of(currentPage-1, pageSize, Sort.by(Sort.Direction.ASC, field)));

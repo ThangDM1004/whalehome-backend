@@ -29,7 +29,7 @@ public class BuildingController {
         return buildingService.getById(id);
     }
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody BuildingDTO buildingDTO){
+    public ResponseEntity<ResponseObject> create(@RequestBody BuildingDTO buildingDTO){
         return buildingService.create(buildingDTO);
     }
     @PutMapping("/delete/{id}")
@@ -37,7 +37,7 @@ public class BuildingController {
         return buildingService.delete(id);
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> update(@PathVariable Long id,@RequestBody BuildingDTO buildingDTO){
+    public ResponseEntity<ResponseObject> update(@PathVariable Long id,@RequestBody BuildingDTO buildingDTO){
         return buildingService.update(id,buildingDTO);
     }
     @GetMapping("/get-page/{currentPage}")

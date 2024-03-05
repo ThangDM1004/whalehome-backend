@@ -6,10 +6,13 @@ import com.example.vinhomeproject.models.Appointment;
 import com.example.vinhomeproject.models.Area;
 import com.example.vinhomeproject.repositories.AreaRepository;
 import com.example.vinhomeproject.response.ResponseObject;
+import com.google.type.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,29 +36,40 @@ public class AreaService {
                 area
         ));
     }
-    public ResponseEntity<String> create(AreaDTO areaDTO){
-        areaRepository.save(Area.builder()
-                .name(areaDTO.getName())
-                .build());
-        return ResponseEntity.ok("successfully");
+    public ResponseEntity<ResponseObject> create(AreaDTO areaDTO){
+        Area area = new Area();
+        area.setCreateDate(LocalDate.now());
+        area.setStatus(true);
+        area.setName(areaDTO.getName());
+        areaRepository.save(area);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Create area successfully",
+                area
+        ));
     }
     public ResponseEntity<String> delete(Long id){
         Optional<Area> area = areaRepository.findById(id);
         if(area.isPresent()){
-            area.get().setStatus(false);
+            area.get().setStatus(!area.get().isStatus());
             areaRepository.save(area.get());
             return ResponseEntity.ok("successfully");
         }
         return ResponseEntity.badRequest().body("failed");
     }
 
-    public ResponseEntity<String> update(Long id, AreaDTO areaDTO){
+    public ResponseEntity<ResponseObject> update(Long id, AreaDTO areaDTO){
         Optional<Area> area = areaRepository.findById(id);
         if(area.isPresent()){
             if(areaDTO.getName()!=null){area.get().setName(areaDTO.getName());}
             areaRepository.save(area.get());
-            return ResponseEntity.ok("successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Update area successfully",
+                    area
+            ));
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found area",
+                ""
+        ));
     }
 }

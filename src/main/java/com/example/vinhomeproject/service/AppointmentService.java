@@ -45,7 +45,7 @@ public class AppointmentService {
     public ResponseEntity<String> delete(Long id){
         Optional<Appointment> appointment = appointmentRepository.findById(id);
         if(appointment.isPresent()){
-            appointment.get().setStatus(false);
+            appointment.get().setStatus(!appointment.get().isStatus());
             appointmentRepository.save(appointment.get());
             return ResponseEntity.ok("successfully");
         }

@@ -49,7 +49,7 @@ public class ContractHistoryService {
     public ResponseEntity<String> delete(Long id){
         Optional<ContractHistory> contractHistory = contractHistoryRepository.findById(id);
         if(contractHistory.isPresent()){
-            contractHistory.get().setStatus(false);
+            contractHistory.get().setStatus(!contractHistory.get().isStatus());
             contractHistoryRepository.save(contractHistory.get());
             return ResponseEntity.ok("successfully");
         }

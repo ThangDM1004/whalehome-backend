@@ -67,14 +67,14 @@ public class CartService {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
                 "Not found card by id",
-                null
+                ""
         ));
     }
 
     public ResponseEntity<ResponseObject> delete(Long id) {
         Optional<Cart> cart = repository.findById(id);
         if (cart.isPresent()) {
-            cart.get().setStatus(false);
+            cart.get().setStatus(!cart.get().isStatus());
             repository.save(cart.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Delete card successfully",

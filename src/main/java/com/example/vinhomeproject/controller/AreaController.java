@@ -24,7 +24,7 @@ public class AreaController {
         return areaService.getById(id);
     }
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody AreaDTO areaDTO){
+    public ResponseEntity<ResponseObject> create(@RequestBody AreaDTO areaDTO){
         return areaService.create(areaDTO);
     }
     @PutMapping("/delete/{id}")
@@ -32,7 +32,7 @@ public class AreaController {
         return areaService.delete(id);
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> update(@PathVariable Long id,@RequestBody AreaDTO areaDTO){
+    public ResponseEntity<ResponseObject> update(@PathVariable Long id,@RequestBody AreaDTO areaDTO){
         return areaService.update(id,areaDTO);
     }
 }

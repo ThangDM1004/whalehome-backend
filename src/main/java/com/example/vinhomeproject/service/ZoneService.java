@@ -6,6 +6,7 @@ import com.example.vinhomeproject.mapper.UserMapper;
 import com.example.vinhomeproject.mapper.ZoneMapper;
 import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.models.Zone;
+import com.example.vinhomeproject.repositories.AreaRepository;
 import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.repositories.ZoneRepository;
 import com.example.vinhomeproject.response.ResponseObject;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -23,6 +25,8 @@ public class ZoneService {
     private ZoneRepository repo;
     @Autowired
     private ZoneMapper mapper;
+    @Autowired
+    private AreaRepository areaRepository;
 
     public ResponseEntity<ResponseObject> getAllZone(){
         List<Zone> zones = repo.findAll();
@@ -41,16 +45,19 @@ public class ZoneService {
 
     public ResponseEntity<ResponseObject> createZone(ZoneDTO zoneDTO){
         zoneDTO.setStatus(true);
-        repo.save(mapper.createZoneToZoneDto(zoneDTO));
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
+        zoneDTO.setArea(areaRepository.findById(zoneDTO.getArea().getId()).get());
+        Zone zone = mapper.createZoneToZoneDto(zoneDTO);
+        zone.setCreateDate(LocalDate.now());
+        repo.save(zone);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create zone successfully",
-                null
+                zone
             ));
     }
     public ResponseEntity<ResponseObject>  deleteZone(Long id){
         Optional<Zone> zone = repo.findById(id);
         if(zone.isPresent()){
-            zone.get().setStatus(false);
+            zone.get().setStatus(!zone.get().isStatus());
             repo.save(zone.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Delete zone successfully",
@@ -68,19 +75,21 @@ public class ZoneService {
     public ResponseEntity<ResponseObject>  updateZone(Long id,ZoneDTO zoneDTO){
         Optional<Zone> zone = repo.findById(id);
         if(zone.isPresent()){
+                zoneDTO.setArea(areaRepository.findById(zoneDTO.getArea().getId()).get());
             mapper.update(zoneDTO,zone.get());
             repo.save(zone.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update zone successfully",
-                    null
+                    zone
             ));
         }else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
                     "Not found zone with id: " + id,
-                    null
+                    ""
             ));
         }
     }
+    //f
     public ResponseEntity<ResponseObject> getById(Long id){
         Optional<Zone> zone = repo.findById(id);
         if(zone.isPresent()){

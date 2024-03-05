@@ -68,7 +68,7 @@ public class ApartmentService {
     public ResponseEntity<String> delete(Long id){
         Optional<Apartment> apartment = apartmentRepository.findById(id);
         if(apartment.isPresent()){
-            apartment.get().setStatus(false);
+            apartment.get().setStatus(!apartment.get().isStatus());
             apartmentRepository.save(apartment.get());
             return ResponseEntity.ok("successfully");
         }

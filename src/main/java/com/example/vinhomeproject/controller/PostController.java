@@ -43,12 +43,12 @@ public class PostController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<String> updatePost(Post post) {
+    public ResponseEntity<ResponseObject> updatePost(Post post) {
         return sv.updatePost(post);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createPost(PostDTO post) {
+    public ResponseEntity<ResponseObject> createPost(PostDTO post) {
         return sv.createPost(post);
     }
 

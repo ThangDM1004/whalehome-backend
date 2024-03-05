@@ -6,6 +6,7 @@ import com.example.vinhomeproject.models.*;
 import com.example.vinhomeproject.repositories.TokenRepository;
 import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.repositories.VerificationTokenRepository;
+import com.example.vinhomeproject.request.AuthenticationMobileRequest;
 import com.example.vinhomeproject.request.AuthenticationRequest;
 import com.example.vinhomeproject.request.ResetPasswordRequest;
 import com.example.vinhomeproject.request.VerifyCodeResponse;
@@ -159,6 +160,27 @@ public class AuthenticationService {
         ));
     }
 
+    public ResponseEntity<ResponseObject> authenticateMobile(AuthenticationMobileRequest request) {
+        var user = repository.findByEmail(request.getEmail())
+                .orElseThrow();
+        var jwtToken = jwtService.generateToken(user);
+        if (user.isVerified() && user.isStatus()) {
+//        var refreshToken = jwtService.generateRefreshToken(user);
+            saveUserToken(user, jwtToken);
+            AuthenticationResponse auth = AuthenticationResponse.builder()
+                    .access_token(jwtToken)
+//                .refresh_token(refreshToken)
+                    .build();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Login successfully",
+                    auth
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseObject(
+                "Login failed",
+                null
+        ));
+    }
     private void saveUserToken(Users user, String jwtToken) {
         var token = Token.builder()
                 .users(user)
@@ -210,18 +232,12 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<ResponseObject> getUserFromAccessToken(String accessToken) {
-        Optional<Token> token = tokenRepository.findByToken(accessToken);
-        if(token.isPresent()){
-            if(token.get().isExpired()){
                 String userEmail = jwtService.extractUsername(accessToken);
                 if (userEmail != null) {
                     Users user = repository.findByEmail(userEmail)
                             .orElseThrow();
                     return ResponseEntity.ok(new ResponseObject("Access Token is valid", user));
                 }
-            }
-        }
-
         return ResponseEntity.badRequest().body(new ResponseObject("Access Token is not valid", null));
     }
 

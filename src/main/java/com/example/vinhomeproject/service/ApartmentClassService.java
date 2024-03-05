@@ -51,7 +51,7 @@ public class ApartmentClassService {
     public ResponseEntity<String> delete(Long id){
         Optional<ApartmentClass> apartmentClass = apartmentClassRepository.findById(id);
         if(apartmentClass.isPresent()){
-            apartmentClass.get().setStatus(false);
+            apartmentClass.get().setStatus(!apartmentClass.get().isStatus());
             apartmentClassRepository.save(apartmentClass.get());
             return ResponseEntity.ok("delete successfully");
         }

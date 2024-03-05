@@ -5,12 +5,15 @@ import com.example.vinhomeproject.dto.PostDTO;
 import com.example.vinhomeproject.models.Post;
 import com.example.vinhomeproject.repositories.*;
 import com.example.vinhomeproject.response.ResponseObject;
+import com.google.type.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,9 +51,7 @@ public class PostService {
         Post existingUser = rs.findById(id).orElse(null);
 
         if (existingUser != null) {
-            existingUser.setStatus(false);
-
-
+            existingUser.setStatus(!existingUser.isStatus());
             return ResponseEntity.ok("delete successfully");
         } else {
             return ResponseEntity.ok("id not exist");
@@ -59,9 +60,10 @@ public class PostService {
 
     }
 
-    public ResponseEntity<String> updatePost(Post id) {
+    public ResponseEntity<ResponseObject> updatePost(Post id) {
         Post post = rs.findById(id.getId()).orElse(null);
         if (post != null) {
+
             if(id.getCreateBy()!=null){post.setCreateBy(id.getCreateBy());}
             if(id.getApartment()!=null){ post.setApartment(id.getApartment());}
             if(id.getTitle()!=null){post.setTitle(id.getTitle());}
@@ -71,17 +73,27 @@ public class PostService {
 
 
             return ResponseEntity.ok("update successfully");
+
         } else {
-            return ResponseEntity.ok("id not exist");
+            return ResponseEntity.ok(new ResponseObject(
+                    "Not found post ",
+                    post
+            ));
         }
     }
 
-    public ResponseEntity<String> createPost(PostDTO postDTO) {
-        rs.save(Post.builder().apartment(apartmentRepository.findById(postDTO.getApartmentId()).get())
-                        .description(postDTO.getDescription())
-                        .title(postDTO.getTitle())
-                .build());
-        return ResponseEntity.ok("create successfully");
+    public ResponseEntity<ResponseObject> createPost(PostDTO postDTO) {
+        Post post = new Post();
+        post.setCreateDate(LocalDate.now());
+        post.setStatus(true);
+        post.setTitle(postDTO.getTitle());
+        post.setDescription(postDTO.getDescription());
+        post.setApartment(apartmentRepository.findById(postDTO.getApartmentId()).get());
+        rs.save(post);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Create post successfully",
+                post
+        ));
     }
 
     public ResponseEntity<ResponseObject> countAllPost(){return ResponseEntity.ok(new ResponseObject(

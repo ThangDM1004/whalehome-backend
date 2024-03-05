@@ -48,7 +48,7 @@ public class ReviewService {
     public ResponseEntity<ResponseObject>  deleteReview(Long id){
         Optional<Review> review = repo.findById(id);
         if(review.isPresent()){
-            review.get().setStatus(false);
+            review.get().setStatus(!review.get().isStatus());
             repo.save(review.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Delete review successfully",

@@ -64,7 +64,7 @@ public class IssueService {
     public ResponseEntity<ResponseObject> delete(Long id){
         Optional<Issue> issue = issueRepository.findIssueById(id);
         if(issue.isPresent()){
-            issue.get().setStatus(false);
+            issue.get().setStatus(!issue.get().isStatus());
             issueRepository.save(issue.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update  issues successfully",
