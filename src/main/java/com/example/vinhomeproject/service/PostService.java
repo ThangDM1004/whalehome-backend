@@ -7,6 +7,7 @@ import com.example.vinhomeproject.repositories.*;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -79,12 +80,15 @@ public class PostService {
         }
     }
 
-    public ResponseEntity<String> createPost(PostDTO postDTO) {
+    public ResponseEntity<ResponseObject> createPost(PostDTO postDTO) {
         rs.save(Post.builder().apartment(apartmentRepository.findById(postDTO.getApartmentId()).get())
                         .description(postDTO.getDescription())
                         .title(postDTO.getTitle())
                 .build());
-        return ResponseEntity.ok("create successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Create post successfully",
+                postDTO
+        ));
     }
 
     public ResponseEntity<ResponseObject> countAllPost(){return ResponseEntity.ok(new ResponseObject(

@@ -34,11 +34,14 @@ public class AreaService {
                 area
         ));
     }
-    public ResponseEntity<String> create(AreaDTO areaDTO){
+    public ResponseEntity<ResponseObject> create(AreaDTO areaDTO){
         areaRepository.save(Area.builder()
                 .name(areaDTO.getName())
                 .build());
-        return ResponseEntity.ok("successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Create area successfully",
+                areaDTO
+        ));
     }
     public ResponseEntity<String> delete(Long id){
         Optional<Area> area = areaRepository.findById(id);

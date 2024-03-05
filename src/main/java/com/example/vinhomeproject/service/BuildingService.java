@@ -39,12 +39,15 @@ public class BuildingService {
         ));
     }
 
-    public ResponseEntity<String> create(BuildingDTO buildingDTO){
+    public ResponseEntity<ResponseObject> create(BuildingDTO buildingDTO){
         buildingRepository.save(Building.builder()
                 .name(buildingDTO.getName())
                 .zone(buildingDTO.getZone())
                 .build());
-        return ResponseEntity.ok("successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Create building successfully",
+                buildingDTO
+        ));
     }
 
     public ResponseEntity<String> delete(Long id){

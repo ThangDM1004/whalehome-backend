@@ -24,7 +24,7 @@ public class AreaController {
         return areaService.getById(id);
     }
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody AreaDTO areaDTO){
+    public ResponseEntity<ResponseObject> create(@RequestBody AreaDTO areaDTO){
         return areaService.create(areaDTO);
     }
     @PutMapping("/delete/{id}")
