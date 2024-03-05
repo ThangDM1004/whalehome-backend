@@ -210,18 +210,12 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<ResponseObject> getUserFromAccessToken(String accessToken) {
-        Optional<Token> token = tokenRepository.findByToken(accessToken);
-        if(token.isPresent()){
-            if(token.get().isExpired()){
                 String userEmail = jwtService.extractUsername(accessToken);
                 if (userEmail != null) {
                     Users user = repository.findByEmail(userEmail)
                             .orElseThrow();
                     return ResponseEntity.ok(new ResponseObject("Access Token is valid", user));
                 }
-            }
-        }
-
         return ResponseEntity.badRequest().body(new ResponseObject("Access Token is not valid", null));
     }
 
