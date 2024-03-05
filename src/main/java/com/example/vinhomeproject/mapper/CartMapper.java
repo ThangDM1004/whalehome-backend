@@ -2,9 +2,7 @@ package com.example.vinhomeproject.mapper;
 
 import com.example.vinhomeproject.dto.CartDTO;
 import com.example.vinhomeproject.dto.CartDTO_2;
-import com.example.vinhomeproject.dto.UserDTO;
 import com.example.vinhomeproject.models.Cart;
-import com.example.vinhomeproject.models.Users;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
