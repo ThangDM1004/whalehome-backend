@@ -38,7 +38,7 @@ public class AreaService {
     }
     public ResponseEntity<ResponseObject> create(AreaDTO areaDTO){
         Area area = new Area();
-        area.setCreateBy(String.valueOf(LocalDate.now()));
+        area.setCreateDate(LocalDate.now());
         area.setStatus(true);
         area.setName(areaDTO.getName());
         areaRepository.save(area);
