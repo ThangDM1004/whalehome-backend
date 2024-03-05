@@ -48,7 +48,7 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createPost(PostDTO post) {
+    public ResponseEntity<ResponseObject> createPost(PostDTO post) {
         return sv.createPost(post);
     }
 

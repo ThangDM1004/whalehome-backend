@@ -29,7 +29,7 @@ public class BuildingController {
         return buildingService.getById(id);
     }
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody BuildingDTO buildingDTO){
+    public ResponseEntity<ResponseObject> create(@RequestBody BuildingDTO buildingDTO){
         return buildingService.create(buildingDTO);
     }
     @PutMapping("/delete/{id}")

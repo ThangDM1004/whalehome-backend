@@ -44,7 +44,7 @@ public class ZoneService {
         repo.save(mapper.createZoneToZoneDto(zoneDTO));
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
                 "Create zone successfully",
-                null
+                zoneDTO
             ));
     }
     public ResponseEntity<ResponseObject>  deleteZone(Long id){
