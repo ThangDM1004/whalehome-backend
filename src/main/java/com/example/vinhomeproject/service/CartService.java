@@ -6,6 +6,7 @@ import com.example.vinhomeproject.mapper.CartMapper;
 import com.example.vinhomeproject.models.Cart;
 import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.repositories.CartRepository;
+import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,8 @@ public class CartService {
     private CartRepository repository;
     @Autowired
     private CartMapper mapper;
+    @Autowired
+    private UsersRepository usersRepository;
 
     public ResponseEntity<ResponseObject> getAll() {
         List<Cart> carts = repository.findAll();
@@ -86,11 +89,12 @@ public class CartService {
 
     public ResponseEntity<ResponseObject> create(CartDTO cartDTO) {
         Cart cart = mapper.createCart(cartDTO);
+        Optional<Users> user = usersRepository.findById(cart.getId());
         cart.setStatus(true);
         repository.save(cart);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create cart successfully",
-                null
+                user
         ));
     }
 

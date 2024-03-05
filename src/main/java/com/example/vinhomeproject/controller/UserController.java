@@ -23,39 +23,40 @@ public class UserController {
 
     @Autowired
     private UsersService serivce;
+
     @GetMapping()
-    public ResponseEntity<ResponseObject> getAllUser(){
+    public ResponseEntity<ResponseObject> getAllUser() {
         return serivce.getAllUser();
     }
-//    @PostMapping("")
-//    public  ResponseEntity<ResponseObject> createUser(@RequestBody UserDTO users){
-//        return serivce.createUser(users);
-//    }
+
     @PutMapping("/delete/{id}")
-    public ResponseEntity<ResponseObject> deleteUser(@PathVariable Long id){
-      return  serivce.deleteUser(id);
+    public ResponseEntity<ResponseObject> deleteUser(@PathVariable Long id) {
+        return serivce.deleteUser(id);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ResponseObject> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
-        return  serivce.updateUser(id,userDTO);
+        return serivce.updateUser(id, userDTO);
     }
+
     @PutMapping("/update-image/{id}")
     public ResponseEntity<ResponseObject> updateImageUser(@RequestParam(value = "file") MultipartFile multipartFile,
-                                                     @PathVariable Long id
-                                                     )
-    {
-        return  serivce.updateImageUser(id,multipartFile);
+                                                          @PathVariable Long id
+    ) {
+        return serivce.updateImageUser(id, multipartFile);
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseObject> getbyId(@PathVariable Long id){
+    public ResponseEntity<ResponseObject> getbyId(@PathVariable Long id) {
         return serivce.getById(id);
     }
+
     @GetMapping("/count-all")
-    public ResponseEntity<ResponseObject> countAll(){
+    public ResponseEntity<ResponseObject> countAll() {
         return serivce.countAllUser();
     }
-    @PatchMapping("/change-password" )
+
+    @PatchMapping("/change-password")
     public ResponseEntity<ResponseObject> changePassword(
             @RequestBody ChangePasswordRequest request,
             Principal connectdUser) {
@@ -63,18 +64,18 @@ public class UserController {
     }
 
     @GetMapping("/get-page/{currentPage}")
-    public ResponseEntity<ResponseObject> getPage(@PathVariable int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "email") String field){
-        if(sizePage > serivce.count()){
+    public ResponseEntity<ResponseObject> getPage(@PathVariable int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "email") String field) {
+        if (sizePage > serivce.count()) {
             return serivce.getAllUser();
         }
-        Page<Users> users = serivce.getPage(currentPage,sizePage,field);
+        Page<Users> users = serivce.getPage(currentPage, sizePage, field);
         var pageList = PageList.<Users>builder()
                 .totalPage(users.getTotalPages())
                 .currentPage(currentPage)
                 .listResult(users.getContent())
                 .build();
         return ResponseEntity.ok(new ResponseObject(
-                "Get page "+currentPage+" successfully",
+                "Get page " + currentPage + " successfully",
                 pageList
         ));
     }

@@ -26,6 +26,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -362,5 +364,24 @@ public class AuthenticationService {
                 ));
             }
         }
+    }
+
+    public ResponseEntity<ResponseObject> logout(String token) {
+        var storedToken = tokenRepository.findByToken(token)
+                .orElse(null);
+        if(storedToken != null){
+            storedToken.setExpired(true);
+            storedToken.setRevoked(true);
+            tokenRepository.save(storedToken);
+            SecurityContextHolder.clearContext();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Logout successfully",
+                    null
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Token not exist",
+                null
+        ));
     }
 }
