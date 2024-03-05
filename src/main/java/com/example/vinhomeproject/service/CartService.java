@@ -31,12 +31,12 @@ public class CartService {
         List<Cart> carts = repository.findAll();
         if (!carts.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Get all cart successfully",
+                    "Get all card successfully",
                     carts
             ));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
-                "Cart null",
+                "Card null",
                 null
         ));
     }
@@ -45,12 +45,12 @@ public class CartService {
         Optional<Cart> cart = repository.findById(id);
         if (cart.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Get cart by id successfully",
+                    "Get card by id successfully",
                     cart
             ));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
-                "Get cart by id failed",
+                "Get card by id failed",
                 null
         ));
     }
@@ -61,12 +61,12 @@ public class CartService {
             mapper.updateCart(cartDTO, cart.get());
             repository.save(cart.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Update cart successfully",
+                    "Update card successfully",
                     null
             ));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
-                "Not found cart by id",
+                "Not found card by id",
                 null
         ));
     }
@@ -77,23 +77,23 @@ public class CartService {
             cart.get().setStatus(false);
             repository.save(cart.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Delete cart successfully",
+                    "Delete card successfully",
                     null
             ));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
-                "Not found cart by id",
+                "Not found card by id",
                 null
         ));
     }
 
     public ResponseEntity<ResponseObject> create(CartDTO cartDTO) {
         Cart cart = mapper.createCart(cartDTO);
-        Optional<Users> user = usersRepository.findById(cart.getId());
+        Optional<Users> user = usersRepository.findById(cartDTO.getUsers().getId());
         cart.setStatus(true);
         repository.save(cart);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Create cart successfully",
+                "Create card successfully",
                 user
         ));
     }
@@ -106,12 +106,12 @@ public class CartService {
                 list.add(mapper.cartDtoFromCart(carts.get(i)));
             }
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                    "Get list cart by user id successfully",
+                    "Get list card by user id successfully",
                     list
             ));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
-                "Not found cart by user id",
+                "Not found card by user id",
                 null
         ));
     }
