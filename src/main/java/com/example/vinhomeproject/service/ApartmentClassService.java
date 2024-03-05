@@ -61,11 +61,18 @@ public class ApartmentClassService {
     public ResponseEntity<String> update(Long id,ApartmentClassDTO apartmentClassDTO){
         Optional<ApartmentClass> apartmentClass = apartmentClassRepository.findById(id);
         if(apartmentClass.isPresent()){
+            if (apartmentClassDTO.getName()!=null){
             apartmentClass.get().setName(apartmentClassDTO.getName());
+            }
+            if(apartmentClassDTO.getWidth() !=0 ){
             apartmentClass.get().setWidth(apartmentClassDTO.getWidth());
-            apartmentClass.get().setLength(apartmentClassDTO.getLength());
-            apartmentClass.get().setHeight(apartmentClassDTO.getHeight());
-            apartmentClass.get().setRent_price(apartmentClassDTO.getRent_price());
+            }
+            if(apartmentClassDTO.getLength() !=0){
+            apartmentClass.get().setLength(apartmentClassDTO.getLength());}
+            if (apartmentClassDTO.getHeight() !=0){
+            apartmentClass.get().setHeight(apartmentClassDTO.getHeight());}
+            if (apartmentClassDTO.getRent_price() != 0){
+            apartmentClass.get().setRent_price(apartmentClassDTO.getRent_price());}
             apartmentClassRepository.save(apartmentClass.get());
             return ResponseEntity.ok("update successfully");
         }
