@@ -6,6 +6,7 @@ import com.example.vinhomeproject.mapper.UserMapper;
 import com.example.vinhomeproject.mapper.ZoneMapper;
 import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.models.Zone;
+import com.example.vinhomeproject.repositories.AreaRepository;
 import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.repositories.ZoneRepository;
 import com.example.vinhomeproject.response.ResponseObject;
@@ -24,6 +25,8 @@ public class ZoneService {
     private ZoneRepository repo;
     @Autowired
     private ZoneMapper mapper;
+    @Autowired
+    private AreaRepository areaRepository;
 
     public ResponseEntity<ResponseObject> getAllZone(){
         List<Zone> zones = repo.findAll();
@@ -72,7 +75,7 @@ public class ZoneService {
         Optional<Zone> zone = repo.findById(id);
         if(zone.isPresent()){
             if(zoneDTO.getArea() == null){
-                zoneDTO.setArea(zone.get().getArea());
+                zoneDTO.setArea(areaRepository.findById(zoneDTO.getArea().getId()).get());
             }
             mapper.update(zoneDTO,zone.get());
             repo.save(zone.get());
