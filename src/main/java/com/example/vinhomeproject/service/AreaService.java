@@ -43,7 +43,7 @@ public class AreaService {
     public ResponseEntity<String> delete(Long id){
         Optional<Area> area = areaRepository.findById(id);
         if(area.isPresent()){
-            area.get().setStatus(false);
+            area.get().setStatus(!area.get().isStatus());
             areaRepository.save(area.get());
             return ResponseEntity.ok("successfully");
         }
