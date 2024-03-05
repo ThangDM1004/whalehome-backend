@@ -6,11 +6,13 @@ import com.example.vinhomeproject.models.Appointment;
 import com.example.vinhomeproject.models.Area;
 import com.example.vinhomeproject.repositories.AreaRepository;
 import com.example.vinhomeproject.response.ResponseObject;
+import com.google.type.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,12 +37,14 @@ public class AreaService {
         ));
     }
     public ResponseEntity<ResponseObject> create(AreaDTO areaDTO){
-        areaRepository.save(Area.builder()
-                .name(areaDTO.getName())
-                .build());
+        Area area = new Area();
+        area.setCreateBy(String.valueOf(LocalDate.now()));
+        area.setStatus(true);
+        area.setName(areaDTO.getName());
+        areaRepository.save(area);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create area successfully",
-                areaDTO
+                area
         ));
     }
     public ResponseEntity<String> delete(Long id){

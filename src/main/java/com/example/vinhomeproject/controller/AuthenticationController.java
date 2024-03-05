@@ -41,6 +41,10 @@ public class AuthenticationController {
     public ResponseEntity<ResponseObject> authenticate(@RequestBody AuthenticationRequest request) {
           return service.authenticate(request);
     }
+    @PostMapping("/authenticate-mobile")
+    public ResponseEntity<ResponseObject> authenticateMobile(@RequestBody AuthenticationMobileRequest request) {
+        return service.authenticateMobile(request);
+    }
     @PostMapping("/getUser")
     public ResponseEntity<ResponseObject> getUserFromAccessToken(@RequestBody AuthenticationUserRequest ar) {
         return service.getUserFromAccessToken(ar.getAccess_token());

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,13 +41,15 @@ public class BuildingService {
     }
 
     public ResponseEntity<ResponseObject> create(BuildingDTO buildingDTO){
-        buildingRepository.save(Building.builder()
-                .name(buildingDTO.getName())
-                .zone(buildingDTO.getZone())
-                .build());
+        Building building = new Building();
+        building.setStatus(true);
+        building.setCreateBy(String.valueOf(LocalDate.now()));
+        building.setName(buildingDTO.getName());
+        building.setZone(buildingDTO.getZone());
+        buildingRepository.save(building);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create building successfully",
-                buildingDTO
+                building
         ));
     }
 
