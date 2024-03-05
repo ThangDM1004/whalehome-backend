@@ -64,9 +64,12 @@ public class PostController {
             return sv.getAllPost();
         }
         Page<Post> posts = sv.getPage(currentPage, sizePage, field);
+        if(posts == null){
+            return ResponseEntity.ok(new ResponseObject("",""));
+        }
         if (posts.getTotalPages() < currentPage) {
             return ResponseEntity.badRequest().body(new ResponseObject(
-                    "Page number out of range", null
+                    "Page number out of range", ""
             ));
         }
         var pageList = PageList.<Post>builder()
@@ -114,6 +117,15 @@ public class PostController {
             @RequestParam(defaultValue = "description") String field
             ){
         Pageable pageable = PageRequest.of(currentPage-1,sizePage, Sort.by(Sort.Direction.ASC, field));
-        return ResponseEntity.ok(new ResponseObject("",sv.filterPost(areaId, zoneId, buildingId, apartmentId, pageable)));
+        Page<Post> posts = sv.filterPost(areaId, zoneId, buildingId, apartmentId, pageable);
+        if(posts == null){
+            return ResponseEntity.ok(new ResponseObject("",""));
+        }
+        var pageList = PageList.<Post>builder()
+                .totalPage(posts.getTotalPages())
+                .currentPage(currentPage)
+                .listResult(posts.getContent())
+                .build();
+        return ResponseEntity.ok(new ResponseObject("",pageList));
     }
 }
