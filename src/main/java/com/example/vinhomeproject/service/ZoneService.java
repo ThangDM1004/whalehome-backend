@@ -72,12 +72,12 @@ public class ZoneService {
             repo.save(zone.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update zone successfully",
-                    null
+                    zone
             ));
         }else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
                     "Not found zone with id: " + id,
-                    null
+                    ""
             ));
         }
     }
