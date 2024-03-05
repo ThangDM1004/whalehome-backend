@@ -52,12 +52,13 @@ public class PaymentTypeService {
 
         if (existingUser != null) {
             existingUser.setStatus(id.isStatus());
-            existingUser.setPayments(id.getPayments());
-            existingUser.setName(id.getName());
-            existingUser.setCreateBy(id.getCreateBy());
-            existingUser.setCreateDate(id.getCreateDate());
-            existingUser.setModifiedBy(id.getModifiedBy());
-            existingUser.setModifiedDate(id.getModifiedDate());
+            if (id.getPayments()!=null){existingUser.setPayments(id.getPayments());}
+            if (id.getName()!=null){existingUser.setName(id.getName());}
+            if (id.getCreateBy()!=null){existingUser.setCreateBy(id.getCreateBy());}
+            if (id.getCreateDate()!=null){existingUser.setCreateDate(id.getCreateDate());}
+            if (id.getModifiedBy()!=null){existingUser.setModifiedBy(id.getModifiedBy());}
+            if (id.getModifiedDate()!=null){existingUser.setModifiedDate(id.getModifiedDate());}
+
             rs.save(existingUser);
             return ResponseEntity.ok("update successfully");
         }else {

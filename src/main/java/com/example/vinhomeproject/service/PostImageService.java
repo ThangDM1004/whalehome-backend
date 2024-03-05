@@ -67,13 +67,12 @@ public class PostImageService {
     public ResponseEntity<String> updatePostImage(PostImage postImage) {
         PostImage ps = rs.findPostImageById(postImage.getId());
         if (ps != null) {
-            ps.setStatus(postImage.isStatus());
-            ps.setModifiedBy(postImage.getModifiedBy());
-            ps.setCreateBy(postImage.getCreateBy());
-            ps.setCreateDate(postImage.getCreateDate());
-            ps.setImage_alt(postImage.getImage_alt());
-            ps.setImage_url(postImage.getImage_url());
+            if(postImage.getModifiedBy()!=null){ps.setModifiedBy(postImage.getModifiedBy());}
+            if(postImage.getCreateBy()!=null){ps.setCreateBy(postImage.getCreateBy());}
+            if(postImage.getCreateDate()!=null){ps.setCreateDate(postImage.getCreateDate());}
 
+            if(postImage.getImage_alt()!=null){ps.setImage_alt(postImage.getImage_alt());}
+            if(postImage.getImage_url()!=null){ps.setImage_url(postImage.getImage_url());}
             return ResponseEntity.ok("update successfully");
         }else {
             return ResponseEntity.ok("id not exist");

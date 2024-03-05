@@ -62,13 +62,14 @@ public class PostService {
     public ResponseEntity<String> updatePost(Post id) {
         Post post = rs.findById(id.getId()).orElse(null);
         if (post != null) {
-            post.setCreateBy(id.getCreateBy());
-            post.setStatus(id.isStatus());
-            post.setApartment(id.getApartment());
-            post.setTitle(id.getTitle());
-            post.setDescription(id.getDescription());
-            post.setCreateDate(id.getCreateDate());
-            post.setModifiedBy(id.getModifiedBy());
+            if(id.getCreateBy()!=null){post.setCreateBy(id.getCreateBy());}
+            if(id.getApartment()!=null){ post.setApartment(id.getApartment());}
+            if(id.getTitle()!=null){post.setTitle(id.getTitle());}
+            if(id.getDescription()!=null){post.setDescription(id.getDescription());}
+            if(id.getCreateDate()!=null){post.setCreateDate(id.getCreateDate());}
+            if(id.getModifiedBy()!=null){post.setModifiedBy(id.getModifiedBy());}
+
+
             return ResponseEntity.ok("update successfully");
         } else {
             return ResponseEntity.ok("id not exist");
