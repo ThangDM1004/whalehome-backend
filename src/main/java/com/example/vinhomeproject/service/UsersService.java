@@ -118,8 +118,31 @@ public class UsersService {
         Optional<Users> user = repo.findById(id);
         if (user.isPresent()) {
             userDTO.setImage(user.get().getImage());
-            mapper.updateUser(userDTO,user.get());
+
+            if (userDTO.getPhone() != null) {
+                user.get().setPhone(userDTO.getPhone());
+            }
+            if (userDTO.getFullName() != null) {
+                user.get().setFullName(userDTO.getFullName());
+            }
+            if (userDTO.getDateOfBirth() != null) {
+                user.get().setDateOfBirth(userDTO.getDateOfBirth());
+            }
+            if (userDTO.isStatus()!= user.get().isStatus()) {
+                user.get().setStatus(userDTO.isStatus());
+            }
+            if (userDTO.getGender() != null) {
+                user.get().setGender(userDTO.getGender());
+            }
+            if (userDTO.getAddress() != null) {
+                user.get().setAddress(userDTO.getAddress());
+            }
+            if (userDTO.isVerified() != user.get().isVerified()) {
+                user.get().setVerified(userDTO.isVerified());
+            }
+
             repo.save(user.get());
+
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update user successfully",
                     user

@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Component
-public class UserDTO extends Base {
+public class UserDTO {
     private String email;
     private String password;
     private String phone;
