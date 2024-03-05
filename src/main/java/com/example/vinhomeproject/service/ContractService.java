@@ -50,7 +50,7 @@ public class ContractService {
     public ResponseEntity<String> delete(Long id){
         Optional<Contract> contract = contractRepository.findById(id);
         if(contract.isPresent()){
-            contract.get().setStatus(false);
+            contract.get().setStatus(!contract.get().isStatus());
             contractRepository.save(contract.get());
             return ResponseEntity.ok("successfully");
         }

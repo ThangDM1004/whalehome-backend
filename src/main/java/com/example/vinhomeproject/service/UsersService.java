@@ -82,7 +82,7 @@ public class UsersService {
     public ResponseEntity<ResponseObject> deleteUser(Long id) {
         Optional<Users> user = repo.findById(id);
         if (user.isPresent()) {
-            user.get().setStatus(false);
+            user.get().setStatus(! user.get().isStatus());
             repo.save(user.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Delete user successfully",

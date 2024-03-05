@@ -57,7 +57,7 @@ public class PostImageService {
     public ResponseEntity<String> deletePostImage(Long id) {
         PostImage ex = rs.findPostImageById(id);
         if (ex != null) {
-            ex.setStatus(false);
+            ex.setStatus(!ex.isStatus());
             return ResponseEntity.ok("Delete successfully");
         }else {
             return ResponseEntity.ok("id not exist");

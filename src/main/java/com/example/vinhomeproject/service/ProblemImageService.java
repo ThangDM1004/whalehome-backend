@@ -55,7 +55,7 @@ public class ProblemImageService {
     public ResponseEntity<ResponseObject> delete(Long id) {
         Optional<ProblemImage> problemImage = repository.findById(id);
         if (problemImage.isPresent()) {
-            problemImage.get().setStatus(false);
+            problemImage.get().setStatus(!problemImage.get().isStatus());
             return ResponseEntity.ok(new ResponseObject(
                     "Delete successfully",
                    null
