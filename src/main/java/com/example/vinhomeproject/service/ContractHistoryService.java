@@ -58,12 +58,13 @@ public class ContractHistoryService {
     public ResponseEntity<String> update(Long id, ContractHistoryDTO contractHistoryDTO){
         Optional<ContractHistory> contractHistory = contractHistoryRepository.findById(id);
         if(contractHistory.isPresent()){
-            contractHistory.get().setPrice(contractHistoryDTO.getPrice());
-            contractHistory.get().setDescription(contractHistoryDTO.getDescription());
-            contractHistory.get().setImage(contractHistoryDTO.getImage());
-            contractHistory.get().setExpiredTime(contractHistoryDTO.getExpiredTime());
-            contractHistory.get().setUsers(contractHistoryDTO.getUsers());
-            contractHistory.get().setContracts(contractHistoryDTO.getContracts());
+            if(contractHistoryDTO.getPrice()!=0){contractHistory.get().setPrice(contractHistoryDTO.getPrice());}
+            if(contractHistoryDTO.getDescription()!=null){contractHistory.get().setDescription(contractHistoryDTO.getDescription());}
+            if(contractHistoryDTO.getImage()!=null){contractHistory.get().setImage(contractHistoryDTO.getImage());}
+            if(contractHistoryDTO.getExpiredTime()!=null){contractHistory.get().setExpiredTime(contractHistoryDTO.getExpiredTime());}
+            if(contractHistoryDTO.getUsers()!=null){contractHistory.get().setUsers(contractHistoryDTO.getUsers());}
+            if(contractHistoryDTO.getContracts()!=null){contractHistory.get().setContracts(contractHistoryDTO.getContracts());}
+
             contractHistoryRepository.save(contractHistory.get());
             return ResponseEntity.ok("successfully");
         }
