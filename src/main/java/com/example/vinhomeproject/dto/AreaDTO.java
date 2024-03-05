@@ -14,5 +14,4 @@ import java.util.List;
 @Builder
 public class AreaDTO {
     private String name;
-    private List<Zone> zones;
 }

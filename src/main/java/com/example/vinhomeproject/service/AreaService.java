@@ -36,7 +36,6 @@ public class AreaService {
     public ResponseEntity<String> create(AreaDTO areaDTO){
         areaRepository.save(Area.builder()
                 .name(areaDTO.getName())
-                .zones(areaDTO.getZones())
                 .build());
         return ResponseEntity.ok("successfully");
     }
@@ -54,7 +53,6 @@ public class AreaService {
         Optional<Area> area = areaRepository.findById(id);
         if(area.isPresent()){
             area.get().setName(areaDTO.getName());
-            area.get().setZones(areaDTO.getZones());
             areaRepository.save(area.get());
             return ResponseEntity.ok("successfully");
         }
