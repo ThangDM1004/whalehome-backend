@@ -53,10 +53,10 @@ public class PaymentService {
         Payment existingUser = rs.findPaymentById(id.getId());
 
         if (existingUser != null) {
-            existingUser.setContent(id.getContent());
-            existingUser.setPayment_time(id.getPayment_time());
-            existingUser.setPaymentType(id.getPaymentType());
-            existingUser.setTotal_price(id.getTotal_price());
+            if (id.getContent()!=null){ existingUser.setContent(id.getContent());}
+            if (id.getPayment_time()!=null){existingUser.setPayment_time(id.getPayment_time());}
+            if (id.getPaymentType()!=null){ existingUser.setPaymentType(id.getPaymentType());}
+            if (id.getTotal_price()!=0){existingUser.setTotal_price(id.getTotal_price());}
             existingUser.setStatus(false);
              rs.save(existingUser);
              return ResponseEntity.ok("update successfully");
@@ -70,7 +70,7 @@ public class PaymentService {
         existingUser.setPayment_time(id.getPayment_time());
         existingUser.setPaymentType(id.getPaymentType());
         existingUser.setTotal_price(id.getTotal_price());
-        existingUser.setStatus(false);
+        existingUser.setStatus(true);
         rs.save(existingUser);
         return ResponseEntity.ok("create successfully");
 
