@@ -49,7 +49,7 @@ public class ZoneService {
         Zone zone = mapper.createZoneToZoneDto(zoneDTO);
         zone.setCreateDate(LocalDate.now());
         repo.save(zone);
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create zone successfully",
                 zone
             ));
