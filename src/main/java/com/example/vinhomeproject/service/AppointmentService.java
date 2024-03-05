@@ -55,10 +55,10 @@ public class AppointmentService {
     public ResponseEntity<String> update(Long id, AppointmentDTO appointmentDTO){
         Optional<Appointment> appointment = appointmentRepository.findById(id);
         if(appointment.isPresent()){
-            appointment.get().setStatusAppointment(appointmentDTO.getStatusAppointment());
-            appointment.get().setDateTime(appointmentDTO.getDateTime());
-            appointment.get().setUsers(appointmentDTO.getUsers());
-            appointment.get().setApartment(appointmentDTO.getApartment());
+            if(appointmentDTO.getStatusAppointment()!=null){appointment.get().setStatusAppointment(appointmentDTO.getStatusAppointment());}
+            if(appointmentDTO.getDateTime()!=null){appointment.get().setDateTime(appointmentDTO.getDateTime());}
+            if(appointmentDTO.getUsers()!=null){appointment.get().setUsers(appointmentDTO.getUsers());}
+            if (appointmentDTO.getApartment()!=null){appointment.get().setApartment(appointmentDTO.getApartment());}
             appointmentRepository.save(appointment.get());
             return ResponseEntity.ok("successfully");
         }
