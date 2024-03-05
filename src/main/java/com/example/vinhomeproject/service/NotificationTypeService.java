@@ -54,9 +54,10 @@ public class NotificationTypeService {
     public ResponseEntity<String> updateNotificationType(NotificationType id){
         NotificationType notificationType=rs.findNotificationTypeById(id.getId());
         if (notificationType!=null){
-            notificationType.setName(id.getName());
-            notificationType.setStatus(id.isStatus());
-            notificationType.setCreateDate(id.getCreateDate());
+            if(id.getName()!=null){notificationType.setName(id.getName());}
+            notificationType.setStatus(true);
+            if(id.getCreateDate()!=null){notificationType.setCreateDate(id.getCreateDate());}
+
          rs.save(notificationType);
          return ResponseEntity.ok("update successfully ");
         }else {
