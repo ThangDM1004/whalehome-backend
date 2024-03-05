@@ -31,6 +31,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -209,12 +210,18 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<ResponseObject> getUserFromAccessToken(String accessToken) {
-        String userEmail = jwtService.extractUsername(accessToken);
-        if (userEmail != null) {
-            Users user = repository.findByEmail(userEmail)
-                    .orElseThrow();
-            return ResponseEntity.ok(new ResponseObject("Access Token is valid", user));
+        Optional<Token> token = tokenRepository.findByToken(accessToken);
+        if(token.isPresent()){
+            if(token.get().isExpired()){
+                String userEmail = jwtService.extractUsername(accessToken);
+                if (userEmail != null) {
+                    Users user = repository.findByEmail(userEmail)
+                            .orElseThrow();
+                    return ResponseEntity.ok(new ResponseObject("Access Token is valid", user));
+                }
+            }
         }
+
         return ResponseEntity.badRequest().body(new ResponseObject("Access Token is not valid", null));
     }
 
