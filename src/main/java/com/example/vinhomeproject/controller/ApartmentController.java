@@ -58,7 +58,7 @@ public class ApartmentController {
         Page<Apartment> apartments = apartmentService.getPage(currentPage,sizePage,field);
         if(apartments.getTotalPages() < currentPage){
             return ResponseEntity.badRequest().body(new ResponseObject(
-                    "Page number out of range",null
+                    "Page number out of range",""
             ));
         }
         var pageList = PageList.<Apartment>builder()

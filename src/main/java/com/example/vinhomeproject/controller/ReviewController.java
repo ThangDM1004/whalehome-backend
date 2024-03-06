@@ -1,9 +1,13 @@
 package com.example.vinhomeproject.controller;
 
+import com.example.vinhomeproject.dto.PageList;
 import com.example.vinhomeproject.dto.ReviewDTO;
+import com.example.vinhomeproject.models.Apartment;
+import com.example.vinhomeproject.models.Review;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,5 +37,26 @@ public class ReviewController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject> getbyId(@PathVariable Long id){
         return serivce.getById(id);
+    }
+    @GetMapping("/get-page/{currentPage}")
+    public ResponseEntity<ResponseObject> getPage(@PathVariable int currentPage, @RequestParam(defaultValue = "3") int sizePage, @RequestParam(defaultValue = "content") String field){
+        if(sizePage > serivce.count()){
+            return serivce.getAllReview();
+        }
+        Page<Review> reviews = serivce.getPage(currentPage,sizePage,field);
+        if(reviews.getTotalPages() < currentPage){
+            return ResponseEntity.badRequest().body(new ResponseObject(
+                    "Page number out of range",""
+            ));
+        }
+        var pageList = PageList.<Review>builder()
+                .totalPage(reviews.getTotalPages())
+                .currentPage(currentPage)
+                .listResult(reviews.getContent())
+                .build();
+        return ResponseEntity.ok(new ResponseObject(
+                "Get page "+currentPage+" successfully",
+                pageList
+        ));
     }
 }
