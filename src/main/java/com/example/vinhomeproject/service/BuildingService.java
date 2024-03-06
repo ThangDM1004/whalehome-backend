@@ -48,7 +48,7 @@ public class BuildingService {
         building.setStatus(true);
         building.setCreateDate(LocalDate.now());
         building.setName(buildingDTO.getName());
-        building.setZone(buildingDTO.getZone());
+        building.setZone(zoneRepository.findById(buildingDTO.getZone().getId()).get());
         buildingRepository.save(building);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create building successfully",
