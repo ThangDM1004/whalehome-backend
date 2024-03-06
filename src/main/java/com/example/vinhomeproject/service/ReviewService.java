@@ -4,9 +4,11 @@ import com.example.vinhomeproject.dto.ReviewDTO;
 import com.example.vinhomeproject.mapper.ReviewMapper;
 import com.example.vinhomeproject.models.Review;
 import com.example.vinhomeproject.repositories.ReviewRepository;
-import com.example.vinhomeproject.repositories.ReviewRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -89,5 +91,11 @@ public class ReviewService {
                     null
             ));
         }
+    }
+    public Page<Review> getPage(int currentPage, int pageSize, String field) {
+        return repo.findAll(PageRequest.of(currentPage-1, pageSize, Sort.by(Sort.Direction.ASC, field)));
+    }
+    public int count(){
+        return repo.findAll().size();
     }
 }
