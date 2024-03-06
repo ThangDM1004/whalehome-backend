@@ -56,28 +56,24 @@ public class PostService {
         } else {
             return ResponseEntity.ok("id not exist");
         }
-
-
     }
-
     public ResponseEntity<ResponseObject> updatePost(Post id) {
         Post post = rs.findById(id.getId()).orElse(null);
         if (post != null) {
-
-            if(id.getCreateBy()!=null){post.setCreateBy(id.getCreateBy());}
             if(id.getApartment()!=null){ post.setApartment(id.getApartment());}
             if(id.getTitle()!=null){post.setTitle(id.getTitle());}
             if(id.getDescription()!=null){post.setDescription(id.getDescription());}
             if(id.getCreateDate()!=null){post.setCreateDate(id.getCreateDate());}
             if(id.getModifiedBy()!=null){post.setModifiedBy(id.getModifiedBy());}
-
-
-            return ResponseEntity.ok("update successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Update post successfully ",
+                    post
+            ));
 
         } else {
-            return ResponseEntity.ok(new ResponseObject(
-                    "Not found post ",
-                    post
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                    "Not found post",
+                    ""
             ));
         }
     }
