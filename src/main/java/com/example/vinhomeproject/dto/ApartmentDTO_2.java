@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ApartmentDTO_2 {
+    private Long id;
     private String name;
 
     private String description;
