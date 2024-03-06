@@ -13,7 +13,7 @@ import java.util.Set;
 @Repository
 public interface ApartmentRepository extends JpaRepository<Apartment,Long> {
     @Query("SELECT NEW com.example.vinhomeproject.dto.ApartmentDTO_2(" +
-            "a.name, a.description, a.living_room, a.bed_room, a.kitchen, a.rest_room, " +
+            "a.id,a.name, a.description, a.living_room, a.bed_room, a.kitchen, a.rest_room, " +
             "a.floor, a.area, a.status, a.air_conditioner, a.electric_fan, a.television, " +
             "a.electric_stoves, a.gas_stoves, b, z, ar) " +
             "FROM Apartment a " +
@@ -23,7 +23,7 @@ public interface ApartmentRepository extends JpaRepository<Apartment,Long> {
     Set<ApartmentDTO_2> findAllApartmentsWithDetails();
 
     @Query("SELECT NEW com.example.vinhomeproject.dto.ApartmentDTO_2(" +
-            "a.name, a.description, a.living_room, a.bed_room, a.kitchen, a.rest_room, " +
+            "a.id ,a.name, a.description, a.living_room, a.bed_room, a.kitchen, a.rest_room, " +
             "a.floor, a.area, a.status, a.air_conditioner, a.electric_fan, a.television, " +
             "a.electric_stoves, a.gas_stoves, b, z, ar) " +
             "FROM Apartment a " +
