@@ -2,6 +2,7 @@ package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.dto.PageList;
 import com.example.vinhomeproject.dto.ReviewDTO;
+import com.example.vinhomeproject.dto.ReviewDTO_2;
 import com.example.vinhomeproject.models.Apartment;
 import com.example.vinhomeproject.models.Review;
 import com.example.vinhomeproject.response.ResponseObject;
@@ -43,13 +44,13 @@ public class ReviewController {
         if(sizePage > serivce.count()){
             return serivce.getAllReview();
         }
-        Page<Review> reviews = serivce.getPage(currentPage,sizePage,field);
+        Page<ReviewDTO_2> reviews = serivce.getPage(currentPage,sizePage,field);
         if(reviews.getTotalPages() < currentPage){
             return ResponseEntity.badRequest().body(new ResponseObject(
                     "Page number out of range",""
             ));
         }
-        var pageList = PageList.<Review>builder()
+        var pageList = PageList.<ReviewDTO_2>builder()
                 .totalPage(reviews.getTotalPages())
                 .currentPage(currentPage)
                 .listResult(reviews.getContent())
