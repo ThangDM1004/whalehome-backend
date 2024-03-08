@@ -2,6 +2,7 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.ReviewDTO;
 import com.example.vinhomeproject.dto.ReviewDTO_2;
+import com.example.vinhomeproject.dto.ReviewDTO_3;
 import com.example.vinhomeproject.mapper.ReviewMapper;
 import com.example.vinhomeproject.models.Review;
 import com.example.vinhomeproject.repositories.ReviewRepository;
@@ -28,7 +29,7 @@ public class ReviewService {
     private ReviewMapper mapper;
 
     public ResponseEntity<ResponseObject> getAllReview(){
-        List<Review> reviews = repo.findAll();
+        List<ReviewDTO_3> reviews = repo.findAllReview();
         if(!reviews.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get all review successfully",
@@ -107,4 +108,6 @@ public class ReviewService {
     public int count(){
         return repo.findAll().size();
     }
+
+
 }
