@@ -3,7 +3,9 @@ package com.example.vinhomeproject.service;
 import com.example.vinhomeproject.dto.ApartmentDTO;
 import com.example.vinhomeproject.dto.ApartmentDTO_2;
 import com.example.vinhomeproject.models.Apartment;
+import com.example.vinhomeproject.repositories.ApartmentClassRepository;
 import com.example.vinhomeproject.repositories.ApartmentRepository;
+import com.example.vinhomeproject.repositories.BuildingRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,10 @@ import java.util.Set;
 public class ApartmentService {
     @Autowired
     private ApartmentRepository apartmentRepository;
+    @Autowired
+    private ApartmentClassRepository apartmentClassRepository;
+    @Autowired
+    private BuildingRepository buildingRepository;
 
     public ResponseEntity<ResponseObject> getAll(){
         List<Apartment> apartments = apartmentRepository.findAll();
@@ -92,8 +98,8 @@ public class ApartmentService {
             if (apartmentDTO.getTelevision()!=0){apartment.get().setTelevision(apartmentDTO.getTelevision());}
             if (apartmentDTO.getElectric_stoves()!=0){apartment.get().setElectric_stoves(apartmentDTO.getElectric_stoves());}
             if (apartmentDTO.getGas_stoves()!=0){apartment.get().setGas_stoves(apartmentDTO.getGas_stoves());}
-            if (apartmentDTO.getApartmentClass()!=null){apartment.get().setApartmentClass(apartmentDTO.getApartmentClass());}
-            if (apartmentDTO.getBuilding()!=null){apartment.get().setBuilding(apartmentDTO.getBuilding());}
+            if (apartmentDTO.getApartmentClass()!=null){apartment.get().setApartmentClass(apartmentClassRepository.findById(apartmentDTO.getApartmentClass().getId()).get());}
+            if (apartmentDTO.getBuilding()!=null){apartment.get().setBuilding(buildingRepository.findById(apartmentDTO.getBuilding().getId()).get());}
             apartmentRepository.save(apartment.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update apartment successfully",
