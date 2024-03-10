@@ -24,15 +24,15 @@ public class ContractHistoryController {
         return contractHistoryService.getById(id);
     }
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody ContractHistoryDTO contractHistoryDTO){
+    public ResponseEntity<ResponseObject> create(@RequestBody ContractHistoryDTO contractHistoryDTO){
         return contractHistoryService.create(contractHistoryDTO);
     }
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<ResponseObject> delete(@PathVariable Long id){
         return contractHistoryService.delete(id);
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> update(@PathVariable Long id,@RequestBody ContractHistoryDTO contractHistoryDTO){
+    public ResponseEntity<ResponseObject> update(@PathVariable Long id,@RequestBody ContractHistoryDTO contractHistoryDTO){
         return contractHistoryService.update(id,contractHistoryDTO);
     }
 }

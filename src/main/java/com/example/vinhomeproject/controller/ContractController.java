@@ -22,15 +22,15 @@ public class ContractController {
         return contractService.getById(id);
     }
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody ContractDTO contractDTO){
+    public ResponseEntity<ResponseObject> create(@RequestBody ContractDTO contractDTO){
         return contractService.create(contractDTO);
     }
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<ResponseObject> delete(@PathVariable Long id){
         return contractService.delete(id);
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> update(@PathVariable Long id,@RequestBody ContractDTO contractDTO){
+    public ResponseEntity<ResponseObject> update(@PathVariable Long id,@RequestBody ContractDTO contractDTO){
         return contractService.update(id,contractDTO);
     }
     @GetMapping("/count-all")
