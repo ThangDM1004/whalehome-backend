@@ -26,11 +26,11 @@ public class ApartmentController {
         return apartmentService.getById(id);
     }
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody ApartmentDTO apartmentDTO){
+    public ResponseEntity<ResponseObject> create(@RequestBody ApartmentDTO apartmentDTO){
         return apartmentService.create(apartmentDTO);
     }
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<ResponseObject> delete(@PathVariable Long id){
         return apartmentService.delete(id);
     }
     @PutMapping("/udpate/{id}")

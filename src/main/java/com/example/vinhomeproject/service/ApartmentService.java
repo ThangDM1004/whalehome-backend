@@ -31,8 +31,8 @@ public class ApartmentService {
 
     public ResponseEntity<ResponseObject> getAll(){
         List<Apartment> apartments = apartmentRepository.findAll();
-        return ResponseEntity.ok(new ResponseObject(
-                "successfully",
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Get list apartment successfully",
                 apartments
         ));
     }
@@ -41,17 +41,19 @@ public class ApartmentService {
         Optional<Apartment> apartment = apartmentRepository.findById(id);
         if(apartment.isPresent()){
             return ResponseEntity.ok(new ResponseObject(
-                    "successfully",
+                    "Get apartment by id successfully",
                     apartment
             ));
         }
-        return ResponseEntity.ok(new ResponseObject(
-                "failed",
-                null
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found apartment",
+                ""
         ));
     }
 
-    public ResponseEntity<String> create(ApartmentDTO apartmentDTO){
+    public ResponseEntity<ResponseObject> create(ApartmentDTO apartmentDTO){
+        apartmentDTO.setApartmentClass(apartmentClassRepository.findById(apartmentDTO.getApartmentClass().getId()).get());
+        apartmentDTO.setBuilding(buildingRepository.findById(apartmentDTO.getBuilding().getId()).get());
         apartmentRepository.save(Apartment.builder()
                         .name(apartmentDTO.getName())
                         .description(apartmentDTO.getDescription())
@@ -69,17 +71,26 @@ public class ApartmentService {
                         .apartmentClass(apartmentDTO.getApartmentClass())
                         .building(apartmentDTO.getBuilding())
                         .build());
-        return ResponseEntity.ok("successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Create apartment successfully",
+                apartmentDTO
+        ));
     }
 
-    public ResponseEntity<String> delete(Long id){
+    public ResponseEntity<ResponseObject> delete(Long id){
         Optional<Apartment> apartment = apartmentRepository.findById(id);
         if(apartment.isPresent()){
             apartment.get().setStatus(!apartment.get().isStatus());
             apartmentRepository.save(apartment.get());
-            return ResponseEntity.ok("successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Delete apartment successfully",
+                    apartment
+            ));
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found apartment",
+                ""
+        ));
     }
 
     public ResponseEntity<ResponseObject> update(Long id, ApartmentDTO apartmentDTO){

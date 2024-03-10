@@ -25,8 +25,6 @@ public class PaymentService {
         ));
     }
     public ResponseEntity<ResponseObject> getPaymentById(Long id){
-
-
         return ResponseEntity.ok(new ResponseObject(
                 "successfully",
                 rs.findPaymentById(id)
@@ -73,8 +71,5 @@ public class PaymentService {
         existingUser.setStatus(true);
         rs.save(existingUser);
         return ResponseEntity.ok("create successfully");
-
-
-
     }
 }
