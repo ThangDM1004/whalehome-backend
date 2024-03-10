@@ -232,13 +232,17 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<ResponseObject> getUserFromAccessToken(String accessToken) {
-                String userEmail = jwtService.extractUsername(accessToken);
-                if (userEmail != null) {
-                    Users user = repository.findByEmail(userEmail)
-                            .orElseThrow();
-                    return ResponseEntity.ok(new ResponseObject("Access Token is valid", user));
-                }
-        return ResponseEntity.badRequest().body(new ResponseObject("Access Token is not valid", null));
+        try{
+            String userEmail = jwtService.extractUsername(accessToken);
+            if (userEmail != null) {
+                Users user = repository.findByEmail(userEmail)
+                        .orElseThrow();
+                return ResponseEntity.ok(new ResponseObject("Access Token is valid", user));
+            }
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(new ResponseObject("Access Token is not valid", ""));
+        }
+        return ResponseEntity.badRequest().body(new ResponseObject("Access Token is not valid", ""));
     }
 
     public ResponseEntity<ResponseObject> resetPassword(ResetPasswordRequest request) {
@@ -399,12 +403,12 @@ public class AuthenticationService {
             SecurityContextHolder.clearContext();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Logout successfully",
-                    null
+                    ""
             ));
         }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Token not exist",
-                null
+                ""
         ));
     }
 }
