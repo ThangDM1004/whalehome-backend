@@ -1,7 +1,9 @@
 package com.example.vinhomeproject.service;
 
+import com.example.vinhomeproject.dto.ApartmentDTO;
 import com.example.vinhomeproject.dto.UserDTO;
 import com.example.vinhomeproject.mapper.UserMapper;
+import com.example.vinhomeproject.models.Apartment;
 import com.example.vinhomeproject.models.Post;
 import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.repositories.UsersRepository;
@@ -262,5 +264,19 @@ public class UsersService {
             e.printStackTrace();
             return "Image couldn't upload, Something went wrong";
         }
+    }
+
+    public ResponseEntity<ResponseObject> getListApartmentByUserId(Long id){
+        List<Apartment> list = repo.getListApartmentByUserId(id);
+        if(!list.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Get list apartment successfully",
+                    list
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "No data",
+                ""
+        ));
     }
 }
