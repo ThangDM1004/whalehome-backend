@@ -18,10 +18,5 @@ public class ContractDTO {
     private LocalDate dateSign;
     private String description;
     private LocalDate dateStartRent;
-
-    private Set<Problems> problems;
-
-    private Set<Payment> payments;
-
     private ContractHistory contractHistory;
 }

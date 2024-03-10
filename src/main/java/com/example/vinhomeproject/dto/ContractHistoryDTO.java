@@ -18,7 +18,6 @@ public class ContractHistoryDTO {
     private String description;
     private String image;
     private LocalDate expiredTime;
-
     private Users users;
 
 }
