@@ -54,7 +54,8 @@ public class ApartmentService {
     public ResponseEntity<ResponseObject> create(ApartmentDTO apartmentDTO){
         apartmentDTO.setApartmentClass(apartmentClassRepository.findById(apartmentDTO.getApartmentClass().getId()).get());
         apartmentDTO.setBuilding(buildingRepository.findById(apartmentDTO.getBuilding().getId()).get());
-        apartmentRepository.save(Apartment.builder()
+        Apartment apartment;
+        apartmentRepository.save(apartment = Apartment.builder()
                         .name(apartmentDTO.getName())
                         .description(apartmentDTO.getDescription())
                         .living_room(apartmentDTO.getLiving_room())
@@ -73,7 +74,7 @@ public class ApartmentService {
                         .build());
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create apartment successfully",
-                apartmentDTO
+                apartment
         ));
     }
 
