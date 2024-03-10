@@ -30,4 +30,7 @@ public class Contract extends Base{
     @ManyToOne
     @JoinColumn(name = "contract_id")
     private ContractHistory contractHistory;
+
+    @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
+    private Appointment appointment;
 }

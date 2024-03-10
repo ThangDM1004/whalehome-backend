@@ -1,10 +1,7 @@
 package com.example.vinhomeproject.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -30,4 +27,7 @@ public class Appointment extends Base{
     @JoinColumn(name = "apartment_id")
     private Apartment apartment;
 
+    @OneToOne
+    @JoinColumn(name = "contract_id", referencedColumnName = "id")
+    private Contract contract;
 }

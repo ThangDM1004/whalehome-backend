@@ -79,4 +79,9 @@ public class UserController {
                 pageList
         ));
     }
+
+    @GetMapping("/get-list-apartment")
+    public ResponseEntity<ResponseObject> getListApartment(@RequestParam Long id){
+        return serivce.getListApartmentByUserId(id);
+    }
 }
