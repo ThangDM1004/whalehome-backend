@@ -34,7 +34,7 @@ public class ApartmentController {
         return apartmentService.delete(id);
     }
     @PutMapping("/udpate/{id}")
-    public ResponseEntity<String> update(@PathVariable Long id,@RequestBody ApartmentDTO apartmentDTO){
+    public ResponseEntity<ResponseObject> update(@PathVariable Long id,@RequestBody ApartmentDTO apartmentDTO){
         return apartmentService.update(id, apartmentDTO);
     }
     @GetMapping("/count-all")

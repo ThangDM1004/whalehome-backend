@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -75,15 +76,12 @@ public class ApartmentService {
         return ResponseEntity.badRequest().body("failed");
     }
 
-    public ResponseEntity<String> update(Long id, ApartmentDTO apartmentDTO){
+    public ResponseEntity<ResponseObject> update(Long id, ApartmentDTO apartmentDTO){
         Optional<Apartment> apartment = apartmentRepository.findById(id);
         if(apartment.isPresent()){
             if(apartmentDTO.getName()!=null){apartment.get().setName(apartmentDTO.getName());}
-
             if(apartmentDTO.getDescription()!=null){apartment.get().setDescription(apartmentDTO.getDescription());}
-
             if(apartmentDTO.getLiving_room()!=0){ apartment.get().setLiving_room(apartmentDTO.getLiving_room());}
-
             if(apartmentDTO.getBed_room()!=0){apartment.get().setBed_room(apartmentDTO.getBed_room());}
             if (apartmentDTO.getKitchen()!=0){apartment.get().setKitchen(apartmentDTO.getKitchen());}
             if (apartmentDTO.getRest_room()!=0){apartment.get().setRest_room(apartmentDTO.getRest_room());}
@@ -96,20 +94,16 @@ public class ApartmentService {
             if (apartmentDTO.getGas_stoves()!=0){apartment.get().setGas_stoves(apartmentDTO.getGas_stoves());}
             if (apartmentDTO.getApartmentClass()!=null){apartment.get().setApartmentClass(apartmentDTO.getApartmentClass());}
             if (apartmentDTO.getBuilding()!=null){apartment.get().setBuilding(apartmentDTO.getBuilding());}
-
-
-
-
-
-
-
-
-
-
             apartmentRepository.save(apartment.get());
-            return ResponseEntity.ok("successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Update apartment successfully",
+                    apartment
+            ));
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Not found apartment",
+                ""
+        ));
     }
     public ResponseEntity<ResponseObject> countAll(){
         List<Apartment> apartments = apartmentRepository.findAll();
