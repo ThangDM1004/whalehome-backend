@@ -24,15 +24,15 @@ public class AppointmentController {
         return appointmentService.getById(id);
     }
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody AppointmentDTO appointmentDTO){
+    public ResponseEntity<ResponseObject> create(@RequestBody AppointmentDTO appointmentDTO){
         return appointmentService.create(appointmentDTO);
     }
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<ResponseObject> delete(@PathVariable Long id){
         return appointmentService.delete(id);
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> update(@PathVariable Long id,@RequestBody AppointmentDTO appointmentDTO){
+    public ResponseEntity<ResponseObject> update(@PathVariable Long id,@RequestBody AppointmentDTO appointmentDTO){
         return appointmentService.update(id,appointmentDTO);
     }
 }

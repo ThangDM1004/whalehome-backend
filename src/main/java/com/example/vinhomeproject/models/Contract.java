@@ -25,6 +25,7 @@ public class Contract extends Base{
     private Set<Problems> problems;
 
     @OneToMany(mappedBy = "contract")
+    @JsonIgnore
     private Set<Payment> payments;
 
     @ManyToOne
@@ -32,5 +33,6 @@ public class Contract extends Base{
     private ContractHistory contractHistory;
 
     @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Appointment appointment;
 }

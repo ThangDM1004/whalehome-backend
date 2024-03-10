@@ -21,5 +21,4 @@ public class ContractHistoryDTO {
 
     private Users users;
 
-    private Set<Contract> contracts;
 }

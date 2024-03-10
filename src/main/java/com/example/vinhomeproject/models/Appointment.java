@@ -29,5 +29,6 @@ public class Appointment extends Base{
 
     @OneToOne
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
+    @JsonIgnore
     private Contract contract;
 }
