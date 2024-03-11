@@ -73,6 +73,7 @@ public class PostImageService {
 
             if(postImage.getImage_alt()!=null){ps.setImage_alt(postImage.getImage_alt());}
             if(postImage.getImage_url()!=null){ps.setImage_url(postImage.getImage_url());}
+            rs.save(ps);
             return ResponseEntity.ok("update successfully");
         }else {
             return ResponseEntity.ok("id not exist");
