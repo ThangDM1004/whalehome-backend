@@ -27,8 +27,8 @@ public class PaymentTypeController {
     @PutMapping("/delete/{id}")
     public ResponseEntity<String> deletePaymentType(Long id){return sv.deletePaymentType(id);}
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updatePaymentType(PaymentType id){return sv.updatePaymentType(id);}
+    public ResponseEntity<String> updatePaymentType(@RequestBody PaymentType id){return sv.updatePaymentType(id);}
 
     @PostMapping
-    public ResponseEntity<String> createPaymentType(PaymentType id){return sv.createPaymentType(id);}
+    public ResponseEntity<String> createPaymentType(@RequestBody PaymentType id){return sv.createPaymentType(id);}
 }
