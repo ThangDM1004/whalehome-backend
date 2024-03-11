@@ -19,6 +19,7 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -227,6 +228,11 @@ public class UsersService {
 
     public int count() {
         return repo.findAll().size();
+    }
+
+    public Page<Users> searchByEmail(String email, int currentPage, int pageSize, String field){
+        Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by(Sort.Direction.ASC, field));
+        return repo.searchByEmail(email,pageable);
     }
 
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
