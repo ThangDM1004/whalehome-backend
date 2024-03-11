@@ -27,8 +27,8 @@ public class Appointment extends Base{
     @JoinColumn(name = "apartment_id")
     private Apartment apartment;
 
-    @OneToOne
-    @JoinColumn(name = "contract_id", referencedColumnName = "id")
+
+    @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL)
     @JsonIgnore
     private Contract contract;
 }

@@ -32,7 +32,7 @@ public class Contract extends Base{
     @JoinColumn(name = "contract_id")
     private ContractHistory contractHistory;
 
-    @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "appointment_id", referencedColumnName = "id")
     private Appointment appointment;
 }
