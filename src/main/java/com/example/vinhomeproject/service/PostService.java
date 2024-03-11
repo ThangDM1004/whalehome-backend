@@ -65,6 +65,7 @@ public class PostService {
             if(id.getDescription()!=null){post.setDescription(id.getDescription());}
             if(id.getCreateDate()!=null){post.setCreateDate(id.getCreateDate());}
             if(id.getModifiedBy()!=null){post.setModifiedBy(id.getModifiedBy());}
+            rs.save(post);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update post successfully ",
                     post
