@@ -3,6 +3,7 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.AreaDTO;
 import com.example.vinhomeproject.dto.ContractDTO;
+import com.example.vinhomeproject.dto.ContractDTO_2;
 import com.example.vinhomeproject.models.Area;
 import com.example.vinhomeproject.models.Contract;
 import com.example.vinhomeproject.repositories.ContractHistoryRepository;
@@ -24,7 +25,7 @@ public class ContractService {
     @Autowired
     private ContractHistoryRepository contractHistoryRepository;
     public ResponseEntity<ResponseObject> getAll(){
-        List<Contract> contracts = contractRepository.findAll();
+        List<ContractDTO_2> contracts = contractRepository.getAll();
         return ResponseEntity.ok(new ResponseObject(
                 "successfully",
                 contracts
@@ -40,8 +41,9 @@ public class ContractService {
     }
 
     public ResponseEntity<ResponseObject> create(ContractDTO contractDTO){
+        Contract contract;
         contractDTO.setContractHistory(contractHistoryRepository.findById(contractDTO.getContractHistory().getId()).get());
-        contractRepository.save(Contract.builder()
+        contractRepository.save(contract = Contract.builder()
                 .dateSign(contractDTO.getDateSign())
                 .description(contractDTO.getDescription())
                 .dateStartRent(contractDTO.getDateStartRent())
@@ -49,7 +51,7 @@ public class ContractService {
                 .build());
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create contract successfully",
-                contractDTO
+                contract
         ));
     }
 
