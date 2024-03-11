@@ -25,7 +25,7 @@ public class NotificationTypeController {
     @PutMapping("/delete/{id}")
     public ResponseEntity<String> deleteNotificationType(Long id){return sv.deleteNotificationType(id);}
     @PutMapping("/update/{id}")
-    public ResponseEntity<String>  updateNotificationType(NotificationType id){return sv.updateNotificationType(id);}
+    public ResponseEntity<String>  updateNotificationType(@RequestBody NotificationType id){return sv.updateNotificationType(id);}
 
 
 

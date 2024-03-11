@@ -36,7 +36,7 @@ public class PostImageController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<String> updatePostImage(PostImage ps) {
+    public ResponseEntity<String> updatePostImage(@RequestBody PostImage ps) {
         return sv.updatePostImage(ps);
     }
 
