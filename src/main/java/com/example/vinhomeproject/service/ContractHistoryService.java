@@ -42,8 +42,9 @@ public class ContractHistoryService {
     }
 
     public ResponseEntity<ResponseObject> create(ContractHistoryDTO contractHistoryDTO){
+        ContractHistory contractHistory;
         contractHistoryDTO.setUsers(usersRepository.findById(contractHistoryDTO.getUsers().getId()).get());
-        contractHistoryRepository.save(ContractHistory.builder()
+        contractHistoryRepository.save(contractHistory = ContractHistory.builder()
                 .price(contractHistoryDTO.getPrice())
                 .description(contractHistoryDTO.getDescription())
                 .image(contractHistoryDTO.getImage())
@@ -52,7 +53,7 @@ public class ContractHistoryService {
                 .build());
         return ResponseEntity.status (HttpStatus.OK).body(new ResponseObject(
                 "Create contract history successfully",
-                contractHistoryDTO
+                contractHistory
         ));
     }
     public ResponseEntity<ResponseObject> delete(Long id){
