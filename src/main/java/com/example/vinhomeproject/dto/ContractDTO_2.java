@@ -19,6 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class ContractDTO_2 {
+    private Long id;
     private LocalDate dateSign;
     private String description;
     private LocalDate dateStartRent;
