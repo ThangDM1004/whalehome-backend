@@ -44,13 +44,14 @@ public class ContractHistoryService {
     public ResponseEntity<ResponseObject> create(ContractHistoryDTO contractHistoryDTO){
         ContractHistory contractHistory;
         contractHistoryDTO.setUsers(usersRepository.findById(contractHistoryDTO.getUsers().getId()).get());
-        contractHistoryRepository.save(contractHistory = ContractHistory.builder()
+        contractHistory = ContractHistory.builder()
                 .price(contractHistoryDTO.getPrice())
                 .description(contractHistoryDTO.getDescription())
                 .image(contractHistoryDTO.getImage())
                 .expiredTime(contractHistoryDTO.getExpiredTime())
                 .users(contractHistoryDTO.getUsers())
-                .build());
+                .build();
+        contractHistoryRepository.save(contractHistory);
         return ResponseEntity.status (HttpStatus.OK).body(new ResponseObject(
                 "Create contract history successfully",
                 contractHistory
