@@ -43,12 +43,13 @@ public class ContractService {
     public ResponseEntity<ResponseObject> create(ContractDTO contractDTO){
         Contract contract;
         contractDTO.setContractHistory(contractHistoryRepository.findById(contractDTO.getContractHistory().getId()).get());
-        contractRepository.save(contract = Contract.builder()
+        contract = Contract.builder()
                 .dateSign(contractDTO.getDateSign())
                 .description(contractDTO.getDescription())
                 .dateStartRent(contractDTO.getDateStartRent())
                 .contractHistory(contractDTO.getContractHistory())
-                .build());
+                .build();
+        contractRepository.save(contract);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create contract successfully",
                 contract
