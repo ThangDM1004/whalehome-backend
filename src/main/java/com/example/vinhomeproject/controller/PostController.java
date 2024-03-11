@@ -38,17 +38,17 @@ public class PostController {
     }
 
     @PutMapping("/delete")
-    public ResponseEntity<String> deletePost(Long id) {
+    public ResponseEntity<String> deletePost(@RequestBody Long id) {
         return sv.deletePost(id);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseObject> updatePost(Post post) {
+    public ResponseEntity<ResponseObject> updatePost(@RequestBody Post post) {
         return sv.updatePost(post);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseObject> createPost(PostDTO post) {
+    public ResponseEntity<ResponseObject> createPost(@RequestBody PostDTO post) {
         return sv.createPost(post);
     }
 
