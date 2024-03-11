@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ContractRepository extends JpaRepository<Contract,Long> {
-    @Query("SELECT NEW com.example.vinhomeproject.dto.ContractDTO_2(c,a.id,a.name,a.building.name,a.building.zone.name,a.building.zone.area.name) FROM Contract c, Appointment ap, Apartment a WHERE c.appointment.id = ap.id and ap.apartment.id = a.id")
+    @Query("SELECT NEW com.example.vinhomeproject.dto.ContractDTO_2(c.dateSign,c.description,c.dateStartRent,c.contractHistory,a.id,a.name,a.building.name,a.building.zone.name,a.building.zone.area.name) FROM Contract c, Appointment ap, Apartment a WHERE c.appointment.id = ap.id and ap.apartment.id = a.id")
     List<ContractDTO_2> getAll();
 }

@@ -1,7 +1,17 @@
 package com.example.vinhomeproject.dto;
 
 import com.example.vinhomeproject.models.Contract;
+import com.example.vinhomeproject.models.ContractHistory;
+import com.example.vinhomeproject.models.Payment;
+import com.example.vinhomeproject.models.Problems;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -9,7 +19,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ContractDTO_2 {
-    private Contract contract;
+    private LocalDate dateSign;
+    private String description;
+    private LocalDate dateStartRent;
+    private ContractHistory contractHistory;
     private Long apartmentId;
     private String apartmentName;
     private String buildingName;
