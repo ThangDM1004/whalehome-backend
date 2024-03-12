@@ -17,4 +17,5 @@ public class AppointmentDTO {
     private LocalDate dateTime;
     private Users users;
     private Apartment apartment;
+    private LocalTime time;
 }

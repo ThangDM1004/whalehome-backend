@@ -43,4 +43,6 @@ public interface UserMapper {
     default Set<Appointment> mapAppointments(Set<Appointment> appointments) {
         return appointments;
     }
+
+    UserAppointmentDTO toUser(Users user);
 }

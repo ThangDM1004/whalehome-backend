@@ -30,12 +30,12 @@ public class PostImageController {
         return sv.getPostImageById(id);
     }
 
-    @PutMapping("/delete")
+    @PutMapping("/delete/{id}")
     public ResponseEntity<String> deletePostImage(Long id) {
         return sv.deletePostImage(id);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<String> updatePostImage(@RequestBody PostImage ps) {
         return sv.updatePostImage(ps);
     }
