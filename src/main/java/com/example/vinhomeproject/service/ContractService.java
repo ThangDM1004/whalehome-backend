@@ -6,6 +6,7 @@ import com.example.vinhomeproject.dto.ContractDTO;
 import com.example.vinhomeproject.dto.ContractDTO_2;
 import com.example.vinhomeproject.models.Area;
 import com.example.vinhomeproject.models.Contract;
+import com.example.vinhomeproject.repositories.AppointmentRepository;
 import com.example.vinhomeproject.repositories.ContractHistoryRepository;
 import com.example.vinhomeproject.repositories.ContractRepository;
 import com.example.vinhomeproject.repositories.PaymentRepository;
@@ -24,6 +25,8 @@ public class ContractService {
     private ContractRepository contractRepository;
     @Autowired
     private ContractHistoryRepository contractHistoryRepository;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
     public ResponseEntity<ResponseObject> getAll(){
         List<ContractDTO_2> contracts = contractRepository.getAll();
         return ResponseEntity.ok(new ResponseObject(
@@ -48,6 +51,7 @@ public class ContractService {
                 .description(contractDTO.getDescription())
                 .dateStartRent(contractDTO.getDateStartRent())
                 .contractHistory(contractDTO.getContractHistory())
+                .appointment(appointmentRepository.findById(contractDTO.getAppointmentId()).get())
                 .build();
         contractRepository.save(contract);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
