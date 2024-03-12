@@ -23,7 +23,7 @@ public class AppointmentController {
     public ResponseEntity<ResponseObject> getById(@PathVariable Long id){
         return appointmentService.getById(id);
     }
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ResponseObject> create(@RequestBody AppointmentDTO appointmentDTO){
         return appointmentService.create(appointmentDTO);
     }
