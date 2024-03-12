@@ -29,14 +29,9 @@ public class AppointmentService {
     private AppointmentMapper mapper;
     public ResponseEntity<ResponseObject> getAll(){
         List<Appointment> appointments = appointmentRepository.findAll();
-        List<AppointmentDTO_2> list =   appointments.stream().map(appointment -> {
-            AppointmentDTO_2 dto = mapper.toAppointment(appointment);
-            dto.setAddress("Q9,HCM");
-            return dto;
-        }).collect(Collectors.toList());
         return ResponseEntity.ok(new ResponseObject(
                 "successfully",
-                list
+                appointments
         ));
     }
 
