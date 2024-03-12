@@ -13,5 +13,4 @@ import java.util.Optional;
 public interface AppointmentRepository extends JpaRepository<Appointment,Long> {
     @Query("SELECT a FROM Appointment a WHERE a.users.id = :userId")
     List<Appointment> findByUserId(@Param("userId") Long userId);
-
 }

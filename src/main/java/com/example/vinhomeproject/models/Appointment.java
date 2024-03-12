@@ -19,7 +19,7 @@ public class Appointment extends Base{
     private String statusAppointment;
     private LocalDate dateTime;
     private LocalTime time;
-
+    private String note;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users users;
