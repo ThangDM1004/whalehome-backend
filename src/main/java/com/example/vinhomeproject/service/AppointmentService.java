@@ -45,6 +45,7 @@ public class AppointmentService {
                         .statusAppointment(appointmentDTO.getStatusAppointment())
                         .dateTime(appointmentDTO.getDateTime())
                         .users(appointmentDTO.getUsers())
+                        .time(appointmentDTO.getTime())
                         .apartment(appointmentDTO.getApartment())
                         .build());
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(

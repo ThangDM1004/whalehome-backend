@@ -34,11 +34,12 @@ public class PostImageController {
     }
 
     @PutMapping("/delete/{id}")
+
     public ResponseEntity<String> deletePostImage(@PathVariable Long id) throws IOException, URISyntaxException {
         return sv.deletePostImage(id);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<String> updatePostImage(@RequestBody PostImage ps) {
         return sv.updatePostImage(ps);
     }

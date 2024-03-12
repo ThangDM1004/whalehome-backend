@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Getter
@@ -17,7 +18,7 @@ import java.util.Date;
 public class Appointment extends Base{
     private String statusAppointment;
     private LocalDate dateTime;
-
+    private LocalTime time;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

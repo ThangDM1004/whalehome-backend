@@ -19,4 +19,5 @@ public class ContractDTO {
     private String description;
     private LocalDate dateStartRent;
     private ContractHistory contractHistory;
+    private Long appointmentId;
 }

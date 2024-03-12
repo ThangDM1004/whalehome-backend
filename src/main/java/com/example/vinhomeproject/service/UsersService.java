@@ -313,9 +313,9 @@ public class UsersService {
                     list
             ));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "No data",
-                ""
+                list
         ));
     }
 }

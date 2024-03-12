@@ -38,7 +38,7 @@ public class PostController {
         return sv.getPostId(id);
     }
 
-    @PutMapping("/delete")
+    @PutMapping("/delete/{id}")
     public ResponseEntity<String> deletePost(@RequestBody Long id) {
         return sv.deletePost(id);
     }
@@ -46,6 +46,7 @@ public class PostController {
     @PutMapping("/update/{id}")
     public ResponseEntity<ResponseObject> updatePost(@PathVariable Long id,@RequestBody PostDTO_2 post) {
         return sv.updatePost(id,post);
+
     }
 
     @PostMapping("/create")
