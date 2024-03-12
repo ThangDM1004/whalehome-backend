@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.mapper;
 
+import com.example.vinhomeproject.dto.UserAppointmentDTO;
 import com.example.vinhomeproject.dto.UserDTO;
 import com.example.vinhomeproject.dto.UserDTO_2;
 import com.example.vinhomeproject.models.Appointment;
@@ -43,4 +44,6 @@ public interface UserMapper {
     default Set<Appointment> mapAppointments(Set<Appointment> appointments) {
         return appointments;
     }
+
+    UserAppointmentDTO toUser(Users user);
 }
