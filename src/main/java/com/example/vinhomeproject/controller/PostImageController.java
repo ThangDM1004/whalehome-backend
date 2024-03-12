@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/postimage")
@@ -31,7 +34,8 @@ public class PostImageController {
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> deletePostImage(Long id) {
+
+    public ResponseEntity<String> deletePostImage(@PathVariable Long id) throws IOException, URISyntaxException {
         return sv.deletePostImage(id);
     }
 

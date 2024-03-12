@@ -62,4 +62,7 @@ public class Apartment extends Base{
     @JsonIgnore
     private Set<Post> posts;
 
+    @OneToMany(mappedBy = "apartment")
+    @JsonIgnore
+    private Set<Problems> problems;
 }

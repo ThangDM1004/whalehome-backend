@@ -32,7 +32,7 @@ public class ProblemImageController {
         return service.delete(id);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ResponseObject> updateP(@PathVariable Long id,@RequestBody ProblemImageDTO problemImageDTO) {
         return service.update(id,problemImageDTO);
     }

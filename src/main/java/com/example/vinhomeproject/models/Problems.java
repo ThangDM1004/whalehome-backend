@@ -27,9 +27,9 @@ public class Problems extends Base{
     private Set<Issue> issues;
 
     @ManyToOne
-    @JoinColumn(name = "contract_id")
+    @JoinColumn(name = "apartment_id")
     @JsonIgnore
-    private Contract contract;
+    private Apartment apartment;
 
     @OneToMany(mappedBy = "problems")
     private Set<ProblemImage> problemImages;
