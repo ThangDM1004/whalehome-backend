@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
@@ -21,8 +22,7 @@ import java.util.Date;
 public class Appointment extends Base{
     private String statusAppointment;
     private LocalDate dateTime;
-    @JsonFormat(pattern = "HH:mm:ss")
-    private LocalTime time;
+    private String time;
     private String note;
     @ManyToOne
     @JoinColumn(name = "user_id")

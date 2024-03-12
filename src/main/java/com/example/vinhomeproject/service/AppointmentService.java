@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,12 +46,14 @@ public class AppointmentService {
     }
 
     public ResponseEntity<ResponseObject> create(AppointmentDTO appointmentDTO){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String formattedTime = appointmentDTO.getTime().format(formatter);
         appointmentDTO.setApartment(apartmentRepository.findById(appointmentDTO.getApartment().getId()).get());
         Appointment appointment = Appointment.builder()
                 .statusAppointment(appointmentDTO.getStatusAppointment())
                 .dateTime(appointmentDTO.getDateTime())
                 .users(usersRepository.findById(appointmentDTO.getUsersId()).get())
-                .time(appointmentDTO.getTime())
+                .time(formattedTime)
                 .apartment(appointmentDTO.getApartment())
                 .build();
         appointmentRepository.save(appointment);
