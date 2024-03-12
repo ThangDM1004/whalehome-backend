@@ -2,6 +2,7 @@ package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.dto.PageList;
 import com.example.vinhomeproject.dto.PostDTO;
+import com.example.vinhomeproject.dto.PostDTO_2;
 import com.example.vinhomeproject.models.Post;
 
 import com.example.vinhomeproject.response.ResponseObject;
@@ -43,8 +44,9 @@ public class PostController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseObject> updatePost(@RequestBody Post post) {
-        return sv.updatePost(post);
+    public ResponseEntity<ResponseObject> updatePost(@PathVariable Long id,@RequestBody PostDTO_2 post) {
+        return sv.updatePost(id,post);
+
     }
 
     @PostMapping("/create")

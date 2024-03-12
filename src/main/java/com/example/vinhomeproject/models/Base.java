@@ -28,7 +28,6 @@ public class Base {
     @JsonIgnore
     private String createBy;
     @Column
-    @CreatedBy
     @JsonIgnore
     private String deleteBy;
     @Column
@@ -39,11 +38,9 @@ public class Base {
     @CreatedDate
     private LocalDate createDate;
     @Column
-    @CreatedDate
     @JsonIgnore
     private LocalDate deleteAt;
     @Column
-    @CreatedBy
     private boolean status = true;
 
 }
