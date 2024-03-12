@@ -1,6 +1,8 @@
 package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.AppointmentDTO;
+import com.example.vinhomeproject.dto.AppointmentDTO_2;
+import com.example.vinhomeproject.mapper.AppointmentMapper;
 import com.example.vinhomeproject.models.Appointment;
 import com.example.vinhomeproject.repositories.ApartmentRepository;
 import com.example.vinhomeproject.repositories.AppointmentRepository;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService {
@@ -22,11 +25,18 @@ public class AppointmentService {
     private ApartmentRepository apartmentRepository;
     @Autowired
     private UsersRepository usersRepository;
+    @Autowired
+    private AppointmentMapper mapper;
     public ResponseEntity<ResponseObject> getAll(){
         List<Appointment> appointments = appointmentRepository.findAll();
+        List<AppointmentDTO_2> list =   appointments.stream().map(appointment -> {
+            AppointmentDTO_2 dto = mapper.toAppointment(appointment);
+            dto.setAddress("Q9,HCM");
+            return dto;
+        }).collect(Collectors.toList());
         return ResponseEntity.ok(new ResponseObject(
                 "successfully",
-                appointments
+                list
         ));
     }
 
@@ -86,6 +96,19 @@ public class AppointmentService {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
                 "Not found appointment",
                 ""
+        ));
+    }
+
+    public ResponseEntity<ResponseObject> getbyUserId(Long id){
+        List<Appointment> appointments = appointmentRepository.findByUserId(id);
+        List<AppointmentDTO_2> list =   appointments.stream().map(appointment -> {
+            AppointmentDTO_2 dto = mapper.toAppointment(appointment);
+            dto.setAddress("Q9,HCM");
+            return dto;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(new ResponseObject(
+                "Get by user id successfully",
+                list
         ));
     }
 }

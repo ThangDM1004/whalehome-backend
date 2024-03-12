@@ -35,4 +35,8 @@ public class AppointmentController {
     public ResponseEntity<ResponseObject> update(@PathVariable Long id,@RequestBody AppointmentDTO appointmentDTO){
         return appointmentService.update(id,appointmentDTO);
     }
+    @GetMapping("/get-by-userid/{userId}")
+    public ResponseEntity<ResponseObject> getByUserId(@PathVariable Long userId){
+        return appointmentService.getbyUserId(userId);
+    }
 }
