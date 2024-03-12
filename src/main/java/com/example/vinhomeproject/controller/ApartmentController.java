@@ -33,7 +33,7 @@ public class ApartmentController {
     public ResponseEntity<ResponseObject> delete(@PathVariable Long id){
         return apartmentService.delete(id);
     }
-    @PutMapping("/udpate/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ResponseObject> update(@PathVariable Long id,@RequestBody ApartmentDTO apartmentDTO){
         return apartmentService.update(id, apartmentDTO);
     }

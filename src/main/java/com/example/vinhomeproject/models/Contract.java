@@ -22,10 +22,6 @@ public class Contract extends Base{
 
     @OneToMany(mappedBy = "contract")
     @JsonIgnore
-    private Set<Problems> problems;
-
-    @OneToMany(mappedBy = "contract")
-    @JsonIgnore
     private Set<Payment> payments;
 
     @ManyToOne

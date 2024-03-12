@@ -16,20 +16,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class PostImageService {
     @Autowired
-    private  PostImageRepository rs;
+    private PostImageRepository rs;
     @Autowired
     private PostRepository postRepository;
 
@@ -49,12 +49,14 @@ public class PostImageService {
         ));
     }
 
-    public ResponseEntity<String> deletePostImage(Long id) {
+    public ResponseEntity<String> deletePostImage(Long id) throws IOException, URISyntaxException {
         PostImage ex = rs.findPostImageById(id);
         if (ex != null) {
-            ex.setStatus(!ex.isStatus());
+            rs.delete(ex);
+            deleteFile(ex.getImage_url());
+            rs.save(ex);
             return ResponseEntity.ok("Delete successfully");
-        }else {
+        } else {
             return ResponseEntity.ok("id not exist");
         }
     }
@@ -62,15 +64,25 @@ public class PostImageService {
     public ResponseEntity<String> updatePostImage(PostImage postImage) {
         PostImage ps = rs.findPostImageById(postImage.getId());
         if (ps != null) {
-            if(postImage.getModifiedBy()!=null){ps.setModifiedBy(postImage.getModifiedBy());}
-            if(postImage.getCreateBy()!=null){ps.setCreateBy(postImage.getCreateBy());}
-            if(postImage.getCreateDate()!=null){ps.setCreateDate(postImage.getCreateDate());}
+            if (postImage.getModifiedBy() != null) {
+                ps.setModifiedBy(postImage.getModifiedBy());
+            }
+            if (postImage.getCreateBy() != null) {
+                ps.setCreateBy(postImage.getCreateBy());
+            }
+            if (postImage.getCreateDate() != null) {
+                ps.setCreateDate(postImage.getCreateDate());
+            }
 
-            if(postImage.getImage_alt()!=null){ps.setImage_alt(postImage.getImage_alt());}
-            if(postImage.getImage_url()!=null){ps.setImage_url(postImage.getImage_url());}
+            if (postImage.getImage_alt() != null) {
+                ps.setImage_alt(postImage.getImage_alt());
+            }
+            if (postImage.getImage_url() != null) {
+                ps.setImage_url(postImage.getImage_url());
+            }
             rs.save(ps);
             return ResponseEntity.ok("update successfully");
-        }else {
+        } else {
             return ResponseEntity.ok("id not exist");
         }
 
@@ -78,7 +90,7 @@ public class PostImageService {
 
     public ResponseEntity<String> createPostImage(MultipartFile multipartFile, Long id) {
         Optional<Post> post = postRepository.findById(id);
-        if(post.isPresent()){
+        if (post.isPresent()) {
             PostImage ps = new PostImage();
             if (multipartFile != null) {
                 String imageUrl = this.upload(multipartFile);
@@ -113,6 +125,7 @@ public class PostImageService {
         String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/whalehome-project.appspot.com/o/%s?alt=media";
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
+
     private String getExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf("."));
     }
@@ -133,4 +146,26 @@ public class PostImageService {
         }
     }
 
+    public void deleteFile(String filePath) throws IOException, URISyntaxException {
+        String fileName = getFileNameFromFirebaseStorageUrl(filePath);
+        BlobId blobId = BlobId.of("whalehome-project.appspot.com", fileName);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build(); // Không cần set content type "media" ở đây
+        InputStream inputStream = PostImageService.class.getClassLoader().getResourceAsStream("firebase.json");
+        Credentials credentials = GoogleCredentials.fromStream(inputStream);
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+
+        List<BlobId> blobIds = new ArrayList<>();
+        blobIds.add(blobId);
+        storage.delete(blobIds);
+
+    }
+    public static String getFileNameFromFirebaseStorageUrl(String url) throws URISyntaxException {
+        String[] segments = url.split("/");
+        String lastSegment = segments[segments.length - 1];
+        int index = lastSegment.indexOf("?");
+        if (index != -1) {
+            lastSegment = lastSegment.substring(0, index);
+        }
+        return lastSegment;
+    }
 }
