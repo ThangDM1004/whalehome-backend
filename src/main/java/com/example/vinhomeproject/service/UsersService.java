@@ -272,7 +272,7 @@ public class UsersService {
     }
 
     public ResponseEntity<ResponseObject> getListApartmentByUserId(Long id){
-        List<Apartment> list = repo.getListApartmentByUserId(id);
+        List<Apartment> list = repo.getListApartmentByUserId(id,"Complete");
         if(!list.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get list apartment successfully",
@@ -303,5 +303,19 @@ public class UsersService {
             return "complete".equals(appointment.getStatusAppointment());
         }
         return false;
+    }
+
+    public  ResponseEntity<ResponseObject> searchAppointmentCompleteByEmail(String email){
+        List<Appointment> list = repo.searchAppointmentCompleteByEmail(email,"Complete");
+        if(!list.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Get list apartment successfully",
+                    list
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Not found email",
+                ""
+        ));
     }
 }
