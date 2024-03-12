@@ -45,14 +45,14 @@ public class AppointmentService {
 
     public ResponseEntity<ResponseObject> create(AppointmentDTO appointmentDTO){
         appointmentDTO.setApartment(apartmentRepository.findById(appointmentDTO.getApartment().getId()).get());
-        appointmentDTO.setUsers(usersRepository.findById(appointmentDTO.getUsers().getId()).get());
-        appointmentRepository.save(Appointment.builder()
-                        .statusAppointment(appointmentDTO.getStatusAppointment())
-                        .dateTime(appointmentDTO.getDateTime())
-                        .users(appointmentDTO.getUsers())
-                        .time(appointmentDTO.getTime())
-                        .apartment(appointmentDTO.getApartment())
-                        .build());
+        Appointment appointment = Appointment.builder()
+                .statusAppointment(appointmentDTO.getStatusAppointment())
+                .dateTime(appointmentDTO.getDateTime())
+                .users(usersRepository.findById(appointmentDTO.getUsersId()).get())
+                .time(appointmentDTO.getTime())
+                .apartment(appointmentDTO.getApartment())
+                .build();
+        appointmentRepository.save(appointment);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create appointment successfully",
                 appointmentDTO
@@ -80,7 +80,7 @@ public class AppointmentService {
         if(appointment.isPresent()){
             if(appointmentDTO.getStatusAppointment()!=null){appointment.get().setStatusAppointment(appointmentDTO.getStatusAppointment());}
             if(appointmentDTO.getDateTime()!=null){appointment.get().setDateTime(appointmentDTO.getDateTime());}
-            if(appointmentDTO.getUsers()!=null){appointment.get().setUsers(appointmentDTO.getUsers());}
+            if(appointmentDTO.getUsersId()!=null){appointment.get().setUsers(usersRepository.findById(appointmentDTO.getUsersId()).get());}
             if (appointmentDTO.getApartment()!=null){appointment.get().setApartment(appointmentDTO.getApartment());}
             appointmentRepository.save(appointment.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
