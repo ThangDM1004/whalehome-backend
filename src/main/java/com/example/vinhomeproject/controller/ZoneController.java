@@ -1,9 +1,7 @@
 package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.dto.ZoneDTO;
-import com.example.vinhomeproject.dto.ZoneDTO;
 import com.example.vinhomeproject.response.ResponseObject;
-import com.example.vinhomeproject.service.ZoneService;
 import com.example.vinhomeproject.service.ZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +33,10 @@ public class ZoneController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject> getbyId(@PathVariable Long id){
         return serivce.getById(id);
+    }
+
+    @GetMapping("/count-building")
+    public ResponseEntity<ResponseObject> countBuildingInZone(){
+        return serivce.countBuildingInZone();
     }
 }
