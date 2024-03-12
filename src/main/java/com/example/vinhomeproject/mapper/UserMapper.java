@@ -1,11 +1,15 @@
 package com.example.vinhomeproject.mapper;
 
 import com.example.vinhomeproject.dto.UserDTO;
+import com.example.vinhomeproject.dto.UserDTO_2;
+import com.example.vinhomeproject.models.Appointment;
 import com.example.vinhomeproject.models.Users;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
+
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -32,4 +36,11 @@ public interface UserMapper {
             @Mapping(target = "authorities", ignore = true)
     })
     void updateUser(UserDTO userDTO, @MappingTarget Users users);
+
+    @Mapping(target = "appointments", source = "appointments") // Ánh xạ trường appointments
+    UserDTO_2 toUserDTO_2(Users user);
+
+    default Set<Appointment> mapAppointments(Set<Appointment> appointments) {
+        return appointments;
+    }
 }
