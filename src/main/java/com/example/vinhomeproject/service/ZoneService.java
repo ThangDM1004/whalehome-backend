@@ -1,13 +1,11 @@
 package com.example.vinhomeproject.service;
 
-import com.example.vinhomeproject.dto.UserDTO;
+
 import com.example.vinhomeproject.dto.ZoneDTO;
-import com.example.vinhomeproject.mapper.UserMapper;
+import com.example.vinhomeproject.dto.ZoneDTO_2;
 import com.example.vinhomeproject.mapper.ZoneMapper;
-import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.models.Zone;
 import com.example.vinhomeproject.repositories.AreaRepository;
-import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.repositories.ZoneRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -103,6 +102,18 @@ public class ZoneService {
                     null
             ));
         }
+    }
+    public ResponseEntity<ResponseObject> countBuildingInZone(){
+        List<Zone> zones = repo.findAll();
+        List<ZoneDTO_2> zoneDTO2s = new ArrayList<>();
+        for (Zone zone : zones) {
+            ZoneDTO_2 zoneDTO_2 = new ZoneDTO_2(zone.getName(), zone.getBuildings().size());
+            zoneDTO2s.add(zoneDTO_2);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Get successfully",
+                zoneDTO2s
+        ));
     }
 }
 
