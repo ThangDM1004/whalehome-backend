@@ -4,8 +4,10 @@ import com.example.vinhomeproject.dto.ApartmentDTO;
 import com.example.vinhomeproject.dto.UserDTO;
 import com.example.vinhomeproject.mapper.UserMapper;
 import com.example.vinhomeproject.models.Apartment;
+import com.example.vinhomeproject.models.Appointment;
 import com.example.vinhomeproject.models.Post;
 import com.example.vinhomeproject.models.Users;
+import com.example.vinhomeproject.repositories.AppointmentRepository;
 import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.request.ChangePasswordRequest;
 import com.example.vinhomeproject.response.ResponseObject;
@@ -17,10 +19,7 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,15 +35,15 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UsersService {
 
     @Autowired
     private UsersRepository repo;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
     @Autowired
     private UserMapper mapper;
     @Autowired
@@ -284,5 +283,25 @@ public class UsersService {
                 "No data",
                 ""
         ));
+    }
+    public Page<Users> searchByEmailAndLatestAppointmentComplete(String email, int currentPage, int pageSize, String field) {
+        PageRequest pageRequest =PageRequest.of(currentPage - 1, pageSize, Sort.by(Sort.Direction.ASC, field));
+
+        Page<Users> usersPage = repo.searchByEmail(email, pageRequest);
+
+        List<Users> filteredUsers = usersPage.getContent().stream()
+                .filter(user -> isLatestAppointmentComplete(user.getId()))
+                .toList();
+
+        return new PageImpl<>(filteredUsers, pageRequest, usersPage.getTotalElements());
+    }
+    private boolean isLatestAppointmentComplete(Long userId) {
+        List<Appointment> appointments = appointmentRepository.findByUserId(userId);
+        if (!appointments.isEmpty()) {
+            appointments.sort(Comparator.comparing(Appointment::getCreateDate).reversed());
+            Appointment appointment = appointments.get(0);
+            return "complete".equals(appointment.getStatusAppointment());
+        }
+        return false;
     }
 }

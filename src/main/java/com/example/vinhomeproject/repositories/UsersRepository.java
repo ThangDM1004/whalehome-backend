@@ -29,5 +29,6 @@ public interface UsersRepository extends JpaRepository<Users,Long> {
     @Query("SELECT u FROM Users u WHERE u.email LIKE %:email%")
     Page<Users> searchByEmail(@Param("email") String email, Pageable pageable);
 
-
+    @Query("SELECT u FROM Users u WHERE u.email LIKE %:email%")
+    Page<Users> searchByUser(@Param("email") String email, Pageable pageable);
 }

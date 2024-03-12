@@ -2,6 +2,8 @@ package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.dto.PageList;
 import com.example.vinhomeproject.dto.UserDTO;
+import com.example.vinhomeproject.dto.UserDTO_2;
+import com.example.vinhomeproject.mapper.UserMapper;
 import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.request.ChangePasswordRequest;
 import com.example.vinhomeproject.response.ResponseObject;
@@ -21,6 +23,8 @@ public class UserController {
 
     @Autowired
     private UsersService serivce;
+    @Autowired
+    private UserMapper userMapper;
 
     @GetMapping()
     public ResponseEntity<ResponseObject> getAllUser() {
@@ -107,5 +111,29 @@ public class UserController {
                 "Get page " + currentPage + " successfully",
                 pageList
         ));
+    }
+    @GetMapping("/search-user-complte-appointment-by-email")
+    public ResponseEntity<ResponseObject> searchByEmailAndLatestAppointmentComplete(
+            @RequestParam(defaultValue = "") String email,
+            @RequestParam(defaultValue = "1") int currentPage,
+            @RequestParam(defaultValue = "3") int sizePage,
+            @RequestParam(defaultValue = "email") String field) {
+
+        Page<Users> usersPage = serivce.searchByEmailAndLatestAppointmentComplete(email, currentPage, sizePage, field);
+
+        // Map từ User sang UserDTO_2
+        Page<UserDTO_2> userDTO_2Page = usersPage.map(userMapper::toUserDTO_2);
+
+        var pageList = PageList.<UserDTO_2>builder()
+                .totalPage(userDTO_2Page.getTotalPages())
+                .currentPage(currentPage)
+                .listResult(userDTO_2Page.getContent())
+                .build();
+
+        if (userDTO_2Page.getSize() == 0) {
+            return ResponseEntity.ok(new ResponseObject("No result", ""));
+        }
+
+        return ResponseEntity.ok(new ResponseObject("Get page " + currentPage + " successfully", pageList));
     }
 }
