@@ -8,5 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class PostDTO_2 {
-    private Long id;
+    private String title;
+    private String description;
 }
