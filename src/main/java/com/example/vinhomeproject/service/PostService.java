@@ -2,6 +2,8 @@ package com.example.vinhomeproject.service;
 
 
 import com.example.vinhomeproject.dto.PostDTO;
+import com.example.vinhomeproject.dto.PostDTO_2;
+import com.example.vinhomeproject.mapper.PostMapper;
 import com.example.vinhomeproject.models.Post;
 import com.example.vinhomeproject.repositories.*;
 import com.example.vinhomeproject.response.ResponseObject;
@@ -30,7 +32,8 @@ public class PostService {
     private AreaRepository areaRepository;
     @Autowired
     private BuildingRepository buildingRepository;
-
+    @Autowired
+    private PostMapper postMapper;
 
 
     public ResponseEntity<ResponseObject> getAllPost() {
@@ -57,20 +60,15 @@ public class PostService {
             return ResponseEntity.ok("id not exist");
         }
     }
-    public ResponseEntity<ResponseObject> updatePost(Post id) {
-        Post post = rs.findById(id.getId()).orElse(null);
+    public ResponseEntity<ResponseObject> updatePost(Long id, PostDTO_2 postDTO2) {
+        Post post = rs.findById(id).orElse(null);
         if (post != null) {
-            if(id.getApartment()!=null){ post.setApartment(id.getApartment());}
-            if(id.getTitle()!=null){post.setTitle(id.getTitle());}
-            if(id.getDescription()!=null){post.setDescription(id.getDescription());}
-            if(id.getCreateDate()!=null){post.setCreateDate(id.getCreateDate());}
-            if(id.getModifiedBy()!=null){post.setModifiedBy(id.getModifiedBy());}
+            postMapper.update(postDTO2, post);
             rs.save(post);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update post successfully ",
                     post
             ));
-
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
                     "Not found post",
