@@ -1,6 +1,9 @@
 package com.example.vinhomeproject.models;
 
+import com.example.vinhomeproject.config.TimeConfig;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +21,7 @@ import java.util.Date;
 public class Appointment extends Base{
     private String statusAppointment;
     private LocalDate dateTime;
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime time;
     private String note;
     @ManyToOne
