@@ -14,9 +14,8 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/payment")
 public class PaymentController {
-    private PaymentService sv;
     @Autowired
-    public void PaymentSerivce(PaymentService sv){this.sv=sv;}
+    private PaymentService sv;
     @GetMapping
     public ResponseEntity<ResponseObject> getPayment(){return sv.getAllPayment();}
     @GetMapping("/{id}")
@@ -26,7 +25,11 @@ public class PaymentController {
     @PutMapping("/delete/{id}")
     public ResponseEntity<String> deletePayment(Long id){return sv.deletePayment(id);}
     @PutMapping("/update/{id}")
-    public ResponseEntity<String>  updatePayment(@RequestBody Payment id){return sv.updatePayment(id);}
-    @PostMapping
+    public ResponseEntity<String>  updatePayment(@PathVariable Long id,Payment payment){return sv.updatePayment(id,payment);}
+    @PostMapping("/create")
     public ResponseEntity<String>  createPayment(@RequestBody Payment id){return sv.createPayment(id);}
+    @GetMapping("/compareRevenue")
+    public ResponseEntity<ResponseObject> compareRevenue(@RequestParam int year){
+        return sv.compareRevenue(year);
+    }
 }
