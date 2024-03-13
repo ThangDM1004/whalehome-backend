@@ -2,6 +2,7 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.AppointmentDTO;
 import com.example.vinhomeproject.dto.AppointmentDTO_2;
+import com.example.vinhomeproject.dto.AppointmentUpdateDTO;
 import com.example.vinhomeproject.mapper.AppointmentMapper;
 import com.example.vinhomeproject.models.Appointment;
 import com.example.vinhomeproject.repositories.ApartmentRepository;
@@ -48,13 +49,12 @@ public class AppointmentService {
     public ResponseEntity<ResponseObject> create(AppointmentDTO appointmentDTO){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedTime = appointmentDTO.getTime().format(formatter);
-        appointmentDTO.setApartment(apartmentRepository.findById(appointmentDTO.getApartment().getId()).get());
         Appointment appointment = Appointment.builder()
-                .statusAppointment(appointmentDTO.getStatusAppointment())
+                .statusAppointment("Pending")
                 .dateTime(appointmentDTO.getDateTime())
                 .users(usersRepository.findById(appointmentDTO.getUsersId()).get())
                 .time(formattedTime)
-                .apartment(appointmentDTO.getApartment())
+                .apartment(apartmentRepository.findById(appointmentDTO.getApartmentId()).get())
                 .build();
         appointmentRepository.save(appointment);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
@@ -79,13 +79,13 @@ public class AppointmentService {
         ));
     }
 
-    public ResponseEntity<ResponseObject> update(Long id, AppointmentDTO appointmentDTO){
+    public ResponseEntity<ResponseObject> update(Long id, AppointmentUpdateDTO appointmentDTO){
         Optional<Appointment> appointment = appointmentRepository.findById(id);
         if(appointment.isPresent()){
             if(appointmentDTO.getStatusAppointment()!=null){appointment.get().setStatusAppointment(appointmentDTO.getStatusAppointment());}
             if(appointmentDTO.getDateTime()!=null){appointment.get().setDateTime(appointmentDTO.getDateTime());}
             if(appointmentDTO.getUsersId()!=null){appointment.get().setUsers(usersRepository.findById(appointmentDTO.getUsersId()).get());}
-            if (appointmentDTO.getApartment()!=null){appointment.get().setApartment(appointmentDTO.getApartment());}
+            if (appointmentDTO.getApartmentId()!=null){appointment.get().setApartment(apartmentRepository.findById(appointmentDTO.getApartmentId()).get());}
             appointmentRepository.save(appointment.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update appointment successfully",

@@ -1,6 +1,7 @@
 package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.dto.AppointmentDTO;
+import com.example.vinhomeproject.dto.AppointmentUpdateDTO;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class AppointmentController {
         return appointmentService.delete(id);
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseObject> update(@PathVariable Long id,@RequestBody AppointmentDTO appointmentDTO){
+    public ResponseEntity<ResponseObject> update(@PathVariable Long id,@RequestBody AppointmentUpdateDTO appointmentDTO){
         return appointmentService.update(id,appointmentDTO);
     }
     @GetMapping("/get-by-userid/{userId}")
