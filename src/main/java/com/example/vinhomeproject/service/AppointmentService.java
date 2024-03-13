@@ -2,6 +2,7 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.AppointmentDTO;
 import com.example.vinhomeproject.dto.AppointmentDTO_2;
+import com.example.vinhomeproject.dto.AppointmentUpdateDTO;
 import com.example.vinhomeproject.mapper.AppointmentMapper;
 import com.example.vinhomeproject.models.Appointment;
 import com.example.vinhomeproject.repositories.ApartmentRepository;
@@ -78,7 +79,7 @@ public class AppointmentService {
         ));
     }
 
-    public ResponseEntity<ResponseObject> update(Long id, AppointmentDTO appointmentDTO){
+    public ResponseEntity<ResponseObject> update(Long id, AppointmentUpdateDTO appointmentDTO){
         Optional<Appointment> appointment = appointmentRepository.findById(id);
         if(appointment.isPresent()){
             if(appointmentDTO.getStatusAppointment()!=null){appointment.get().setStatusAppointment(appointmentDTO.getStatusAppointment());}
