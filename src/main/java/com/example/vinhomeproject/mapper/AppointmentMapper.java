@@ -6,5 +6,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface AppointmentMapper {
-    AppointmentDTO_2 toAppointment(Appointment appointment);
+//    AppointmentDTO_2 toAppointment(Appointment appointment);
 }
