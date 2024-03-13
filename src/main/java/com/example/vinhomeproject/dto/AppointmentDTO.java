@@ -22,7 +22,7 @@ public class AppointmentDTO {
     private String statusAppointment;
     private LocalDate dateTime;
     private Long usersId;
-    private Apartment apartment;
+    private Long apartmentId;
     @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime time;
     private String note;

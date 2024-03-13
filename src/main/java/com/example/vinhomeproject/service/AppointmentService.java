@@ -48,13 +48,12 @@ public class AppointmentService {
     public ResponseEntity<ResponseObject> create(AppointmentDTO appointmentDTO){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedTime = appointmentDTO.getTime().format(formatter);
-        appointmentDTO.setApartment(apartmentRepository.findById(appointmentDTO.getApartment().getId()).get());
         Appointment appointment = Appointment.builder()
-                .statusAppointment(appointmentDTO.getStatusAppointment())
+                .statusAppointment("Pending")
                 .dateTime(appointmentDTO.getDateTime())
                 .users(usersRepository.findById(appointmentDTO.getUsersId()).get())
                 .time(formattedTime)
-                .apartment(appointmentDTO.getApartment())
+                .apartment(apartmentRepository.findById(appointmentDTO.getApartmentId()).get())
                 .build();
         appointmentRepository.save(appointment);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
@@ -85,7 +84,7 @@ public class AppointmentService {
             if(appointmentDTO.getStatusAppointment()!=null){appointment.get().setStatusAppointment(appointmentDTO.getStatusAppointment());}
             if(appointmentDTO.getDateTime()!=null){appointment.get().setDateTime(appointmentDTO.getDateTime());}
             if(appointmentDTO.getUsersId()!=null){appointment.get().setUsers(usersRepository.findById(appointmentDTO.getUsersId()).get());}
-            if (appointmentDTO.getApartment()!=null){appointment.get().setApartment(appointmentDTO.getApartment());}
+            if (appointmentDTO.getApartmentId()!=null){appointment.get().setApartment(apartmentRepository.findById(appointmentDTO.getApartmentId()).get());}
             appointmentRepository.save(appointment.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update appointment successfully",
