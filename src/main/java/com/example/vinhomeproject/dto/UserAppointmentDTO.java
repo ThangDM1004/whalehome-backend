@@ -11,4 +11,5 @@ public class UserAppointmentDTO {
     private String name;
     private String image_url;
     private String phone;
+    private String address;
 }

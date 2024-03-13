@@ -15,9 +15,14 @@ import java.time.LocalTime;
 public class AppointmentDTO_2 {
     private String statusAppointment;
     private LocalDate dateTime;
-    private LocalTime time;
-    private String createBy;
+    private String time;
     private Apartment apartment;
     private String note;
     private String address;
+    private String userAddress;
+    private String userPhone;
+    private String userName;
+    private String userImage;
+
+
 }

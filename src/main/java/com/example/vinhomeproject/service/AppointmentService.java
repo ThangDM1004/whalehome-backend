@@ -99,15 +99,10 @@ public class AppointmentService {
     }
 
     public ResponseEntity<ResponseObject> getbyUserId(Long id){
-        List<Appointment> appointments = appointmentRepository.findByUserId(id);
-        List<AppointmentDTO_2> list =   appointments.stream().map(appointment -> {
-            AppointmentDTO_2 dto = mapper.toAppointment(appointment);
-            dto.setAddress("Q9,HCM");
-            return dto;
-        }).collect(Collectors.toList());
+        List<AppointmentDTO_2> appointments = appointmentRepository.findByUserIdNew(id);
         return ResponseEntity.ok(new ResponseObject(
                 "Get by user id successfully",
-                list
+                appointments
         ));
     }
 }
