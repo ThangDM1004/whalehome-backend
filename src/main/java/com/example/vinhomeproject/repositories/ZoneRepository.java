@@ -14,5 +14,5 @@ import java.util.Optional;
 public interface ZoneRepository extends JpaRepository<Zone,Long> {
     @Query("SELECT z FROM Zone z WHERE z.area.id = :areaId")
     List<Zone> findZoneByAreaId(@Param("areaId") Long areaId);
-    Optional<Zone> findZoneByAreaAndName(String name, Area area);
+    Optional<Zone> findZoneByAreaAndName(Area area, String name);
 }

@@ -43,7 +43,7 @@ public class ZoneService {
     }
 
     public ResponseEntity<ResponseObject> createZone(ZoneDTO zoneDTO){
-        Optional<Zone> zone_check = repo.findZoneByAreaAndName(zoneDTO.getName(), areaRepository.findById(zoneDTO.getArea().getId()).get());
+        Optional<Zone> zone_check = repo.findZoneByAreaAndName( areaRepository.findById(zoneDTO.getArea().getId()).get(),zoneDTO.getName());
         if(zone_check.isEmpty()){
             zoneDTO.setStatus(true);
             zoneDTO.setArea(areaRepository.findById(zoneDTO.getArea().getId()).get());
