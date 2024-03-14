@@ -52,29 +52,36 @@ public class ApartmentService {
     }
 
     public ResponseEntity<ResponseObject> create(ApartmentDTO apartmentDTO){
-        apartmentDTO.setApartmentClass(apartmentClassRepository.findById(apartmentDTO.getApartmentClass().getId()).get());
-        apartmentDTO.setBuilding(buildingRepository.findById(apartmentDTO.getBuilding().getId()).get());
-        Apartment apartment;
-        apartmentRepository.save(apartment = Apartment.builder()
-                        .name(apartmentDTO.getName())
-                        .description(apartmentDTO.getDescription())
-                        .living_room(apartmentDTO.getLiving_room())
-                        .bed_room(apartmentDTO.getBed_room())
-                        .kitchen(apartmentDTO.getKitchen())
-                        .rest_room(apartmentDTO.getRest_room())
-                        .floor(apartmentDTO.getFloor())
-                        .area(apartmentDTO.getArea())
-                        .air_conditioner(apartmentDTO.getAir_conditioner())
-                        .electric_fan(apartmentDTO.getElectric_fan())
-                        .television(apartmentDTO.getTelevision())
-                        .electric_stoves(apartmentDTO.getElectric_stoves())
-                        .gas_stoves(apartmentDTO.getGas_stoves())
-                        .apartmentClass(apartmentDTO.getApartmentClass())
-                        .building(apartmentDTO.getBuilding())
-                        .build());
+        Optional<Apartment> check = apartmentRepository.findApartmentByNameAndBuilding(apartmentDTO.getName(),buildingRepository.findById(apartmentDTO.getBuilding().getId()).get());
+        if(check.isEmpty()){
+            apartmentDTO.setApartmentClass(apartmentClassRepository.findById(apartmentDTO.getApartmentClass().getId()).get());
+            apartmentDTO.setBuilding(buildingRepository.findById(apartmentDTO.getBuilding().getId()).get());
+            Apartment apartment;
+            apartmentRepository.save(apartment = Apartment.builder()
+                    .name(apartmentDTO.getName())
+                    .description(apartmentDTO.getDescription())
+                    .living_room(apartmentDTO.getLiving_room())
+                    .bed_room(apartmentDTO.getBed_room())
+                    .kitchen(apartmentDTO.getKitchen())
+                    .rest_room(apartmentDTO.getRest_room())
+                    .floor(apartmentDTO.getFloor())
+                    .area(apartmentDTO.getArea())
+                    .air_conditioner(apartmentDTO.getAir_conditioner())
+                    .electric_fan(apartmentDTO.getElectric_fan())
+                    .television(apartmentDTO.getTelevision())
+                    .electric_stoves(apartmentDTO.getElectric_stoves())
+                    .gas_stoves(apartmentDTO.getGas_stoves())
+                    .apartmentClass(apartmentDTO.getApartmentClass())
+                    .building(apartmentDTO.getBuilding())
+                    .build());
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Create apartment successfully",
+                    apartment
+            ));
+        }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Create apartment successfully",
-                apartment
+                "Apartment have exist",
+                ""
         ));
     }
 

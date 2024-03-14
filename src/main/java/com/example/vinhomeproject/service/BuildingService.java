@@ -44,15 +44,22 @@ public class BuildingService {
     }
 
     public ResponseEntity<ResponseObject> create(BuildingDTO buildingDTO) {
-        Building building = new Building();
-        building.setStatus(true);
-        building.setCreateDate(LocalDate.now());
-        building.setName(buildingDTO.getName());
-        building.setZone(zoneRepository.findById(buildingDTO.getZone().getId()).get());
-        buildingRepository.save(building);
+        Optional<Building> check_building = buildingRepository.findBuildingByNameAndZone(buildingDTO.getName(),zoneRepository.findById(buildingDTO.getZone().getId()).get());
+        if(check_building.isEmpty()){
+            Building building = new Building();
+            building.setStatus(true);
+            building.setCreateDate(LocalDate.now());
+            building.setName(buildingDTO.getName());
+            building.setZone(zoneRepository.findById(buildingDTO.getZone().getId()).get());
+            buildingRepository.save(building);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Create building successfully",
+                    building
+            ));
+        }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Create building successfully",
-                building
+                "Building have exist",
+                ""
         ));
     }
 

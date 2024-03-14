@@ -2,12 +2,14 @@ package com.example.vinhomeproject.repositories;
 
 import com.example.vinhomeproject.dto.ApartmentDTO_2;
 import com.example.vinhomeproject.models.Apartment;
+import com.example.vinhomeproject.models.Building;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
@@ -34,4 +36,6 @@ public interface ApartmentRepository extends JpaRepository<Apartment,Long> {
     ApartmentDTO_2 findApartmentByIdWithDetails(Long apartmentId);
     @Query("SELECT a FROM Apartment a WHERE a.building.id = :buildingId")
     List<Apartment> findApartmentByBuildingId(@Param("buildingId") Long buildingId);
+
+    Optional<Apartment> findApartmentByNameAndBuilding(String name, Building building);
 }
