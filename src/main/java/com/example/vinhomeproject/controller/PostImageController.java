@@ -40,13 +40,13 @@ public class PostImageController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updatePostImage(@RequestBody PostImage ps,@PathVariable Long id) {
-        return sv.updatePostImage(ps);
+    public ResponseEntity<String> updatePostImage(@RequestParam("file") MultipartFile multipartFile,@PathVariable Long id) {
+        return sv.updatePostImage(id,multipartFile);
     }
 
-    @PostMapping("/create/{id}")
+    @PostMapping("/create/{post_id}")
     public ResponseEntity<String> createPostImage(@RequestParam("file") MultipartFile multipartFile,
-                                                  @PathVariable Long id ) {
-        return sv.createPostImage(multipartFile, id);
+                                                  @PathVariable Long post_id ) {
+        return sv.createPostImage(multipartFile, post_id);
     }
 }

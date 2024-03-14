@@ -10,4 +10,5 @@ import lombok.*;
 public class PostDTO_2 {
     private String title;
     private String description;
+
 }

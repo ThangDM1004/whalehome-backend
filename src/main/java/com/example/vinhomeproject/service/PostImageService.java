@@ -61,26 +61,13 @@ public class PostImageService {
         }
     }
 
-    public ResponseEntity<String> updatePostImage(PostImage postImage) {
-        PostImage ps = rs.findPostImageById(postImage.getId());
-        if (ps != null) {
-            if (postImage.getModifiedBy() != null) {
-                ps.setModifiedBy(postImage.getModifiedBy());
-            }
-            if (postImage.getCreateBy() != null) {
-                ps.setCreateBy(postImage.getCreateBy());
-            }
-            if (postImage.getCreateDate() != null) {
-                ps.setCreateDate(postImage.getCreateDate());
-            }
-
-            if (postImage.getImage_alt() != null) {
-                ps.setImage_alt(postImage.getImage_alt());
-            }
-            if (postImage.getImage_url() != null) {
-                ps.setImage_url(postImage.getImage_url());
-            }
-            rs.save(ps);
+    public ResponseEntity<String> updatePostImage(Long id,MultipartFile multipartFile) {
+        Optional<PostImage> ps = rs.findById(id);
+        if (ps.isPresent()) {
+            String imageUrl = this.upload(multipartFile);
+            ps.get().setImage_url(imageUrl);
+            ps.get().setImage_alt("image");
+            rs.save(ps.get());
             return ResponseEntity.ok("update successfully");
         } else {
             return ResponseEntity.ok("id not exist");
