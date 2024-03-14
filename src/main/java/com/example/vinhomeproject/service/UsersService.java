@@ -268,7 +268,7 @@ public class UsersService {
     }
 
     public ResponseEntity<ResponseObject> getListApartmentByUserId(Long id) {
-        List<Apartment> list = repo.getListApartmentByUserId(id, "Complete");
+        List<Apartment> list = repo.getListApartmentByUserId(id, "Completed");
         if (!list.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get list apartment successfully",
@@ -304,7 +304,7 @@ public class UsersService {
     }
 
     public ResponseEntity<ResponseObject> searchAppointmentCompleteByEmail(String email) {
-        List<Appointment> list = repo.searchAppointmentCompleteByEmail(email, "Complete");
+        List<Appointment> list = repo.searchAppointmentCompleteByEmail(email, "Completed");
         if (!list.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get list apartment successfully",
