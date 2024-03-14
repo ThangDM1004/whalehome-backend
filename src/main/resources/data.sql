@@ -126,7 +126,7 @@
 --         '2024-01-22', 'Cancel', 5, 6, true),
 --        ('User 8', '2024-01-22', NULL, NULL,
 --         '2024-01-22', 'Pending', 6, 5, true);
---
+-- --
 -- INSERT INTO contract_history(create_by, create_date, modified_by, modified_date, description, expired_time, image,
 --                              price, status, user_id)
 -- VALUES ('Admin', '2024-01-22', NULL, NULL, 'Hợp đồng mua bán căn hộ CH-03', NULL, NULL, 22020, true, 1),
@@ -230,15 +230,15 @@
 --        ('ttt', '2024-01-22', NULL, NULL, NULL, NULL, 443, NULL, NULL, true),
 --        ('www', '2024-01-22', NULL, NULL, NULL, NULL, 8943, NULL, NULL, true);
 --
--- INSERT INTO problems(create_by, create_date, modified_by, modified_date, description, status, title, contract_id)
--- VALUES ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 1', 1),
---        ('Nam đẹp trai', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 2', 2),
---        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', false, 'title 3', 3),
---        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 4', 4),
---        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 5', 5),
---        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 6', 6),
---        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 7', 7),
---        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 8', 8);
+-- INSERT INTO problems(create_by, create_date, modified_by, modified_date, description, status, title)
+-- VALUES ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 1'),
+--        ('Nam đẹp trai', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 2'),
+--        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', false, 'title 3'),
+--        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 4'),
+--        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 5'),
+--        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 6'),
+--        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 7'),
+--        ('Admin', '2024-01-22', NULL, NULL, 'Mô tả của Nam đẹp trai', true, 'title 8');
 --
 -- INSERT INTO review(create_by, create_date, modified_by, modified_date, content, rate, apartment_id, user_id, status)
 -- VALUES ('Admin', '2024-01-22', 'thang', '2024-01-22', 'danh gia', 4.5, 1, 2, true),
