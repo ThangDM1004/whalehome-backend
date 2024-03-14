@@ -54,6 +54,7 @@ public class AppointmentService {
                 .dateTime(appointmentDTO.getDateTime())
                 .users(usersRepository.findById(appointmentDTO.getUsersId()).get())
                 .time(formattedTime)
+                .note(appointmentDTO.getNote())
                 .apartment(apartmentRepository.findById(appointmentDTO.getApartmentId()).get())
                 .build();
         appointmentRepository.save(appointment);
