@@ -1,6 +1,7 @@
 package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.dto.PageList;
+import com.example.vinhomeproject.dto.UpdateUserDTO;
 import com.example.vinhomeproject.dto.UserDTO;
 import com.example.vinhomeproject.dto.UserDTO_2;
 import com.example.vinhomeproject.mapper.UserMapper;
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseObject> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
+    public ResponseEntity<ResponseObject> updateUser(@RequestBody UpdateUserDTO userDTO, @PathVariable Long id) {
         return serivce.updateUser(id, userDTO);
     }
 

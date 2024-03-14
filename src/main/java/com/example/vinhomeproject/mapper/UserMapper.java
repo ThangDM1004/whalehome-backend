@@ -1,5 +1,6 @@
 package com.example.vinhomeproject.mapper;
 
+import com.example.vinhomeproject.dto.UpdateUserDTO;
 import com.example.vinhomeproject.dto.UserAppointmentDTO;
 import com.example.vinhomeproject.dto.UserDTO;
 import com.example.vinhomeproject.dto.UserDTO_2;
@@ -36,7 +37,7 @@ public interface UserMapper {
             @Mapping(target = "role", ignore = true),
             @Mapping(target = "authorities", ignore = true)
     })
-    void updateUser(UserDTO userDTO, @MappingTarget Users users);
+    void updateUser(UpdateUserDTO userDTO, @MappingTarget Users users);
 
     @Mapping(target = "appointments", source = "appointments") // Ánh xạ trường appointments
     UserDTO_2 toUserDTO_2(Users user);

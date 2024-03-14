@@ -1,6 +1,7 @@
 package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.ApartmentDTO;
+import com.example.vinhomeproject.dto.UpdateUserDTO;
 import com.example.vinhomeproject.dto.UserDTO;
 import com.example.vinhomeproject.mapper.UserMapper;
 import com.example.vinhomeproject.models.Apartment;
@@ -84,7 +85,7 @@ public class UsersService {
     public ResponseEntity<ResponseObject> deleteUser(Long id) {
         Optional<Users> user = repo.findById(id);
         if (user.isPresent()) {
-            user.get().setStatus(! user.get().isStatus());
+            user.get().setStatus(!user.get().isStatus());
             repo.save(user.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Delete user successfully",
@@ -116,35 +117,26 @@ public class UsersService {
         ));
     }
 
-    public ResponseEntity<ResponseObject> updateUser(Long id, UserDTO userDTO) {
+    public ResponseEntity<ResponseObject> updateUser(Long id, UpdateUserDTO userDTO) {
         Optional<Users> user = repo.findById(id);
         if (user.isPresent()) {
-            userDTO.setImage(user.get().getImage());
-
-            if (userDTO.getPhone() != null) {
-                user.get().setPhone(userDTO.getPhone());
+            if(userDTO.getFullName() == null){
+                userDTO.setFullName(user.get().getFullName());
             }
-            if (userDTO.getFullName() != null) {
-                user.get().setFullName(userDTO.getFullName());
+            if(userDTO.getPhone() == null){
+                userDTO.setPhone(user.get().getPhone());
             }
-            if (userDTO.getDateOfBirth() != null) {
-                user.get().setDateOfBirth(userDTO.getDateOfBirth());
+            if(userDTO.getAddress() == null){
+                userDTO.setAddress(user.get().getAddress());
             }
-
-                user.get().setStatus(true);
-
-            if (userDTO.getGender() != null) {
-                user.get().setGender(userDTO.getGender());
+            if(userDTO.getGender() == null){
+                userDTO.setGender(user.get().getGender());
             }
-            if (userDTO.getAddress() != null) {
-                user.get().setAddress(userDTO.getAddress());
+            if(userDTO.getDateOfBirth() == null){
+                userDTO.setDateOfBirth(user.get().getDateOfBirth());
             }
-
-                user.get().setVerified(true);
-
-
+            mapper.updateUser(userDTO,user.get());
             repo.save(user.get());
-
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update user successfully",
                     user
@@ -160,7 +152,7 @@ public class UsersService {
         boolean isExist = false;
 
         Optional<Users> users = repo.findByEmail(email);
-        if(users.isPresent()){
+        if (users.isPresent()) {
             isExist = true;
         } else {
             isExist = false;
@@ -182,6 +174,7 @@ public class UsersService {
             ));
         }
     }
+
     public ResponseEntity<ResponseObject> countAllUser() {
         List<Users> users = repo.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
@@ -189,6 +182,7 @@ public class UsersService {
                 users.size()
         ));
     }
+
     public ResponseEntity<ResponseObject> changePassword(ChangePasswordRequest request, Principal connectUser) {
         String message = "";
         var user = (Users) ((UsernamePasswordAuthenticationToken) connectUser).getPrincipal();
@@ -221,6 +215,7 @@ public class UsersService {
             );
         }
     }
+
     public Page<Users> getPage(int currentPage, int pageSize, String field) {
         return repo.findAll(PageRequest.of(currentPage, pageSize, Sort.by(Sort.Direction.ASC, field)));
     }
@@ -229,9 +224,9 @@ public class UsersService {
         return repo.findAll().size();
     }
 
-    public Page<Users> searchByEmail(String email, int currentPage, int pageSize, String field){
+    public Page<Users> searchByEmail(String email, int currentPage, int pageSize, String field) {
         Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by(Sort.Direction.ASC, field));
-        return repo.searchByEmail(email,pageable);
+        return repo.searchByEmail(email, pageable);
     }
 
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
@@ -252,6 +247,7 @@ public class UsersService {
         String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/whalehome-project.appspot.com/o/%s?alt=media";
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
+
     private String getExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf("."));
     }
@@ -271,9 +267,9 @@ public class UsersService {
         }
     }
 
-    public ResponseEntity<ResponseObject> getListApartmentByUserId(Long id){
-        List<Apartment> list = repo.getListApartmentByUserId(id,"Complete");
-        if(!list.isEmpty()){
+    public ResponseEntity<ResponseObject> getListApartmentByUserId(Long id) {
+        List<Apartment> list = repo.getListApartmentByUserId(id, "Complete");
+        if (!list.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get list apartment successfully",
                     list
@@ -284,8 +280,9 @@ public class UsersService {
                 ""
         ));
     }
+
     public Page<Users> searchByEmailAndLatestAppointmentComplete(String email, int currentPage, int pageSize, String field) {
-        PageRequest pageRequest =PageRequest.of(currentPage - 1, pageSize, Sort.by(Sort.Direction.ASC, field));
+        PageRequest pageRequest = PageRequest.of(currentPage - 1, pageSize, Sort.by(Sort.Direction.ASC, field));
 
         Page<Users> usersPage = repo.searchByEmail(email, pageRequest);
 
@@ -295,6 +292,7 @@ public class UsersService {
 
         return new PageImpl<>(filteredUsers, pageRequest, usersPage.getTotalElements());
     }
+
     private boolean isLatestAppointmentComplete(Long userId) {
         List<Appointment> appointments = appointmentRepository.findByUserId(userId);
         if (!appointments.isEmpty()) {
@@ -305,9 +303,9 @@ public class UsersService {
         return false;
     }
 
-    public  ResponseEntity<ResponseObject> searchAppointmentCompleteByEmail(String email){
-        List<Appointment> list = repo.searchAppointmentCompleteByEmail(email,"Complete");
-        if(!list.isEmpty()){
+    public ResponseEntity<ResponseObject> searchAppointmentCompleteByEmail(String email) {
+        List<Appointment> list = repo.searchAppointmentCompleteByEmail(email, "Complete");
+        if (!list.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get list apartment successfully",
                     list
