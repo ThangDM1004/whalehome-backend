@@ -33,6 +33,6 @@ public interface UsersRepository extends JpaRepository<Users,Long> {
     @Query("SELECT u FROM Users u WHERE u.email LIKE %:email%")
     Page<Users> searchByUser(@Param("email") String email, Pageable pageable);
 
-    @Query("SELECT a FROM Appointment a WHERE a.users.email like %?1% AND a.statusAppointment like ?2 AND a.contract.appointment is null")
+    @Query("SELECT a FROM Appointment a INNER JOIN Contract c ON c.appointment.id = a.id WHERE a.users.email like %?1% AND a.statusAppointment like ?2")
     List<Appointment> searchAppointmentCompleteByEmail(String email,String status);
 }
