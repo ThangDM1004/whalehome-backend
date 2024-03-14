@@ -306,6 +306,7 @@ public class UsersService {
     public ResponseEntity<ResponseObject> searchAppointmentCompleteByEmail(String email) {
         List<Appointment> list = repo.searchAppointmentCompleteByEmail(email, "Completed");
         if (!list.isEmpty()) {
+            list.removeIf(x -> x.getContract() != null);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get list apartment successfully",
                     list
