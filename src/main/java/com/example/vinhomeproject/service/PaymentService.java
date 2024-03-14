@@ -84,6 +84,18 @@ public class PaymentService {
                         .build()
         ));
     }
+    public ResponseEntity<ResponseObject> calculateRevenueByMonth(int year, int month) {
+        Map<Integer, Double> revenueMap = new HashMap<>();
+        List<Payment> paymentsOfMonth = rs.findByPaymentTimeBetween(
+                LocalDate.of(year, month, 1),
+                LocalDate.of(year, month, 31)
+        );
+
+        double totalRevenueOfMonth = paymentsOfMonth.stream()
+                .mapToDouble(Payment::getTotal_price)
+                .sum();
+        return ResponseEntity.ok(new ResponseObject("",totalRevenueOfMonth));
+    }
     private Map<Integer, Double> calculateRevenueByYear(int year) {
         Map<Integer, Double> revenueMap = new HashMap<>();
         List<Payment> paymentsOfYear = rs.findByPaymentTimeBetween(
