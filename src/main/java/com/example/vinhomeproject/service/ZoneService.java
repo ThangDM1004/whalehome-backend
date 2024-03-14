@@ -81,7 +81,13 @@ public class ZoneService {
     public ResponseEntity<ResponseObject>  updateZone(Long id,ZoneDTO zoneDTO){
         Optional<Zone> zone = repo.findById(id);
         if(zone.isPresent()){
-                zoneDTO.setArea(areaRepository.findById(zoneDTO.getArea().getId()).get());
+            if(repo.findZoneByAreaAndName(areaRepository.findById(zoneDTO.getArea().getId()).get(), zoneDTO.getName()).isPresent()){
+                return ResponseEntity.ok(new ResponseObject(
+                        "Zone have exist",
+                        zone
+                ));
+            }
+            zoneDTO.setArea(areaRepository.findById(zoneDTO.getArea().getId()).get());
             mapper.update(zoneDTO,zone.get());
             repo.save(zone.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
