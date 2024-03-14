@@ -30,5 +30,6 @@ public class Contract extends Base{
 
     @OneToOne
     @JoinColumn(name = "appointment_id", referencedColumnName = "id")
+    @JsonIgnore
     private Appointment appointment;
 }
