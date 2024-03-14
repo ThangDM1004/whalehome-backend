@@ -32,4 +32,8 @@ public class PaymentController {
     public ResponseEntity<ResponseObject> compareRevenue(@RequestParam int year){
         return sv.compareRevenue(year);
     }
+    @GetMapping("/revenuePerMonth")
+    public ResponseEntity<ResponseObject> calculateRevenueByMonth(@RequestParam(required = true) int year, @RequestParam(required = true) int month){
+        return sv.calculateRevenueByMonth(year,month);
+    }
 }
