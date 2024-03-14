@@ -1,16 +1,9 @@
 package com.example.vinhomeproject.models;
 
-import com.example.vinhomeproject.config.TimeConfig;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -34,6 +27,5 @@ public class Appointment extends Base{
 
 
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL)
-    @JsonIgnore
     private Contract contract;
 }
