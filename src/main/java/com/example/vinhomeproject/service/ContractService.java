@@ -58,9 +58,10 @@ public class ContractService {
         Optional<Appointment> appointment = appointmentRepository.findById(contractDTO.getAppointmentId());
         appointment.get().setContract(contract);
         appointmentRepository.save(appointment.get());
+
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create contract successfully",
-                contract
+                contractRepository.getByIdNew(contract.getId())
         ));
     }
 
