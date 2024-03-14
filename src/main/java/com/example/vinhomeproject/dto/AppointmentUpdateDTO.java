@@ -12,10 +12,4 @@ import java.time.LocalTime;
 @Builder
 public class AppointmentUpdateDTO {
     private String statusAppointment;
-    private LocalDate dateTime;
-    private Long usersId;
-    private Long apartmentId;
-    @JsonFormat(pattern = "HH:mm:ss")
-    private LocalTime time;
-    private String note;
 }

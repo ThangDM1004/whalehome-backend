@@ -82,10 +82,7 @@ public class AppointmentService {
     public ResponseEntity<ResponseObject> update(Long id, AppointmentUpdateDTO appointmentDTO){
         Optional<Appointment> appointment = appointmentRepository.findById(id);
         if(appointment.isPresent()){
-            if(appointmentDTO.getStatusAppointment()!=null){appointment.get().setStatusAppointment(appointmentDTO.getStatusAppointment());}
-            if(appointmentDTO.getDateTime()!=null){appointment.get().setDateTime(appointmentDTO.getDateTime());}
-            if(appointmentDTO.getUsersId()!=null){appointment.get().setUsers(usersRepository.findById(appointmentDTO.getUsersId()).get());}
-            if (appointmentDTO.getApartmentId()!=null){appointment.get().setApartment(apartmentRepository.findById(appointmentDTO.getApartmentId()).get());}
+            appointment.get().setStatusAppointment(appointmentDTO.getStatusAppointment());
             appointmentRepository.save(appointment.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Update appointment successfully",
