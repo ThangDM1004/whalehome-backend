@@ -14,7 +14,6 @@ import java.util.Set;
 @Table
 @Builder
 public class Apartment extends Base{
-
     private String name;
 
     private String description;

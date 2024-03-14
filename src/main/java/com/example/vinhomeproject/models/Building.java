@@ -12,7 +12,6 @@ import lombok.*;
 @Table
 @Builder
 public class Building extends Base{
-
     private String name;
 
     @ManyToOne

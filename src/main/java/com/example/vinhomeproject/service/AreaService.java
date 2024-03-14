@@ -37,14 +37,21 @@ public class AreaService {
         ));
     }
     public ResponseEntity<ResponseObject> create(AreaDTO areaDTO){
-        Area area = new Area();
-        area.setCreateDate(LocalDate.now());
-        area.setStatus(true);
-        area.setName(areaDTO.getName());
-        areaRepository.save(area);
+        Optional<Area> area_check = areaRepository.findAreaByName(areaDTO.getName());
+        if(area_check.isEmpty()){
+            Area area = new Area();
+            area.setCreateDate(LocalDate.now());
+            area.setStatus(true);
+            area.setName(areaDTO.getName());
+            areaRepository.save(area);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Create area successfully",
+                    area
+            ));
+        }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Create area successfully",
-                area
+                "Area have exist",
+                ""
         ));
     }
     public ResponseEntity<String> delete(Long id){

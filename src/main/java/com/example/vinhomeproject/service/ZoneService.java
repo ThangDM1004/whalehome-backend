@@ -43,15 +43,22 @@ public class ZoneService {
     }
 
     public ResponseEntity<ResponseObject> createZone(ZoneDTO zoneDTO){
-        zoneDTO.setStatus(true);
-        zoneDTO.setArea(areaRepository.findById(zoneDTO.getArea().getId()).get());
-        Zone zone = mapper.createZoneToZoneDto(zoneDTO);
-        zone.setCreateDate(LocalDate.now());
-        repo.save(zone);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Create zone successfully",
-                zone
+        Optional<Zone> zone_check = repo.findZoneByAreaAndName(zoneDTO.getName(), areaRepository.findById(zoneDTO.getArea().getId()).get());
+        if(zone_check.isEmpty()){
+            zoneDTO.setStatus(true);
+            zoneDTO.setArea(areaRepository.findById(zoneDTO.getArea().getId()).get());
+            Zone zone = mapper.createZoneToZoneDto(zoneDTO);
+            zone.setCreateDate(LocalDate.now());
+            repo.save(zone);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Create zone successfully",
+                    zone
             ));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Zone have exist",
+                ""
+        ));
     }
     public ResponseEntity<ResponseObject>  deleteZone(Long id){
         Optional<Zone> zone = repo.findById(id);
