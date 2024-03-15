@@ -67,6 +67,12 @@ public class AreaService {
     public ResponseEntity<ResponseObject> update(Long id, AreaDTO areaDTO){
         Optional<Area> area = areaRepository.findById(id);
         if(area.isPresent()){
+            if(areaRepository.findAreaByName(areaDTO.getName()).isPresent()){
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                        "Area have exist",
+                        area
+                ));
+            }
             if(areaDTO.getName()!=null){area.get().setName(areaDTO.getName());}
             areaRepository.save(area.get());
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(

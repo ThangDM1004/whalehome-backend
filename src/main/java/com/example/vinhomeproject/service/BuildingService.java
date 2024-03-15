@@ -77,6 +77,12 @@ public class BuildingService {
         Optional<Building> building = buildingRepository.findById(id);
         if (building.isPresent()) {
             if (buildingDTO.getName() != null) {
+                if(buildingRepository.findBuildingByNameAndZone(buildingDTO.getName(),building.get().getZone()).isPresent()){
+                    return ResponseEntity.ok(new ResponseObject(
+                            "Building have exist",
+                            building
+                    ));
+                }
                 building.get().setName(buildingDTO.getName());
             }
             if (buildingDTO.getZone() != null) {

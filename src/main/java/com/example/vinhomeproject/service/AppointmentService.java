@@ -98,8 +98,12 @@ public class AppointmentService {
 
     public ResponseEntity<ResponseObject> getbyUserId(Long id){
         List<AppointmentDTO_2> appointments = appointmentRepository.findByUserIdNew(id);
+        if(appointments.isEmpty()) return ResponseEntity.ok(new ResponseObject(
+                "Do not have appointment with this user",
+                appointments
+        ));
         return ResponseEntity.ok(new ResponseObject(
-                "Get by user id successfully",
+                "Get by user successfully",
                 appointments
         ));
     }
