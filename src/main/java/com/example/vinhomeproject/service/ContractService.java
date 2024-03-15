@@ -4,6 +4,7 @@ package com.example.vinhomeproject.service;
 import com.example.vinhomeproject.dto.AreaDTO;
 import com.example.vinhomeproject.dto.ContractDTO;
 import com.example.vinhomeproject.dto.ContractDTO_2;
+import com.example.vinhomeproject.models.Appointment;
 import com.example.vinhomeproject.models.Area;
 import com.example.vinhomeproject.models.Contract;
 import com.example.vinhomeproject.repositories.AppointmentRepository;
@@ -54,9 +55,13 @@ public class ContractService {
                 .appointment(appointmentRepository.findById(contractDTO.getAppointmentId()).get())
                 .build();
         contractRepository.save(contract);
+        Optional<Appointment> appointment = appointmentRepository.findById(contractDTO.getAppointmentId());
+        appointment.get().setContract(contract);
+        appointmentRepository.save(appointment.get());
+
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Create contract successfully",
-                contract
+                contractRepository.getByIdNew(contract.getId())
         ));
     }
 
