@@ -304,28 +304,28 @@ public class AuthenticationService {
                 sendCodeResponse.setEmail(_email);
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                         "Successfully",
-                        sendCodeResponse
+                        ""
                 ));
             } else {
                 sendCodeResponse.setMessage("The email account does not exist in the system!");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
-                        "Failed",
-                        sendCodeResponse
+                        "The email account does not exist in the system!",
+                        ""
                 ));
             }
         } catch (Exception e) {
             if (e instanceof LockedException) {
                 sendCodeResponse.setMessage("This email account has been disabled!");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
-                        "Failed",
-                        sendCodeResponse
+                        "This email account has been disabled!",
+                        ""
                 ));
             } else {
                 e.printStackTrace();
                 sendCodeResponse.setMessage("Error!");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
-                        "Failed",
-                        sendCodeResponse
+                        "Error!",
+                      ""
                 ));
             }
         }
