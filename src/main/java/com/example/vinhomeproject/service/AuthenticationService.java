@@ -178,7 +178,7 @@ public class AuthenticationService {
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseObject(
                 "Login failed",
-                null
+                ""
         ));
     }
     private void saveUserToken(Users user, String jwtToken) {
@@ -257,17 +257,17 @@ public class AuthenticationService {
             if (result) {
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                         "Successfully",
-                        null
+                        ""
                 ));
             }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
                     "Bad request",
-                    null
+                    ""
             ));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
                 "New password not equals confirm password",
-                null
+                ""
         ));
     }
 
@@ -348,13 +348,13 @@ public class AuthenticationService {
             verifyCodeResponse.setMail(email);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Successfully",
-                    verifyCodeResponse
+                    ""
             ));
         } else {
-            verifyCodeResponse.setMessage("Code is incorrect or has expired.");
+            verifyCodeResponse.setMessage("");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
-                    "Failed",
-                    verifyCodeResponse
+                    "Code is incorrect or has expired.",
+                    ""
             ));
         }
 
@@ -365,7 +365,7 @@ public class AuthenticationService {
         if (verificationToken == null) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Token not exist",
-                    null
+                    ""
             ));
         } else {
             Users users = verificationToken.getUsers();
@@ -374,7 +374,7 @@ public class AuthenticationService {
                 if (verificationToken.getExpiryDate().before(timestamp)) {
                     return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                             "Token has expired",
-                            null
+                            ""
                     ));
                 } else {
                     users.setVerified(true);
