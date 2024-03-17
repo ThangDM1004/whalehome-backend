@@ -45,7 +45,7 @@ public class PostImageController {
     }
 
     @PostMapping("/create/{post_id}")
-    public ResponseEntity<String> createPostImage(@RequestParam("file") MultipartFile multipartFile,
+    public ResponseEntity<ResponseObject> createPostImage(@RequestParam("file") MultipartFile multipartFile,
                                                   @PathVariable Long post_id ) {
         return sv.createPostImage(multipartFile, post_id);
     }
