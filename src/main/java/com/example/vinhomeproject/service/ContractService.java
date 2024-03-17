@@ -143,7 +143,7 @@ public class ContractService {
                 contractRepository.save(contract.get());
                 return ResponseEntity.status (HttpStatus.OK).body(new ResponseObject(
                         "File uploaded successfully",
-                        imageUrl
+                        contract.get()
                 ));
             } else {
                 return ResponseEntity.status (HttpStatus.NOT_FOUND).body(new ResponseObject(
