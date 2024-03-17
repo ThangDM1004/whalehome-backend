@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class ContractDTO_3 {
     private LocalDate createDateContract;
     private LocalDate expireDateContract;
-    private int durationMonth;
+    private long durationMonth;
     private double totalPrice;
     private double pricePerMonth;
     private String areaName;

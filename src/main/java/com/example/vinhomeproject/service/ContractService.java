@@ -33,6 +33,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,6 +50,8 @@ public class ContractService {
     private UsersRepository usersRepository;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private PaymentService paymentService;
     public ResponseEntity<ResponseObject> getAll(){
         List<ContractDTO_2> contracts = contractRepository.getAll();
         return ResponseEntity.ok(new ResponseObject(
@@ -73,6 +76,7 @@ public class ContractService {
 
     public ResponseEntity<ResponseObject> create(ContractDTO contractDTO){
         Contract contract;
+        long durationMonth;
         contractDTO.setContractHistory(contractHistoryRepository.findById(contractDTO.getContractHistory().getId()).get());
         contract = Contract.builder()
                 .dateSign(contractDTO.getDateSign())
@@ -82,6 +86,12 @@ public class ContractService {
                 .appointment(appointmentRepository.findById(contractDTO.getAppointmentId()).get())
                 .build();
         contractRepository.save(contract);
+
+        durationMonth = ChronoUnit.MONTHS.between(contract.getDateStartRent()
+                ,  contract.getContractHistory().getExpiredTime());
+        for (int i = 1 ; i <= durationMonth; i++){
+            paymentService.CreatePayment(contract.getId(), i);
+        }
         Optional<Appointment> appointment = appointmentRepository.findById(contractDTO.getAppointmentId());
         appointment.get().setContract(contract);
         appointmentRepository.save(appointment.get());
@@ -161,7 +171,8 @@ public class ContractService {
     {
         if(contractRepository.findById(id).isPresent()){
             Contract c = contractRepository.findById(id).get();
-            int durationMonth = c.getContractHistory().getExpiredTime().getMonthValue() - c.getDateStartRent().getMonthValue();
+            long durationMonth = ChronoUnit.MONTHS.between(c.getDateStartRent()
+                    ,  c.getContractHistory().getExpiredTime());
             double totalPrice = c.getContractHistory().getPrice() * durationMonth;
             var contract = ContractDTO_3.builder()
                     .createDateContract(c.getDateStartRent())

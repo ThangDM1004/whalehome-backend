@@ -2,7 +2,10 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.RevenuePerMonthDTO;
 import com.example.vinhomeproject.dto.RevenueYearDTO;
+import com.example.vinhomeproject.models.Contract;
+import com.example.vinhomeproject.models.ContractHistory;
 import com.example.vinhomeproject.models.Payment;
+import com.example.vinhomeproject.repositories.ContractRepository;
 import com.example.vinhomeproject.repositories.PaymentRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ import java.util.Map;
 public class PaymentService {
     @Autowired
     private  PaymentRepository rs;
+    @Autowired
+    private ContractRepository contractRepository;
 
     public ResponseEntity<ResponseObject> getAllPayment(){
         List<Payment> paymentList=rs.findAll();
@@ -96,13 +101,26 @@ public class PaymentService {
                 .sum();
         return ResponseEntity.ok(new ResponseObject("",totalRevenueOfMonth));
     }
+    public void CreatePayment(Long contractId, int paymentOrder){
+        if(contractRepository.findById(contractId).isEmpty()){
+            return;
+        }
+        Contract contract = contractRepository.findById(contractId).get();
+        Payment payment = Payment.builder()
+                .payment_time(contract.getDateStartRent().plusMonths(paymentOrder))
+                .contract(contract)
+                .total_price(contract.getContractHistory().getPrice())
+                .content("Semester "+String.valueOf(paymentOrder))
+                .build();
+        rs.save(payment);
+    }
     private Map<Integer, Double> calculateRevenueByYear(int year) {
         Map<Integer, Double> revenueMap = new HashMap<>();
         List<Payment> paymentsOfYear = rs.findByPaymentTimeBetween(
                 LocalDate.of(year, 1, 1),
                 LocalDate.of(year, 12, 31)
         );
-
+        paymentsOfYear.removeIf(payment -> !payment.isStatus());
         for (int month = 1; month <= 12; month++) {
             final int currentMonth = month;
             double totalRevenueOfMonth = paymentsOfYear.stream()
@@ -111,7 +129,6 @@ public class PaymentService {
                     .sum();
             revenueMap.put(month, totalRevenueOfMonth);
         }
-
         return revenueMap;
     }
     private List<RevenuePerMonthDTO> mapToRevenuePerMonthDTO(Map<Integer, Double> revenueMap) {
