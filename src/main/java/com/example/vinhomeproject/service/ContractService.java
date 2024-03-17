@@ -137,8 +137,8 @@ public class ContractService {
                 contract.get().setUrlFile(imageUrl);
                 contractRepository.save(contract.get());
                 return ResponseEntity.status (HttpStatus.OK).body(new ResponseObject(
-                        "File uploaded successfully. File URL: " + imageUrl,
-                        ""
+                        "File uploaded successfully",
+                        imageUrl
                 ));
             } else {
                 return ResponseEntity.status (HttpStatus.NOT_FOUND).body(new ResponseObject(
