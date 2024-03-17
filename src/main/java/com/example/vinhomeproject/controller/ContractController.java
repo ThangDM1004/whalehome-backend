@@ -45,8 +45,8 @@ public class ContractController {
                                                      @PathVariable Long id){
        return contractService.uploadFile(multipartFile,id);
     }
-    @PostMapping("/download/{id}")
-    public ResponseEntity<ResponseObject> download(@PathVariable Long id) throws IOException {
+    @GetMapping("/download/{id}")
+    public ResponseEntity<byte[]> download(@PathVariable Long id) throws IOException {
         return contractService.downloadFile(id);
     }
 }
