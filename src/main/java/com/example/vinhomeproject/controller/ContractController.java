@@ -6,6 +6,9 @@ import com.example.vinhomeproject.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -36,5 +39,14 @@ public class ContractController {
     @GetMapping("/count-all")
     public ResponseEntity<ResponseObject> countAll(){
         return contractService.countAll();
+    }
+    @PutMapping("/upload/{id}")
+    public ResponseEntity<ResponseObject> uploadFile(@RequestParam("file") MultipartFile multipartFile,
+                                                     @PathVariable Long id){
+       return contractService.uploadFile(multipartFile,id);
+    }
+    @PostMapping("/download/{id}")
+    public ResponseEntity<ResponseObject> download(@PathVariable Long id) throws IOException {
+        return contractService.downloadFile(id);
     }
 }

@@ -5,17 +5,34 @@ import com.example.vinhomeproject.dto.ContractDTO;
 import com.example.vinhomeproject.dto.ContractHistoryDTO;
 import com.example.vinhomeproject.models.Contract;
 import com.example.vinhomeproject.models.ContractHistory;
+import com.example.vinhomeproject.models.ProblemImage;
+import com.example.vinhomeproject.models.Problems;
 import com.example.vinhomeproject.repositories.ContractHistoryRepository;
 import com.example.vinhomeproject.repositories.ContractRepository;
 import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.response.ResponseObject;
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ContractHistoryService {
@@ -93,4 +110,5 @@ public class ContractHistoryService {
                 ""
         ));
     }
+
 }
