@@ -29,4 +29,5 @@ public class ContractDTO_2 {
     private String buildingName;
     private String zoneName;
     private String areaName;
+    private String urlFile;
 }
