@@ -20,7 +20,20 @@ import java.util.*;
 public class VNPayService {
     @Autowired
     private PaymentRepository paymentRepository;
-
+    @Autowired
+    private ContractRepository contractRepository;
+    private boolean checkStatusOfPayment(Long id){
+        boolean check = false;
+        List<Payment> list = paymentRepository.findAllByContractId(id);
+        for(Payment x:list){
+            if(x.isStatus()){
+                check = true;
+            }else {
+                check = false;
+            }
+        }
+        return check;
+    }
     public ResponseEntity<ResponseObject> paymentCallback(Map<String, String> queryParams) {
         String vnp_ResponseCode = queryParams.get("vnp_ResponseCode");
         String paymentId = queryParams.get("paymentId");
@@ -31,6 +44,11 @@ public class VNPayService {
                 Optional<Payment> payment = paymentRepository.findById((long) Integer.parseInt(queryParams.get("paymentId")));
                 if (payment.isPresent()) {
                     payment.get().setStatus(true);
+                    if(checkStatusOfPayment(payment.get().getContract().getId())){
+                        Optional<Contract> contract = contractRepository.findById(payment.get().getContract().getId());
+                        contract.get().setStatusOfPayment(true);
+                        contractRepository.save(contract.get());
+                    }
                     paymentRepository.save(payment.get());
                     return ResponseEntity.ok(new ResponseObject(
                             "Payment successfully",
