@@ -1,23 +1,19 @@
 package com.example.vinhomeproject.service;
 
 
-import com.example.vinhomeproject.dto.AreaDTO;
 import com.example.vinhomeproject.dto.ContractDTO;
 import com.example.vinhomeproject.dto.ContractDTO_2;
 import com.example.vinhomeproject.models.*;
 import com.example.vinhomeproject.repositories.AppointmentRepository;
 import com.example.vinhomeproject.repositories.ContractHistoryRepository;
 import com.example.vinhomeproject.repositories.ContractRepository;
-import com.example.vinhomeproject.repositories.PaymentRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.*;
+import com.google.firebase.cloud.StorageClient;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +25,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -159,7 +157,9 @@ public class ContractService {
 
     private String uploadFile(File file, String fileName) throws IOException {
         BlobId blobId = BlobId.of("whalehome-project.appspot.com", fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+                .setContentType("application/pdf")
+                .build();
         InputStream inputStream = PostImageService.class.getClassLoader().getResourceAsStream("firebase.json");
         Credentials credentials = GoogleCredentials.fromStream(inputStream);
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
@@ -176,7 +176,7 @@ public class ContractService {
             String fileExtension = getExtension(fileName);
 
             // Check if the file is a PDF
-            if (!fileExtension.equalsIgnoreCase("pdf")) {
+            if (!fileExtension.equalsIgnoreCase(".pdf")) {
                 return "Invalid file format. Only PDF files are allowed.";
             }
 
@@ -190,29 +190,28 @@ public class ContractService {
             return "Something went wrong while uploading the file.";
         }
     }
-    public ResponseEntity<ResponseObject> downloadFile(Long id) throws IOException {
+    public ResponseEntity<byte[]> downloadFile(Long id) throws IOException {
         Optional<Contract> contract = contractRepository.findById(id);
         if(contract.isPresent()){
-            byte[] fileBytes = fileService.downloadFile(contract.get().getUrlFile());
+            URL url = new URL(contract.get().getUrlFile());
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-            ByteArrayResource resource = new ByteArrayResource(fileBytes);
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                return ResponseEntity.notFound().build();
+            }
 
+            InputStream inputStream = connection.getInputStream();
+            byte[] bytes = IOUtils.toByteArray(inputStream);
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=downloaded_file");
+            headers.setContentDispositionFormData("attachment", getFileNameFromUrl(contract.get().getUrlFile()));
+            headers.setContentLength(bytes.length);
 
-            ResponseObject responseObject = new ResponseObject();
-            responseObject.setMessage("File downloaded successfully");
-            responseObject.setData(fileBytes);
-
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .body(responseObject);
-
+            return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
         }
-        return ResponseEntity.status (HttpStatus.NOT_FOUND).body(new ResponseObject(
-                "Contract is not exist",
-                ""
-        ));
+        return null;
+    }
+    private String getFileNameFromUrl(String fileUrl) {
+        String[] parts = fileUrl.split("/");
+        return parts[parts.length - 1].split("\\?")[0];
     }
 }
