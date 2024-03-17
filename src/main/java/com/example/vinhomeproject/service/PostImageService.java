@@ -54,7 +54,6 @@ public class PostImageService {
         if (ex != null) {
             rs.delete(ex);
             deleteFile(ex.getImage_url());
-            rs.save(ex);
             return ResponseEntity.ok("Delete successfully");
         } else {
             return ResponseEntity.ok("id not exist");
