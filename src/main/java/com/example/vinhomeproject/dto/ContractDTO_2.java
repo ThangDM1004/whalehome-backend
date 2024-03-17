@@ -30,4 +30,5 @@ public class ContractDTO_2 {
     private String zoneName;
     private String areaName;
     private String urlFile;
+    private Long landLordId;
 }
