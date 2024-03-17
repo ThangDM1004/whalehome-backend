@@ -75,7 +75,7 @@ public class PostImageService {
 
     }
 
-    public ResponseEntity<String> createPostImage(MultipartFile multipartFile, Long id) {
+    public ResponseEntity<ResponseObject> createPostImage(MultipartFile multipartFile, Long id) {
         Optional<Post> post = postRepository.findById(id);
         if (post.isPresent()) {
             PostImage ps = new PostImage();
@@ -86,12 +86,12 @@ public class PostImageService {
                 ps.setImage_alt("image");
                 ps.setStatus(true);
                 rs.save(ps);
-                return ResponseEntity.ok("Image uploaded successfully. Image URL: " + imageUrl);
+                return ResponseEntity.ok(new ResponseObject("Create successful",ps));
             } else {
-                return ResponseEntity.badRequest().body("PostImage object is null");
+                return ResponseEntity.ok(new ResponseObject("PostImage object is null",""));
             }
         }
-        return ResponseEntity.badRequest().body("Post is not exist");
+        return ResponseEntity.ok(new ResponseObject("Post is not exist",""));
     }
 
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
