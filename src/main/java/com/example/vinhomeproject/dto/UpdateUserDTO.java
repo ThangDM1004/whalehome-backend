@@ -20,5 +20,8 @@ public class UpdateUserDTO {
     private String fullName;
     private LocalDate dateOfBirth;
     private String gender;
+    private String identityCard;
+    private LocalDate identityCardDateProvide;
+    private String identityCardAddressProvide;
     private String address;
 }
