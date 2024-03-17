@@ -49,4 +49,8 @@ public class ContractController {
     public ResponseEntity<byte[]> download(@PathVariable Long id) throws IOException {
         return contractService.downloadFile(id);
     }
+    @GetMapping("/getDetailContract/{id}")
+    public ResponseEntity<ResponseObject> getDetailContract(@PathVariable Long id){
+        return contractService.getDetailContract(id);
+    }
 }
