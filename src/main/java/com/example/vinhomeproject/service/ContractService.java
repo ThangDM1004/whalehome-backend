@@ -3,10 +3,12 @@ package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.ContractDTO;
 import com.example.vinhomeproject.dto.ContractDTO_2;
+import com.example.vinhomeproject.dto.ContractDTO_3;
 import com.example.vinhomeproject.models.*;
 import com.example.vinhomeproject.repositories.AppointmentRepository;
 import com.example.vinhomeproject.repositories.ContractHistoryRepository;
 import com.example.vinhomeproject.repositories.ContractRepository;
+import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -30,6 +32,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,6 +45,8 @@ public class ContractService {
     private ContractHistoryRepository contractHistoryRepository;
     @Autowired
     private AppointmentRepository appointmentRepository;
+    @Autowired
+    private UsersRepository usersRepository;
     @Autowired
     private FileService fileService;
     public ResponseEntity<ResponseObject> getAll(){
@@ -143,6 +148,35 @@ public class ContractService {
         }
         return ResponseEntity.status (HttpStatus.NOT_FOUND).body(new ResponseObject(
                 "Contract is not exist",
+                ""
+        ));
+    }
+    public ResponseEntity<ResponseObject> getDetailContract(Long id)
+    {
+        if(contractRepository.findById(id).isPresent()){
+            Contract c = contractRepository.findById(id).get();
+            int durationMonth = c.getContractHistory().getExpiredTime().getMonthValue() - c.getDateStartRent().getMonthValue();
+            double totalPrice = c.getContractHistory().getPrice() * durationMonth;
+            var contract = ContractDTO_3.builder()
+                    .createDateContract(c.getDateStartRent())
+                    .expireDateContract(c.getContractHistory().getExpiredTime())
+                    .durationMonth(durationMonth)
+                    .totalPrice(totalPrice)
+                    .pricePerMonth(c.getContractHistory().getPrice())
+                    .areaName(c.getAppointment().getApartment().getBuilding().getZone().getArea().getName())
+                    .zoneName(c.getAppointment().getApartment().getBuilding().getZone().getName())
+                    .buildingName(c.getAppointment().getApartment().getBuilding().getName())
+                    .landlord(usersRepository.findByEmail(c.getCreateBy()).get())
+                    .renter(c.getAppointment().getUsers())
+                    .urlContract(c.getUrlFile())
+                    .build();
+            return ResponseEntity.status (HttpStatus.OK).body(new ResponseObject(
+                    "Get successfully",
+                    contract));
+        }
+
+        return ResponseEntity.status (HttpStatus.OK).body(new ResponseObject(
+                "Id do not exist",
                 ""
         ));
     }
