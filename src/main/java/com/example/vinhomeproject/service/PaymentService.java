@@ -112,6 +112,7 @@ public class PaymentService {
                 .total_price(contract.getContractHistory().getPrice())
                 .content("Semester "+String.valueOf(paymentOrder))
                 .build();
+        payment.setStatus(false);
         rs.save(payment);
     }
     private Map<Integer, Double> calculateRevenueByYear(int year) {
