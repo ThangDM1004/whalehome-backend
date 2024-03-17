@@ -69,7 +69,7 @@ public class UsersService {
         boolean exist = checkEmailDuplicate(user.getEmail());
         user.setStatus(true);
         repo.save(mapper.createClassDtoToClassSubject(user));
-        if (exist == true) {
+        if (exist) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject(
                     "Email have exist",
                     null
@@ -133,6 +133,15 @@ public class UsersService {
                 userDTO.setGender(user.get().getGender());
             }
             if(userDTO.getDateOfBirth() == null){
+                userDTO.setDateOfBirth(user.get().getDateOfBirth());
+            }
+            if(userDTO.getIdentityCard() == null){
+                userDTO.setDateOfBirth(user.get().getDateOfBirth());
+            }
+            if(userDTO.getIdentityCardAddressProvide() == null){
+                userDTO.setDateOfBirth(user.get().getDateOfBirth());
+            }
+            if(userDTO.getIdentityCardDateProvide()== null){
                 userDTO.setDateOfBirth(user.get().getDateOfBirth());
             }
             mapper.updateUser(userDTO,user.get());

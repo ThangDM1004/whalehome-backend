@@ -23,6 +23,9 @@ public class UserDTO {
     private String fullName;
     private LocalDate dateOfBirth;
     private boolean status;
+    private String identityCard;
+    private LocalDate identityCardDateProvide;
+    private String identityCardAddressProvide;
     private String image;
     private String gender;
     private String address;
