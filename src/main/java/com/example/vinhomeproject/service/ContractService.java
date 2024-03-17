@@ -53,10 +53,16 @@ public class ContractService {
     }
 
     public ResponseEntity<ResponseObject> getById(Long id){
-        Optional<Contract> contract = contractRepository.findById(id);
-        return ResponseEntity.ok(new ResponseObject(
-                "successfully",
-                contract
+        ContractDTO_2 contract = contractRepository.getByIdNew(id);
+        if(contract != null){
+            return ResponseEntity.ok(new ResponseObject(
+                    "Get contract by id successfully",
+                    contract
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject(
+                "Contract not exist",
+                ""
         ));
     }
 
@@ -130,7 +136,7 @@ public class ContractService {
                 String imageUrl = this.upload(multipartFile);
                 contract.get().setUrlFile(imageUrl);
                 contractRepository.save(contract.get());
-                return ResponseEntity.status (HttpStatus.NOT_FOUND).body(new ResponseObject(
+                return ResponseEntity.status (HttpStatus.OK).body(new ResponseObject(
                         "File uploaded successfully. File URL: " + imageUrl,
                         ""
                 ));
