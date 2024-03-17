@@ -31,4 +31,5 @@ public class ContractDTO_2 {
     private String areaName;
     private String urlFile;
     private Long landLordId;
+    private boolean statusOfPayment;
 }
