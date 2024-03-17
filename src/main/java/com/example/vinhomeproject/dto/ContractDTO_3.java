@@ -25,4 +25,5 @@ public class ContractDTO_3 {
     private Users landlord;
     private Users renter;
     private String urlContract;
+    private boolean statusOfPayment;
 }

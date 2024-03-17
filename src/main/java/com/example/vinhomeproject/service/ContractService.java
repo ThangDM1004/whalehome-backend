@@ -84,6 +84,7 @@ public class ContractService {
                 .dateStartRent(contractDTO.getDateStartRent())
                 .contractHistory(contractDTO.getContractHistory())
                 .appointment(appointmentRepository.findById(contractDTO.getAppointmentId()).get())
+                .statusOfPayment(false)
                 .build();
         contractRepository.save(contract);
 

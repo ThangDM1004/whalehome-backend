@@ -19,6 +19,7 @@ public class Contract extends Base{
     private LocalDate dateSign;
     private String description;
     private LocalDate dateStartRent;
+    private boolean statusOfPayment;
     private String urlFile;
     @OneToMany(mappedBy = "contract")
     @JsonIgnore
