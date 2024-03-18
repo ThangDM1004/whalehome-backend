@@ -24,7 +24,7 @@ public class ContractDTO_3 {
     private Apartment apartment;
     private Users landlord;
     private Users renter;
-    private String bankCode;
+    private BankDTO bank;
     private String urlContract;
     private boolean statusOfPayment;
 }
