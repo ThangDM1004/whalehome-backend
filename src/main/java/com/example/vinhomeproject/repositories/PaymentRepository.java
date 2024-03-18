@@ -19,7 +19,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     Payment save(Payment payment);
     @Query("SELECT p FROM Payment p WHERE p.payment_time BETWEEN :startDate AND :endDate")
     List<Payment> findByPaymentTimeBetween(LocalDate startDate, LocalDate endDate);
-    @Query("SELECT p FROM Payment p WHERE p.contract.id = ?1 ORDER BY p.id asc")
+    @Query("SELECT p FROM Payment p WHERE p.contract.id = ?1 ORDER BY p.payment_time asc")
     List<Payment> findAllByContractId(Long id);
     @Query("SELECT p FROM Payment p WHERE p.contract.id = :id AND EXTRACT(MONTH FROM p.payment_time) = :month AND EXTRACT(YEAR FROM p.payment_time) = :year")
     List<Payment> findAllByContractId(@Param("id") Long id, @Param("month") int month, @Param("year") int year);
