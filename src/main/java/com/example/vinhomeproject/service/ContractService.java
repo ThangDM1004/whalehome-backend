@@ -202,6 +202,7 @@ public class ContractService {
                     .buildingName(c.getAppointment().getApartment().getBuilding().getName())
                     .apartment(c.getAppointment().getApartment())
                     .landlord(usersRepository.findByEmail(c.getCreateBy()).get())
+                    .bankCode("123456789")
                     .renter(c.getAppointment().getUsers())
                     .urlContract(c.getUrlFile())
                     .build();
