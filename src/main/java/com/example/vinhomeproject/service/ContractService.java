@@ -200,6 +200,7 @@ public class ContractService {
                     .areaName(c.getAppointment().getApartment().getBuilding().getZone().getArea().getName())
                     .zoneName(c.getAppointment().getApartment().getBuilding().getZone().getName())
                     .buildingName(c.getAppointment().getApartment().getBuilding().getName())
+                    .apartment(c.getAppointment().getApartment())
                     .landlord(usersRepository.findByEmail(c.getCreateBy()).get())
                     .renter(c.getAppointment().getUsers())
                     .urlContract(c.getUrlFile())
