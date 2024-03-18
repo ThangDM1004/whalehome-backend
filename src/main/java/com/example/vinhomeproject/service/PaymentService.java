@@ -196,4 +196,24 @@ public class PaymentService {
                 ""
         ));
     }
+
+    public ResponseEntity<ResponseObject> allPaymentInUser(Long userId){
+        List<Contract> contracts = contractRepository.findContractsByUserId(userId);
+        List<PaymentDTO_2> payments = new ArrayList<>();
+        for(Contract x : contracts){
+            if(rs.getAllByContractId(x.getId()) != null){
+                payments.addAll(rs.getAllByContractId(x.getId()));
+            }
+        }
+        if(!payments.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Get all payment successfully",
+                    payments
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Payment null",
+                ""
+        ));
+    }
 }

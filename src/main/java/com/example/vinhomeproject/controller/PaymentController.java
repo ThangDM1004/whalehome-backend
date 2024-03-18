@@ -36,16 +36,17 @@ public class PaymentController {
     public ResponseEntity<ResponseObject> calculateRevenueByMonth(@RequestParam(required = true) int year, @RequestParam(required = true) int month){
         return sv.calculateRevenueByMonth(year,month);
     }
-    @GetMapping("/getUpconmingPayment/{id}")
+    @GetMapping("/get-upcoming-payment/{id}")
     public ResponseEntity<ResponseObject> getUpcomingPayment(@PathVariable Long id,@RequestParam(required = true) int month, @RequestParam(required = true) int year){
         return sv.allPaymentInMonth(id,month,year);
     }
-    @GetMapping("/getUnpaidPayment/{id}")
+    @GetMapping("/get-unpaid-payment/{id}")
     public ResponseEntity<ResponseObject> getUnpaidPayment(@PathVariable Long id){
         return sv.getAllUnpaidPayment(id);
     }
-    @GetMapping("/getAllPaymentByContract/{id}")
+    @GetMapping("/get-all-payment-by-contract/{id}")
     public ResponseEntity<ResponseObject> getAllPaymentByContract(@PathVariable Long id){
-        return sv.getAllPaymentByContractId(id);
+        return sv.allPaymentInUser(id);
     }
+
 }
