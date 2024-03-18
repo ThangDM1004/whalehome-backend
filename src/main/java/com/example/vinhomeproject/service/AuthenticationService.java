@@ -85,7 +85,7 @@ public class AuthenticationService {
                     .address(request.getAddress())
                     .fullName(request.getFullName())
                     .dateOfBirth(request.getDateOfBirth())
-                    .isVerified(false)
+                    .isVerified(true)
                     .status(true)
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(Role.USER)
