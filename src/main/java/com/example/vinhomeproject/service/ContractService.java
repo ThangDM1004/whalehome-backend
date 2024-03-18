@@ -225,6 +225,7 @@ public class ContractService {
                 .contractStatus(contract.isStatusOfPayment())
                 .totalPrice(totalPrice)
                 .landlordName(usersRepository.findByEmail(contract.getCreateBy()).get().getFullName())
+                .urlFile(contract.getUrlFile())
                 .renterName(contract.getAppointment().getUsers().getFullName())
                 .durationMonth(countPaymentsWithFalseStatus(contract.getId()))
                 .address(contract.getAppointment().getApartment().getName()
