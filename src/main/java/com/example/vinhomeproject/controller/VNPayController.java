@@ -6,6 +6,7 @@ import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -18,8 +19,8 @@ public class VNPayController {
     public VNPayService service;
 
     @GetMapping("/payment-callback")
-    public ResponseEntity<ResponseObject> paymentCallback(@RequestParam Map<String, String> queryParams){
-        return service.paymentCallback(queryParams);
+    public ModelAndView paymentCallback(@RequestParam Map<String, String> queryParams){
+        return new ModelAndView(service.paymentCallback(queryParams)) ;
     }
     @GetMapping("/payment")
     public ResponseEntity<ResponseObject> payment(@PathParam("price") long price, @PathParam("paymentId") Long paymentId, @RequestParam("bankCode") String bankCode) throws UnsupportedEncodingException {

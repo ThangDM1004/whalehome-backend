@@ -34,7 +34,7 @@ public class VNPayService {
         }
         return check;
     }
-    public ResponseEntity<ResponseObject> paymentCallback(Map<String, String> queryParams) {
+    public String paymentCallback(Map<String, String> queryParams) {
         String vnp_ResponseCode = queryParams.get("vnp_ResponseCode");
         String paymentId = queryParams.get("paymentId");
         if (paymentId != null && !paymentId.equals("")) {
@@ -50,28 +50,16 @@ public class VNPayService {
                         contractRepository.save(contract.get());
                     }
                     paymentRepository.save(payment.get());
-                    return ResponseEntity.ok(new ResponseObject(
-                            "Payment successfully",
-                            null
-                    ));
+                    return "payment-success";
                 }
-                return ResponseEntity.ok(new ResponseObject(
-                        "Payment not exist",
-                        null
-                ));
+                return "payment-failed";
             } else {
                 // Giao dịch thất bại
                 // Thực hiện các xử lý cần thiết, ví dụ: không cập nhật CSDL\
-                return ResponseEntity.ok(new ResponseObject(
-                        "Payment failed",
-                        null
-                ));
+                return "payment-failed";
             }
         }
-        return ResponseEntity.ok(new ResponseObject(
-                "Payment failed",
-                null
-        ));
+        return "payment-failed";
     }
 
     public ResponseEntity<ResponseObject> payment(long price, Long paymentId, String bankCode) throws UnsupportedEncodingException {

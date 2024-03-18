@@ -93,7 +93,7 @@ public class PaypalService {
         return check;
     }
 
-    public ResponseEntity<ResponseObject> paymentSuccessfully(Long id, String paymentId,String payerId){
+    public String paymentSuccessfully(Long id, String paymentId,String payerId){
         try {
             Payment payment = this.executePayment(paymentId, payerId);
             if (payment.getState().equals("approved")) {
@@ -107,16 +107,10 @@ public class PaypalService {
                     }
                     paymentRepository.save(_payment.get());
                 }
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                        "Payment successfully",
-                        ""
-                ));
+                return "payment-success";
             }
         } catch (PayPalRESTException e) {
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "",
-                ""
-        ));
+        return "payment-success";
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,19 +59,17 @@ public class PaypalController {
     }
 
     @GetMapping("/success/{id}")
-    public ResponseEntity<ResponseObject> paymentSuccess(
+    public ModelAndView paymentSuccess(
             @PathVariable("id") Long id,
             @RequestParam("paymentId") String paymentId,
             @RequestParam("PayerID") String payerId
     ) {
-      return paypalService.paymentSuccessfully(id,paymentId,payerId);
+
+      return new ModelAndView(paypalService.paymentSuccessfully(id,paymentId,payerId));
     }
     @GetMapping("/cancel")
-    public ResponseEntity<ResponseObject> paymentCancel() {
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
-                "Payment cancel",
-                ""
-        ));
+    public ModelAndView paymentCancel() {
+        return new ModelAndView("payment-cancel");
     }
 
 }
