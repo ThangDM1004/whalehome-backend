@@ -16,5 +16,4 @@ public class PaymentDTO {
     private String content;
 
     private double total_price;
-    private Long  contractId;
 }

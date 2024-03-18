@@ -1,6 +1,7 @@
 package com.example.vinhomeproject.service;
 
 import com.example.vinhomeproject.dto.PaymentDTO;
+import com.example.vinhomeproject.dto.PaymentDTO_2;
 import com.example.vinhomeproject.dto.RevenuePerMonthDTO;
 import com.example.vinhomeproject.dto.RevenueYearDTO;
 import com.example.vinhomeproject.mapper.PaymentMapper;
@@ -10,6 +11,7 @@ import com.example.vinhomeproject.repositories.ContractRepository;
 import com.example.vinhomeproject.repositories.PaymentRepository;
 import com.example.vinhomeproject.response.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -94,8 +96,11 @@ public class PaymentService {
         ));
     }
     public ResponseEntity<ResponseObject> getAllPaymentByContractId(Long contractId){
+        List<Payment> payments = rs.findAllByContractId(contractId).stream().
+                filter(payment -> !payment.isStatus()).toList();
+        List<PaymentDTO> paymentDTOS = payments.stream().map(paymentMapper::toDto).toList();
         return ResponseEntity.ok(new ResponseObject(
-                "",rs.findAllByContractId(contractId)));
+                "",paymentDTOS));
     }
     public ResponseEntity<ResponseObject> getAllUnpaidPayment(Long userId){
         List<Contract> contracts = contractRepository.findContractsByUserId(userId);
@@ -171,5 +176,24 @@ public class PaymentService {
             revenueList.add(new RevenuePerMonthDTO(month, revenue));
         }
         return revenueList;
+    }
+    public ResponseEntity<ResponseObject> allPaymentInMonth(Long userId, int month, int year){
+        List<Contract> contracts = contractRepository.findContractsByUserId(userId);
+        List<PaymentDTO_2> payments = new ArrayList<>();
+        for(Contract x : contracts){
+            if(rs.findByContractId(x.getId(),month,year) != null){
+                payments.add(rs.findByContractId(x.getId(),month,year));
+            }
+        }
+        if(!payments.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Get payment by month, year successfully",
+                    payments
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Payment null",
+                ""
+        ));
     }
 }
