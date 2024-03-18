@@ -9,7 +9,9 @@ import io.swagger.v3.oas.models.annotations.OpenAPI30;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.web.client.RestTemplate;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
@@ -38,5 +40,9 @@ public class VinHomeProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(VinHomeProjectApplication.class, args);
+    }
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }
