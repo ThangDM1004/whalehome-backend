@@ -36,4 +36,8 @@ public class PaymentController {
     public ResponseEntity<ResponseObject> calculateRevenueByMonth(@RequestParam(required = true) int year, @RequestParam(required = true) int month){
         return sv.calculateRevenueByMonth(year,month);
     }
+    @GetMapping("/getUpconmingPayment/{id}")
+    public ResponseEntity<ResponseObject> getUpcomingPayment(@PathVariable Long id,@RequestParam(required = true) int month, @RequestParam(required = true) int year){
+        return sv.getUpcomingPayment(id,month,year);
+    }
 }

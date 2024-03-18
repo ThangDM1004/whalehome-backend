@@ -115,6 +115,16 @@ public class PaymentService {
         payment.setStatus(false);
         rs.save(payment);
     }
+    public ResponseEntity<ResponseObject> getUpcomingPayment( Long userId, int month, int year) {
+        List<Contract> contracts = contractRepository.findContractsByUserId(userId);
+        List<List<Payment>> paymentsForContracts = new ArrayList<>();
+
+        for (Contract contract : contracts) {
+            List<Payment> payments = rs.findAllByContractId(contract.getId(),month,year);
+            paymentsForContracts.add(payments);
+        }
+        return ResponseEntity.ok(new ResponseObject("Get successfully",paymentsForContracts));
+    }
     private Map<Integer, Double> calculateRevenueByYear(int year) {
         Map<Integer, Double> revenueMap = new HashMap<>();
         List<Payment> paymentsOfYear = rs.findByPaymentTimeBetween(

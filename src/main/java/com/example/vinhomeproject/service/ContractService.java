@@ -4,11 +4,9 @@ package com.example.vinhomeproject.service;
 import com.example.vinhomeproject.dto.ContractDTO;
 import com.example.vinhomeproject.dto.ContractDTO_2;
 import com.example.vinhomeproject.dto.ContractDTO_3;
+import com.example.vinhomeproject.dto.ContractDTO_4;
 import com.example.vinhomeproject.models.*;
-import com.example.vinhomeproject.repositories.AppointmentRepository;
-import com.example.vinhomeproject.repositories.ContractHistoryRepository;
-import com.example.vinhomeproject.repositories.ContractRepository;
-import com.example.vinhomeproject.repositories.UsersRepository;
+import com.example.vinhomeproject.repositories.*;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -37,6 +35,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ContractService {
@@ -52,6 +51,9 @@ public class ContractService {
     private FileService fileService;
     @Autowired
     private PaymentService paymentService;
+    @Autowired
+    private PaymentRepository paymentRepository;
+
     public ResponseEntity<ResponseObject> getAll(){
         List<ContractDTO_2> contracts = contractRepository.getAll();
         return ResponseEntity.ok(new ResponseObject(
@@ -168,6 +170,20 @@ public class ContractService {
                 ""
         ));
     }
+    public ResponseEntity<ResponseObject> getListContract(Long userId){
+        List<Contract> contracts = contractRepository.findContractsByUserId(userId);
+        if(contracts.isEmpty()){
+            return ResponseEntity.status (HttpStatus.OK).body(new ResponseObject(
+                    "Do not exist contract or user id",
+                    ""
+            ));
+        }
+
+        return ResponseEntity.status (HttpStatus.OK).body(new ResponseObject(
+                "Get list contract",
+                contracts.stream().map(this::toContractDTO_4).collect(Collectors.toList())
+        ));
+    }
     public ResponseEntity<ResponseObject> getDetailContract(Long id)
     {
         if(contractRepository.findById(id).isPresent()){
@@ -198,7 +214,34 @@ public class ContractService {
                 ""
         ));
     }
+    private ContractDTO_4 toContractDTO_4(Contract contract){
+        long durationMonth = ChronoUnit.MONTHS.between(contract.getDateStartRent()
+                ,  contract.getContractHistory().getExpiredTime());
+        double totalPrice = contract.getContractHistory().getPrice() * durationMonth;
+        return ContractDTO_4.builder()
+                .id(contract.getId())
+                .apartmentName(contract.getAppointment().getApartment().getName())
+                .contractStatus(contract.isStatusOfPayment())
+                .totalPrice(totalPrice)
+                .landlordName(usersRepository.findByEmail(contract.getCreateBy()).get().getFullName())
+                .renterName(contract.getAppointment().getUsers().getFullName())
+                .durationMonth(countPaymentsWithFalseStatus(contract.getId()))
+                .address(contract.getAppointment().getApartment().getName()
+                +", "+contract.getAppointment().getApartment().getBuilding().getName()
+                +", "+contract.getAppointment().getApartment().getBuilding().getZone().getName()
+                +", "+contract.getAppointment().getApartment().getBuilding().getZone().getArea().getName()
+                +", Q9,TP.HCM"
+                )
+                .build();
+    }
+    public long countPaymentsWithFalseStatus(Long contractId) {
+        List<Payment> payments = paymentRepository.findAllByContractId(contractId);
 
+        // Đếm số lượng thanh toán có trạng thái false
+        return payments.stream()
+                .filter(payment -> !payment.isStatus())
+                .count();
+    }
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
         File tempFile = new File(fileName);
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {

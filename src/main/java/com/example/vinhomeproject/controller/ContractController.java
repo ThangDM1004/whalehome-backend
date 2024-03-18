@@ -53,4 +53,8 @@ public class ContractController {
     public ResponseEntity<ResponseObject> getDetailContract(@PathVariable Long id){
         return contractService.getDetailContract(id);
     }
+    @GetMapping("/getListContract/{id}")
+    public ResponseEntity<ResponseObject> getListContract(@PathVariable Long id){
+        return contractService.getListContract(id);
+    }
 }
