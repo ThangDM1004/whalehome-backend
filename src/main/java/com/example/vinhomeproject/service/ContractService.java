@@ -175,7 +175,7 @@ public class ContractService {
         if(contracts.isEmpty()){
             return ResponseEntity.status (HttpStatus.OK).body(new ResponseObject(
                     "Do not exist contract or user id",
-                    ""
+                    contracts
             ));
         }
 
