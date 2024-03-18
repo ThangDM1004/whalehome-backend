@@ -40,4 +40,8 @@ public class PaymentController {
     public ResponseEntity<ResponseObject> getUpcomingPayment(@PathVariable Long id,@RequestParam(required = true) int month, @RequestParam(required = true) int year){
         return sv.getUpcomingPayment(id,month,year);
     }
+    @GetMapping("/getUnpaidPayment/{id}")
+    public ResponseEntity<ResponseObject> getUnpaidPayment(@PathVariable Long id){
+        return sv.getAllUnpaidPayment(id);
+    }
 }
