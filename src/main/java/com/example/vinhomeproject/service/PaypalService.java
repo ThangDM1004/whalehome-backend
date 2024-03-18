@@ -36,17 +36,17 @@ public class PaypalService {
             String currency,
             String method,
             String intent,
-            String description,
             String cancelUrl,
             String successUrl,
             Long paymentId
     ) throws PayPalRESTException {
+        Optional<com.example.vinhomeproject.models.Payment> _payment = paymentRepository.findById(paymentId);
         Amount amount = new Amount();
         amount.setCurrency(currency);
         amount.setTotal(String.format(Locale.forLanguageTag(currency), "%.2f", total));
 
         Transaction transaction = new Transaction();
-        transaction.setDescription(description);
+        transaction.setDescription(_payment.get().getContent());
         transaction.setAmount(amount);
 
         List<Transaction> transactions = new ArrayList<>();

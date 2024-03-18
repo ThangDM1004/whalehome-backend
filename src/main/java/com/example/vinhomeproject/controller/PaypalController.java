@@ -25,7 +25,6 @@ public class PaypalController {
     @PostMapping("/pay")
     public ResponseEntity<ResponseObject> createPayment(
             @RequestParam("amount") String amount,
-            @RequestParam("description") String description,
             @RequestParam("paymentId") Long paymentId
     ) {
         try {
@@ -36,7 +35,6 @@ public class PaypalController {
                     "USD",
                     "paypal",
                     "sale",
-                    description,
                     cancelUrl,
                     successUrl,
                     paymentId
