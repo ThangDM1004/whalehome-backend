@@ -44,4 +44,8 @@ public class PaymentController {
     public ResponseEntity<ResponseObject> getUnpaidPayment(@PathVariable Long id){
         return sv.getAllUnpaidPayment(id);
     }
+    @GetMapping("/getAllPaymentByContract/{id}")
+    public ResponseEntity<ResponseObject> getAllPaymentByContract(@PathVariable Long id){
+        return sv.getAllPaymentByContractId(id);
+    }
 }

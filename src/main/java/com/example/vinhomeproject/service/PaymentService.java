@@ -93,6 +93,10 @@ public class PaymentService {
                         .build()
         ));
     }
+    public ResponseEntity<ResponseObject> getAllPaymentByContractId(Long contractId){
+        return ResponseEntity.ok(new ResponseObject(
+                "",rs.findAllByContractId(contractId)));
+    }
     public ResponseEntity<ResponseObject> getAllUnpaidPayment(Long userId){
         List<Contract> contracts = contractRepository.findContractsByUserId(userId);
         List<List<PaymentDTO>> paymentsForContracts = new ArrayList<>();
