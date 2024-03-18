@@ -1,9 +1,10 @@
 package com.example.vinhomeproject.service;
 
+import com.example.vinhomeproject.dto.PaymentDTO;
 import com.example.vinhomeproject.dto.RevenuePerMonthDTO;
 import com.example.vinhomeproject.dto.RevenueYearDTO;
+import com.example.vinhomeproject.mapper.PaymentMapper;
 import com.example.vinhomeproject.models.Contract;
-import com.example.vinhomeproject.models.ContractHistory;
 import com.example.vinhomeproject.models.Payment;
 import com.example.vinhomeproject.repositories.ContractRepository;
 import com.example.vinhomeproject.repositories.PaymentRepository;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class PaymentService {
@@ -24,6 +26,8 @@ public class PaymentService {
     private  PaymentRepository rs;
     @Autowired
     private ContractRepository contractRepository;
+    @Autowired
+    private PaymentMapper paymentMapper;
 
     public ResponseEntity<ResponseObject> getAllPayment(){
         List<Payment> paymentList=rs.findAll();
@@ -89,8 +93,20 @@ public class PaymentService {
                         .build()
         ));
     }
+    public ResponseEntity<ResponseObject> getAllUnpaidPayment(Long userId){
+        List<Contract> contracts = contractRepository.findContractsByUserId(userId);
+        List<List<PaymentDTO>> paymentsForContracts = new ArrayList<>();
+
+        for (Contract contract : contracts) {
+            List<Payment> payments = rs.findAllByContractId(contract.getId()).stream().
+                    filter(payment -> !payment.isStatus()).toList();
+            List<PaymentDTO> paymentDTOS = payments.stream().map(paymentMapper::toDto).toList();
+            paymentsForContracts.add(paymentDTOS);
+        }
+        return ResponseEntity.ok(new ResponseObject("Get successfully",paymentsForContracts));
+
+    }
     public ResponseEntity<ResponseObject> calculateRevenueByMonth(int year, int month) {
-        Map<Integer, Double> revenueMap = new HashMap<>();
         List<Payment> paymentsOfMonth = rs.findByPaymentTimeBetween(
                 LocalDate.of(year, month, 1),
                 LocalDate.of(year, month, 31)
@@ -110,18 +126,19 @@ public class PaymentService {
                 .payment_time(contract.getDateStartRent().plusMonths(paymentOrder))
                 .contract(contract)
                 .total_price(contract.getContractHistory().getPrice())
-                .content("Semester "+String.valueOf(paymentOrder))
+                .content("Semester "+ paymentOrder)
                 .build();
         payment.setStatus(false);
         rs.save(payment);
     }
     public ResponseEntity<ResponseObject> getUpcomingPayment( Long userId, int month, int year) {
         List<Contract> contracts = contractRepository.findContractsByUserId(userId);
-        List<List<Payment>> paymentsForContracts = new ArrayList<>();
+        List<List<PaymentDTO>> paymentsForContracts = new ArrayList<>();
 
         for (Contract contract : contracts) {
             List<Payment> payments = rs.findAllByContractId(contract.getId(),month,year);
-            paymentsForContracts.add(payments);
+            List<PaymentDTO> paymentDTOS = payments.stream().map(paymentMapper::toDto).collect(Collectors.toList());
+            paymentsForContracts.add(paymentDTOS);
         }
         return ResponseEntity.ok(new ResponseObject("Get successfully",paymentsForContracts));
     }
