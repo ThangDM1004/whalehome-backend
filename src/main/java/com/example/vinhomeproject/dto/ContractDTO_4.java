@@ -17,4 +17,5 @@ public class ContractDTO_4 {
     private String renterName;
     private long durationMonth;
     private String address;
+    private String urlFile;
 }
