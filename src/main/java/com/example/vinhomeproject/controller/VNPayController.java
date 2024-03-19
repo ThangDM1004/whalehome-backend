@@ -22,7 +22,7 @@ public class VNPayController {
     public ModelAndView paymentCallback(@RequestParam Map<String, String> queryParams){
         return new ModelAndView(service.paymentCallback(queryParams)) ;
     }
-    @PostMapping("/payment")
+    @GetMapping("/payment")
     public ResponseEntity<ResponseObject> payment(@PathParam("price") long price, @PathParam("paymentId") Long paymentId, @RequestParam("bankCode") String bankCode) throws UnsupportedEncodingException {
         return service.payment(price,paymentId,bankCode);
     }

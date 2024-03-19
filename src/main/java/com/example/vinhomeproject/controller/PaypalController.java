@@ -23,7 +23,7 @@ public class PaypalController {
     @Autowired
     private PaypalService paypalService;
 
-    @PostMapping("/pay")
+    @GetMapping("/pay")
     public ResponseEntity<ResponseObject> createPayment(
             @RequestParam("amount") String amount,
             @RequestParam("paymentId") Long paymentId
