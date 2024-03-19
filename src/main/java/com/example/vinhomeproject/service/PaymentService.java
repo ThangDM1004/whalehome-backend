@@ -101,17 +101,24 @@ public class PaymentService {
     }
     public ResponseEntity<ResponseObject> getAllUnpaidPayment(Long userId){
         List<Contract> contracts = contractRepository.findContractsByUserId(userId);
-        List<List<PaymentDTO>> paymentsForContracts = new ArrayList<>();
-
-        for (Contract contract : contracts) {
-            List<Payment> payments = rs.findAllByContractId(contract.getId()).stream().
-                    filter(payment -> !payment.isStatus()).toList();
-            List<PaymentDTO> paymentDTOS = payments.stream().map(paymentMapper::toDto).toList();
-            paymentsForContracts.add(paymentDTOS);
+        List<PaymentDTO_2> payments = new ArrayList<>();
+        for(Contract x : contracts){
+            if(rs.getAllByContractIdUnpaid(x.getId()) != null){
+                payments.addAll(rs.getAllByContractIdUnpaid(x.getId()));
+            }
         }
-        return ResponseEntity.ok(new ResponseObject("Get successfully",paymentsForContracts));
-
+        if(!payments.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                    "Get all payment successfully",
+                    payments
+            ));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Payment null",
+                ""
+        ));
     }
+
     public ResponseEntity<ResponseObject> calculateRevenueByMonth(int year, int month) {
         List<Payment> paymentsOfMonth = rs.findByPaymentTimeBetween(
                 LocalDate.of(year, month, 1),
