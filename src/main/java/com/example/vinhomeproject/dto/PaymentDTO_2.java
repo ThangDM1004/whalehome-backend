@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class PaymentDTO_2 {
+    private Long paymentId;
     private double price;
     private LocalDate expiredDate;
     private int semester;
