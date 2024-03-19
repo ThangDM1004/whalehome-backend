@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class PaymentDTO_2 {
     private double price;
     private LocalDate expiredDate;
-    private String content;
+    private int semester;
     private Long contractId;
     private boolean status;
 }

@@ -96,11 +96,8 @@ public class PaymentService {
         ));
     }
     public ResponseEntity<ResponseObject> getAllPaymentByContractId(Long contractId){
-        List<Payment> payments = rs.findAllByContractId(contractId).stream().
-                filter(payment -> !payment.isStatus()).toList();
-        List<PaymentDTO> paymentDTOS = payments.stream().map(paymentMapper::toDto).toList();
         return ResponseEntity.ok(new ResponseObject(
-                "",paymentDTOS));
+                "",rs.findAllByContractId(contractId)));
     }
     public ResponseEntity<ResponseObject> getAllUnpaidPayment(Long userId){
         List<Contract> contracts = contractRepository.findContractsByUserId(userId);
