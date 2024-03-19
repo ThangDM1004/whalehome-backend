@@ -190,7 +190,7 @@ public class PaymentService {
         }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Payment null",
-                ""
+                new ArrayList<PaymentDTO_2>()
         ));
     }
 

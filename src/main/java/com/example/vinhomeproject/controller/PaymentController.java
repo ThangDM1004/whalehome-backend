@@ -48,5 +48,8 @@ public class PaymentController {
     public ResponseEntity<ResponseObject> getAllPaymentByContract(@PathVariable Long id){
         return sv.getAllPaymentByContractId(id);
     }
-
+    @GetMapping("/get-all-payment/{id}")
+    public ResponseEntity<ResponseObject> getAllPayment(@PathVariable Long id){
+        return sv.allPaymentInUser(id);
+    }
 }
