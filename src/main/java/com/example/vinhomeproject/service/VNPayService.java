@@ -86,7 +86,7 @@ public class VNPayService {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = price * 25000;
+        long amount = price * 25000 * 100;
 
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
         String vnp_IpAddr = "127.0.0.1";
