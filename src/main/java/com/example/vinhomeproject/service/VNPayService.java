@@ -41,10 +41,10 @@ public class VNPayService {
         String paymentId = queryParams.get("paymentId");
         if (paymentId != null && !paymentId.equals("")) {
             if ("00".equals(vnp_ResponseCode)) {
-                if(paymentId.contains(",")){
+                if (paymentId.contains(",")) {
                     String[] idValue = paymentId.split(",");
-                    for (String x:idValue){
-                        Optional<Payment> payment = paymentRepository.findById(Long.parseLong(x));
+                    for (String x : idValue) {
+                        Optional<Payment> payment = paymentRepository.findById((long) Integer.parseInt(x));
                         if (payment.isPresent()) {
                             payment.get().setStatus(true);
                             if (checkStatusOfPayment(payment.get().getContract().getId())) {
@@ -53,11 +53,11 @@ public class VNPayService {
                                 contractRepository.save(contract.get());
                             }
                             paymentRepository.save(payment.get());
-                            return "payment-success";
                         }
                     }
-                }else{
-                    Optional<Payment> payment = paymentRepository.findById(Long.parseLong(paymentId));
+                    return "payment-success";
+                } else {
+                    Optional<Payment> payment = paymentRepository.findById((long) Integer.parseInt(paymentId));
                     if (payment.isPresent()) {
                         payment.get().setStatus(true);
                         if (checkStatusOfPayment(payment.get().getContract().getId())) {
@@ -68,11 +68,11 @@ public class VNPayService {
                         paymentRepository.save(payment.get());
                         return "payment-success";
                     }
+                    return "payment-failed";
                 }
                 // Giao dịch thành công
                 // Thực hiện các xử lý cần thiết, ví dụ: cập nhật CSDL
 
-                return "payment-failed";
             } else {
                 // Giao dịch thất bại
                 // Thực hiện các xử lý cần thiết, ví dụ: không cập nhật CSDL\
@@ -150,5 +150,6 @@ public class VNPayService {
                 "Successfully",
                 paymentUrl
         ));
+
     }
 }
