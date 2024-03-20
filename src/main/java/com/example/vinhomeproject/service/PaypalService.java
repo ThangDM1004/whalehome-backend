@@ -37,16 +37,14 @@ public class PaypalService {
             String method,
             String intent,
             String cancelUrl,
-            String successUrl,
-            Long paymentId
+            String successUrl
     ) throws PayPalRESTException {
-        Optional<com.example.vinhomeproject.models.Payment> _payment = paymentRepository.findById(paymentId);
         Amount amount = new Amount();
         amount.setCurrency(currency);
         amount.setTotal(String.format(Locale.forLanguageTag(currency), "%.2f", total));
 
         Transaction transaction = new Transaction();
-        transaction.setDescription(_payment.get().getContent());
+        transaction.setDescription("Pay the bill");
         transaction.setAmount(amount);
 
         List<Transaction> transactions = new ArrayList<>();
@@ -93,20 +91,38 @@ public class PaypalService {
         return check;
     }
 
-    public String paymentSuccessfully(Long id, String paymentId,String payerId){
+    public String paymentSuccessfully(String id, String paymentId,String payerId){
         try {
             Payment payment = this.executePayment(paymentId, payerId);
             if (payment.getState().equals("approved")) {
-                Optional<com.example.vinhomeproject.models.Payment> _payment = paymentRepository.findById(id);
-                if (_payment.isPresent()) {
-                    _payment.get().setStatus(true);
-                    if(checkStatusOfPayment(_payment.get().getContract().getId())){
-                        Optional<Contract> contract = contractRepository.findById(_payment.get().getContract().getId());
-                        contract.get().setStatusOfPayment(true);
-                        contractRepository.save(contract.get());
+                if(id.contains(",")){
+                    String[] idValue = id.split(",");
+                    for(String x : idValue){
+                        Optional<com.example.vinhomeproject.models.Payment> _payment = paymentRepository.findById(Long.parseLong(x));
+                        if (_payment.isPresent()) {
+                            _payment.get().setStatus(true);
+                            if(checkStatusOfPayment(_payment.get().getContract().getId())){
+                                Optional<Contract> contract = contractRepository.findById(_payment.get().getContract().getId());
+                                contract.get().setStatusOfPayment(true);
+                                contractRepository.save(contract.get());
+                            }
+                            paymentRepository.save(_payment.get());
+                        }
                     }
-                    paymentRepository.save(_payment.get());
+                }else{
+                    Optional<com.example.vinhomeproject.models.Payment> _payment = paymentRepository.findById(Long.parseLong(id));
+                    if (_payment.isPresent()) {
+                        _payment.get().setStatus(true);
+                        if(checkStatusOfPayment(_payment.get().getContract().getId())){
+                            Optional<Contract> contract = contractRepository.findById(_payment.get().getContract().getId());
+                            contract.get().setStatusOfPayment(true);
+                            contractRepository.save(contract.get());
+                        }
+                        paymentRepository.save(_payment.get());
+                    }
                 }
+
+
                 return "payment-success";
             }
         } catch (PayPalRESTException e) {
