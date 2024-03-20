@@ -18,12 +18,15 @@ public class VNPayController {
     @Autowired
     public VNPayService service;
 
-    @PostMapping("/payment-callback")
+    @GetMapping("/payment-callback")
     public ModelAndView paymentCallback(@RequestParam Map<String, String> queryParams){
         return new ModelAndView(service.paymentCallback(queryParams)) ;
     }
     @GetMapping("/payment")
-    public ResponseEntity<ResponseObject> payment(@PathParam("price") long price, @PathParam("paymentId") String paymentId, @RequestParam("bankCode") String bankCode) throws UnsupportedEncodingException {
+    public ResponseEntity<ResponseObject> payment(@PathParam("price") long price,
+                                                  @PathParam("paymentId") String paymentId,
+                                                  @RequestParam("bankCode") String bankCode)
+            throws UnsupportedEncodingException {
         return service.payment(price,paymentId,bankCode);
     }
 }
