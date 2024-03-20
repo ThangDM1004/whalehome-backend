@@ -104,7 +104,8 @@ public class ApartmentService {
     public ResponseEntity<ResponseObject> update(Long id, ApartmentDTO apartmentDTO){
         Optional<Apartment> apartment = apartmentRepository.findById(id);
         if(apartment.isPresent()){
-            if(apartmentRepository.findApartmentByNameAndBuilding(apartmentDTO.getName(),apartment.get().getBuilding()).isPresent()){
+            if(apartmentRepository.findApartmentByNameAndBuilding(apartmentDTO.getName(),apartment.get().getBuilding()).isPresent()
+            && !apartment.get().getName().equals(apartmentDTO.getName())){
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                         "Apartment have exist",
                         ""
