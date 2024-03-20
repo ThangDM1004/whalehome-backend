@@ -238,6 +238,7 @@ public class PaymentService {
 
     public ResponseEntity<ResponseObject> checkPayment(String paymentId) {
         boolean check = false;
+        paymentId = paymentId.substring(1, paymentId.length() - 1);
         if (paymentId.contains(",")) {
             String[] idValue = paymentId.split(",");
             for (String x : idValue) {
