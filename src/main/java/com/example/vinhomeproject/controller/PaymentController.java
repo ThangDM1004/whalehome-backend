@@ -52,4 +52,9 @@ public class PaymentController {
     public ResponseEntity<ResponseObject> getAllPayment(@PathVariable Long id){
         return sv.allPaymentInUser(id);
     }
+
+    @GetMapping("/check-payment")
+    public ResponseEntity<ResponseObject> checkPayment(@RequestParam String paymentId){
+       return sv.checkPayment(paymentId);
+    }
 }
