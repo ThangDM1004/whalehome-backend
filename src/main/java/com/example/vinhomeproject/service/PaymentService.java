@@ -16,30 +16,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class PaymentService {
     @Autowired
-    private  PaymentRepository rs;
+    private PaymentRepository rs;
     @Autowired
     private ContractRepository contractRepository;
     @Autowired
     private PaymentMapper paymentMapper;
 
-    public ResponseEntity<ResponseObject> getAllPayment(){
-        List<Payment> paymentList=rs.findAll();
+    public ResponseEntity<ResponseObject> getAllPayment() {
+        List<Payment> paymentList = rs.findAll();
 
         return ResponseEntity.ok(new ResponseObject(
                 "successfully",
                 paymentList
         ));
     }
-    public ResponseEntity<ResponseObject> getPaymentById(Long id){
+
+    public ResponseEntity<ResponseObject> getPaymentById(Long id) {
         return ResponseEntity.ok(new ResponseObject(
                 "successfully",
                 rs.findPaymentById(id)
@@ -48,34 +46,43 @@ public class PaymentService {
     }
 
 
-    public  ResponseEntity<String> deletePayment(Long id) {
+    public ResponseEntity<String> deletePayment(Long id) {
         Payment existingUser = rs.findPaymentById(id);
 
         if (existingUser != null) {
             existingUser.setStatus(!existingUser.isStatus());
             rs.save(existingUser);
             return ResponseEntity.ok("delete successfully");
-        }else {
+        } else {
             return ResponseEntity.ok("id not exist");
         }
 
 
     }
 
-    public ResponseEntity<String> updatePayment(Long id,Payment paypent) {
+    public ResponseEntity<String> updatePayment(Long id, Payment paypent) {
         Payment existingUser = rs.findPaymentById(id);
 
         if (existingUser != null) {
-            if (paypent.getContent()!=null){ existingUser.setContent(paypent.getContent());}
-            if (paypent.getPayment_time()!=null){existingUser.setPayment_time(paypent.getPayment_time());}
-            if (paypent.getPaymentType()!=null){ existingUser.setPaymentType(paypent.getPaymentType());}
-            if (paypent.getTotal_price()!=0){existingUser.setTotal_price(paypent.getTotal_price());}
-             rs.save(existingUser);
-             return ResponseEntity.ok("update successfully");
-        }else {
+            if (paypent.getContent() != null) {
+                existingUser.setContent(paypent.getContent());
+            }
+            if (paypent.getPayment_time() != null) {
+                existingUser.setPayment_time(paypent.getPayment_time());
+            }
+            if (paypent.getPaymentType() != null) {
+                existingUser.setPaymentType(paypent.getPaymentType());
+            }
+            if (paypent.getTotal_price() != 0) {
+                existingUser.setTotal_price(paypent.getTotal_price());
+            }
+            rs.save(existingUser);
+            return ResponseEntity.ok("update successfully");
+        } else {
             return ResponseEntity.ok("id not exist");
         }
     }
+
     public ResponseEntity<String> createPayment(Payment id) {
         Payment existingUser = new Payment();
         existingUser.setContent(id.getContent());
@@ -86,7 +93,8 @@ public class PaymentService {
         rs.save(existingUser);
         return ResponseEntity.ok("create successfully");
     }
-    public ResponseEntity<ResponseObject> compareRevenue(int year){
+
+    public ResponseEntity<ResponseObject> compareRevenue(int year) {
         return ResponseEntity.ok(new ResponseObject(
                 "",
                 RevenueYearDTO.builder()
@@ -95,19 +103,21 @@ public class PaymentService {
                         .build()
         ));
     }
-    public ResponseEntity<ResponseObject> getAllPaymentByContractId(Long contractId){
+
+    public ResponseEntity<ResponseObject> getAllPaymentByContractId(Long contractId) {
         return ResponseEntity.ok(new ResponseObject(
-                "",rs.findAllByContractId(contractId)));
+                "", rs.findAllByContractId(contractId)));
     }
-    public ResponseEntity<ResponseObject> getAllUnpaidPayment(Long userId){
+
+    public ResponseEntity<ResponseObject> getAllUnpaidPayment(Long userId) {
         List<Contract> contracts = contractRepository.findContractsByUserId(userId);
         List<PaymentDTO_2> payments = new ArrayList<>();
-        for(Contract x : contracts){
-            if(rs.getAllByContractIdUnpaid(x.getId()) != null){
+        for (Contract x : contracts) {
+            if (rs.getAllByContractIdUnpaid(x.getId()) != null) {
                 payments.addAll(rs.getAllByContractIdUnpaid(x.getId()));
             }
         }
-        if(!payments.isEmpty()){
+        if (!payments.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get all payment successfully",
                     payments
@@ -128,10 +138,11 @@ public class PaymentService {
         double totalRevenueOfMonth = paymentsOfMonth.stream()
                 .mapToDouble(Payment::getTotal_price)
                 .sum();
-        return ResponseEntity.ok(new ResponseObject("",totalRevenueOfMonth));
+        return ResponseEntity.ok(new ResponseObject("", totalRevenueOfMonth));
     }
-    public void CreatePayment(Long contractId, int paymentOrder){
-        if(contractRepository.findById(contractId).isEmpty()){
+
+    public void CreatePayment(Long contractId, int paymentOrder) {
+        if (contractRepository.findById(contractId).isEmpty()) {
             return;
         }
         Contract contract = contractRepository.findById(contractId).get();
@@ -139,22 +150,24 @@ public class PaymentService {
                 .payment_time(contract.getDateStartRent().plusMonths(paymentOrder))
                 .contract(contract)
                 .total_price(contract.getContractHistory().getPrice())
-                .content("Semester "+ paymentOrder)
+                .content("Semester " + paymentOrder)
                 .build();
         payment.setStatus(false);
         rs.save(payment);
     }
-    public ResponseEntity<ResponseObject> getUpcomingPayment( Long userId, int month, int year) {
+
+    public ResponseEntity<ResponseObject> getUpcomingPayment(Long userId, int month, int year) {
         List<Contract> contracts = contractRepository.findContractsByUserId(userId);
         List<List<PaymentDTO>> paymentsForContracts = new ArrayList<>();
 
         for (Contract contract : contracts) {
-            List<Payment> payments = rs.findAllByContractId(contract.getId(),month,year);
+            List<Payment> payments = rs.findAllByContractId(contract.getId(), month, year);
             List<PaymentDTO> paymentDTOS = payments.stream().map(paymentMapper::toDto).collect(Collectors.toList());
             paymentsForContracts.add(paymentDTOS);
         }
-        return ResponseEntity.ok(new ResponseObject("Get successfully",paymentsForContracts));
+        return ResponseEntity.ok(new ResponseObject("Get successfully", paymentsForContracts));
     }
+
     private Map<Integer, Double> calculateRevenueByYear(int year) {
         Map<Integer, Double> revenueMap = new HashMap<>();
         List<Payment> paymentsOfYear = rs.findByPaymentTimeBetween(
@@ -172,6 +185,7 @@ public class PaymentService {
         }
         return revenueMap;
     }
+
     private List<RevenuePerMonthDTO> mapToRevenuePerMonthDTO(Map<Integer, Double> revenueMap) {
         List<RevenuePerMonthDTO> revenueList = new ArrayList<>();
         for (Map.Entry<Integer, Double> entry : revenueMap.entrySet()) {
@@ -181,15 +195,16 @@ public class PaymentService {
         }
         return revenueList;
     }
-    public ResponseEntity<ResponseObject> allPaymentInMonth(Long userId, int month, int year){
+
+    public ResponseEntity<ResponseObject> allPaymentInMonth(Long userId, int month, int year) {
         List<Contract> contracts = contractRepository.findContractsByUserId(userId);
         List<PaymentDTO_2> payments = new ArrayList<>();
-        for(Contract x : contracts){
-            if(rs.findByContractId(x.getId(),month,year) != null){
-                payments.add(rs.findByContractId(x.getId(),month,year));
+        for (Contract x : contracts) {
+            if (rs.findByContractId(x.getId(), month, year) != null) {
+                payments.add(rs.findByContractId(x.getId(), month, year));
             }
         }
-        if(!payments.isEmpty()){
+        if (!payments.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get payment by month, year successfully",
                     payments
@@ -201,15 +216,15 @@ public class PaymentService {
         ));
     }
 
-    public ResponseEntity<ResponseObject> allPaymentInUser(Long userId){
+    public ResponseEntity<ResponseObject> allPaymentInUser(Long userId) {
         List<Contract> contracts = contractRepository.findContractsByUserId(userId);
         List<PaymentDTO_2> payments = new ArrayList<>();
-        for(Contract x : contracts){
-            if(rs.getAllByContractId(x.getId()) != null){
+        for (Contract x : contracts) {
+            if (rs.getAllByContractId(x.getId()) != null) {
                 payments.addAll(rs.getAllByContractId(x.getId()));
             }
         }
-        if(!payments.isEmpty()){
+        if (!payments.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                     "Get all payment successfully",
                     payments
@@ -217,6 +232,31 @@ public class PaymentService {
         }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "Payment null",
+                ""
+        ));
+    }
+
+    public ResponseEntity<ResponseObject> checkPayment(String paymentId) {
+        boolean check = false;
+        if (paymentId.contains(",")) {
+            String[] idValue = paymentId.split(",");
+            for (String x : idValue) {
+                Optional<Payment> payment = rs.findById(Long.parseLong(x));
+                if (payment.get().isStatus()) {
+                    check = true;
+                }
+            }
+        } else {
+            Optional<Payment> payment = rs.findById(Long.parseLong(paymentId));
+            if (payment.get().isStatus()) {
+                check = true;
+            }
+        }
+        return check ? ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Payment successfully",
+                ""
+        )) : ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                "Payment failed",
                 ""
         ));
     }
