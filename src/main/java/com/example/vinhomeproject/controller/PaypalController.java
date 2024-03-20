@@ -26,19 +26,18 @@ public class PaypalController {
     @GetMapping("/pay")
     public ResponseEntity<ResponseObject> createPayment(
             @RequestParam("amount") String amount,
-            @RequestParam("paymentId") Long paymentId
+            @RequestParam("paymentId") String paymentId
     ) {
         try {
             String cancelUrl = "https://whalehome.up.railway.app/api/v1/paypal/cancel";
-            String successUrl = "https://whalehome.up.railway.app/api/v1/paypal/success/" + paymentId;
+            String successUrl = "http://localhost:8080/api/v1/paypal/success/" + paymentId;
             Payment payment = paypalService.createPayment(
                     Double.valueOf(amount),
                     "USD",
                     "paypal",
                     "sale",
                     cancelUrl,
-                    successUrl,
-                    paymentId
+                    successUrl
             );
 
             for (Links links: payment.getLinks()) {
@@ -60,7 +59,7 @@ public class PaypalController {
 
     @GetMapping("/success/{id}")
     public ModelAndView paymentSuccess(
-            @PathVariable("id") Long id,
+            @PathVariable("id") String id,
             @RequestParam("paymentId") String paymentId,
             @RequestParam("PayerID") String payerId
     ) {
