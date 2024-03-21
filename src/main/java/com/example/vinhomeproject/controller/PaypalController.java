@@ -31,7 +31,7 @@ public class PaypalController {
     ) {
         try {
             String cancelUrl = "https://whalehome.up.railway.app/api/v1/paypal/cancel";
-            String successUrl = "http://localhost:8080/api/v1/paypal/success/" + paymentId;
+            String successUrl = "https://whalehome.up.railway.app/api/v1/paypal/success/" + paymentId;
             Payment payment = paypalService.createPayment(
                     Double.valueOf(amount),
                     "USD",
