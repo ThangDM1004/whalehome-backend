@@ -1,6 +1,5 @@
 package com.example.vinhomeproject.controller;
 
-import com.example.vinhomeproject.models.Contract;
 import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.PaypalService;
 import com.paypal.api.payments.Links;
@@ -9,17 +8,19 @@ import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/paypal")
 public class PaypalController {
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
     @Autowired
     private PaypalService paypalService;
 
@@ -30,7 +31,7 @@ public class PaypalController {
     ) {
         try {
             String cancelUrl = "https://whalehome.up.railway.app/api/v1/paypal/cancel";
-            String successUrl = "https://whalehome.up.railway.app/api/v1/paypal/success/" + paymentId;
+            String successUrl = "http://localhost:8080/api/v1/paypal/success/" + paymentId;
             Payment payment = paypalService.createPayment(
                     Double.valueOf(amount),
                     "USD",
@@ -40,7 +41,7 @@ public class PaypalController {
                     successUrl
             );
 
-            for (Links links: payment.getLinks()) {
+            for (Links links : payment.getLinks()) {
                 if (links.getRel().equals("approval_url")) {
                     return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                             "Create payment successfully",
@@ -53,7 +54,7 @@ public class PaypalController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
                 "",
-               ""
+                ""
         ));
     }
 
@@ -63,12 +64,24 @@ public class PaypalController {
             @RequestParam("paymentId") String paymentId,
             @RequestParam("PayerID") String payerId
     ) {
-
-      return new ModelAndView(paypalService.paymentSuccessfully(id,paymentId,payerId));
+        messagingTemplate.convertAndSend("/topic/payment", "Payment successfully");
+        return new ModelAndView(paypalService.paymentSuccessfully(id, paymentId, payerId));
     }
+
     @GetMapping("/cancel")
     public ModelAndView paymentCancel() {
         return new ModelAndView("payment-cancel");
+    }
+
+    @MessageMapping("/payment-success")
+    @SendTo("/topic/payment")
+    public String send(final String message) throws Exception {
+        return message;
+    }
+
+    @GetMapping("/index")
+    public ModelAndView index() {
+        return new ModelAndView("index");
     }
 
 }
