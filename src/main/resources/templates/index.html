@@ -12,7 +12,7 @@
             console.log(frame);
             stompClient.subscribe('/topic/payment', function(result) {
                 console.log("Received test: " + result.body)
-                show(JSON.parse(result.body));
+                show(result.body());
             });
         });
         // privateStompClient = Stomp.over(socket);
