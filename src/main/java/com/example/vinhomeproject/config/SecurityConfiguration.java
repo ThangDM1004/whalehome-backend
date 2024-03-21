@@ -27,7 +27,7 @@ public class SecurityConfiguration {
             "/v3/api-docs.yaml/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
-            "https://whalehome.up.railway.app/ws/**",
+            "/ws/**",
             "/**"
     };
     @Autowired
