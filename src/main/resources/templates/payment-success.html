@@ -39,7 +39,7 @@
         const userId = userIdElement.textContent;
         const url = 'https://whale-socket.up.railway.app/api/event/payment-success';
         const data = {
-            data: 'payment-success-'+userId
+            data: userId
         };
 
         axios.post(url, data)
