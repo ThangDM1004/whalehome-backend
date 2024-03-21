@@ -30,4 +30,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
     @Query("SELECT NEW com.example.vinhomeproject.dto.PaymentDTO_2(p.id,p.total_price,p.payment_time,CAST(SUBSTRING(p.content, LENGTH(p.content)) AS INTEGER), p.contract.id,p.status) FROM Payment p WHERE p.contract.id = :id AND p.status = false ORDER BY p.id asc")
     List<PaymentDTO_2> getAllByContractIdUnpaid(@Param("id") Long id);
+
+    @Query("SELECT u.id FROM Payment p, Users u WHERE p.contract.contractHistory.users.id = u.id AND p.id = ?1")
+    int getUserIdByPaymentId(int paymentId);
 }

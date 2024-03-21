@@ -1,7 +1,9 @@
 package com.example.vinhomeproject.controller;
 
 import com.example.vinhomeproject.response.ResponseObject;
+import com.example.vinhomeproject.service.PaymentService;
 import com.example.vinhomeproject.service.PaypalService;
+import com.example.vinhomeproject.service.UsersService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
@@ -65,7 +67,10 @@ public class PaypalController {
             @RequestParam("PayerID") String payerId
     ) {
         messagingTemplate.convertAndSend("/topic/payment", "Payment successfully");
-        return new ModelAndView(paypalService.paymentSuccessfully(id, paymentId, payerId));
+
+        ModelAndView modelAndView = new ModelAndView(paypalService.paymentSuccessfully(id, paymentId, payerId));
+        modelAndView.addObject("userId",paypalService.getUserByPaymentId(id));
+        return modelAndView;
     }
 
     @GetMapping("/cancel")
@@ -78,7 +83,7 @@ public class PaypalController {
     public String send(final String message) throws Exception {
         return message;
     }
-
+//
     @GetMapping("/index")
     public ModelAndView index() {
         return new ModelAndView("index");
