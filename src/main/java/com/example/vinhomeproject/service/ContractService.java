@@ -1,10 +1,7 @@
 package com.example.vinhomeproject.service;
 
 
-import com.example.vinhomeproject.dto.ContractDTO;
-import com.example.vinhomeproject.dto.ContractDTO_2;
-import com.example.vinhomeproject.dto.ContractDTO_3;
-import com.example.vinhomeproject.dto.ContractDTO_4;
+import com.example.vinhomeproject.dto.*;
 import com.example.vinhomeproject.models.*;
 import com.example.vinhomeproject.repositories.*;
 import com.example.vinhomeproject.response.ResponseObject;
@@ -202,6 +199,7 @@ public class ContractService {
                     .buildingName(c.getAppointment().getApartment().getBuilding().getName())
                     .apartment(c.getAppointment().getApartment())
                     .landlord(usersRepository.findByEmail(c.getCreateBy()).get())
+                    .bank(new BankDTO())
                     .renter(c.getAppointment().getUsers())
                     .urlContract(c.getUrlFile())
                     .build();

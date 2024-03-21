@@ -9,6 +9,7 @@ import com.example.vinhomeproject.models.Appointment;
 import com.example.vinhomeproject.models.Post;
 import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.repositories.AppointmentRepository;
+import com.example.vinhomeproject.repositories.ContractRepository;
 import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.request.ChangePasswordRequest;
 import com.example.vinhomeproject.response.ResponseObject;
@@ -324,5 +325,14 @@ public class UsersService {
                 "No data",
                 list
         ));
+    }
+
+    public ResponseEntity<ResponseObject> getTopPotentialCustomers(){
+        List<Object[]> ids = repo.findTop5UsersWithMostPaidContracts();
+        List<Users> users = ids.stream()
+                .map(array -> (Users) array[0]) // Lấy phần tử đầu tiên của mỗi mảng Object[]
+                .toList();
+
+        return ResponseEntity.ok(new ResponseObject("Get top 5 users with most contract", users));
     }
 }

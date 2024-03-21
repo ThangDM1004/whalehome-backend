@@ -117,4 +117,8 @@ public class UserController {
     public ResponseEntity<ResponseObject> searchByEmailAndLatestAppointmentComplete(@RequestParam String email) {
        return serivce.searchAppointmentCompleteByEmail(email);
     }
+    @GetMapping("/get-top-potential-customers")
+    public ResponseEntity<ResponseObject> getTopPotentialCustomers() {
+        return serivce.getTopPotentialCustomers();
+    }
 }
