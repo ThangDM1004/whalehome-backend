@@ -179,5 +179,7 @@ public class PaypalService {
         );
 
     }
-
+    public String getUserName(int userId){
+        return usersRepository.findById((long) userId).get().getFullName();
+    }
 }

@@ -33,13 +33,17 @@
     <h1>Payment Successful</h1>
     <p>Thank you for your payment! Your transaction has been processed successfully.</p>
     <p id="userId" hidden="hidden" th:text="${userId}"></p>
+    <p id="userName" hidden="hidden" th:text="${userName}"></p>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         const userIdElement = document.getElementById('userId');
         const userId = userIdElement.textContent;
+        const userNameElement = document.getElementById('userName');
+        const userName = userIdElement.textContent;
         const url = 'https://whale-socket.up.railway.app/api/event/payment-success';
         const data = {
-            data: userId
+            userId: userId,
+            userName:userName
         };
 
         axios.post(url, data)
