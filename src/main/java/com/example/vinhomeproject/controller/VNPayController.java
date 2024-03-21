@@ -20,7 +20,10 @@ public class VNPayController {
 
     @GetMapping("/payment-callback")
     public ModelAndView paymentCallback(@RequestParam Map<String, String> queryParams){
-        return new ModelAndView(service.paymentCallback(queryParams)) ;
+        ModelAndView modelAndView = new ModelAndView(service.paymentCallback(queryParams));
+        String paymentId = queryParams.get("paymentId");
+        modelAndView.addObject("userId",paymentId);
+        return modelAndView;
     }
     @GetMapping("/payment")
     public ResponseEntity<ResponseObject> payment(@PathParam("price") long price,

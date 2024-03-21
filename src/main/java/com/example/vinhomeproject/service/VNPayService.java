@@ -152,4 +152,14 @@ public class VNPayService {
         ));
 
     }
+    public int getUserByPaymentId(String paymentId){
+        int userId = 0;
+        if(paymentId.contains(",")){
+            String[] idValue = paymentId.split(",");
+            userId = paymentRepository.getUserIdByPaymentId(Integer.parseInt(idValue[1]));
+        }else{
+            userId = paymentRepository.getUserIdByPaymentId(Integer.parseInt(paymentId));
+        }
+        return userId;
+    }
 }

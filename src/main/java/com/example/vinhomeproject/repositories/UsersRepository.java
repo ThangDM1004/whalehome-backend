@@ -35,4 +35,6 @@ public interface UsersRepository extends JpaRepository<Users,Long> {
 
     @Query("SELECT a FROM Appointment a WHERE a.users.email like %?1% AND a.statusAppointment like ?2 AND a.contract is null ")
     List<Appointment> searchAppointmentCompleteByEmail(String email,String status);
+
+
 }
