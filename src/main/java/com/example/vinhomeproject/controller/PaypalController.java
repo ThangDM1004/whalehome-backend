@@ -7,6 +7,7 @@ import com.example.vinhomeproject.service.UsersService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,11 +66,12 @@ public class PaypalController {
             @PathVariable("id") String id,
             @RequestParam("paymentId") String paymentId,
             @RequestParam("PayerID") String payerId
-    ) {
+    ) throws MessagingException {
         messagingTemplate.convertAndSend("/topic/payment", "Payment successfully");
 
         ModelAndView modelAndView = new ModelAndView(paypalService.paymentSuccessfully(id, paymentId, payerId));
         modelAndView.addObject("userId",paypalService.getUserByPaymentId(id));
+        paypalService.sendMail(paypalService.getUserByPaymentId(id),id);
         return modelAndView;
     }
 

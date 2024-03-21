@@ -3,9 +3,13 @@ package com.example.vinhomeproject.service;
 import com.example.vinhomeproject.config.VNPayConfig;
 import com.example.vinhomeproject.models.Contract;
 import com.example.vinhomeproject.models.Payment;
+import com.example.vinhomeproject.models.Users;
 import com.example.vinhomeproject.repositories.ContractRepository;
 import com.example.vinhomeproject.repositories.PaymentRepository;
+import com.example.vinhomeproject.repositories.UsersRepository;
 import com.example.vinhomeproject.response.ResponseObject;
+import com.example.vinhomeproject.utils.SendMailUtils;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,10 @@ public class VNPayService {
     private PaymentRepository paymentRepository;
     @Autowired
     private ContractRepository contractRepository;
+    @Autowired
+    private SendMailUtils sendMailUtils;
+    @Autowired
+    private UsersRepository usersRepository;
 
     private boolean checkStatusOfPayment(Long id) {
         boolean check = false;
@@ -161,5 +169,35 @@ public class VNPayService {
             userId = paymentRepository.getUserIdByPaymentId(Integer.parseInt(paymentId));
         }
         return userId;
+    }
+
+    public void sendMail(int userId,String paymentId) throws MessagingException {
+        Optional<Users> users = usersRepository.findById((long) userId);
+        String text = "";
+        if(paymentId.contains(",")){
+            text = "PAYMENT SUCCESS\n" +
+                    "Xin chào," + users.get().getFullName() + "\n";
+            String[] idValue = paymentId.split(",");
+            for(String x:idValue){
+                Optional<com.example.vinhomeproject.models.Payment> payment = paymentRepository.findById(Long.parseLong(x));
+                text += "Payment " + payment.get().getContent() + " with: " +payment.get().getContract().getAppointment().getApartment().getName() + "\n";
+            }
+            text += "Trân trọng,\n" +
+                    "Whalehome";
+        }else{
+            text = "PAYMENT SUCCESS" +
+                    "Xin chào," + users.get().getFullName();
+            Optional<com.example.vinhomeproject.models.Payment> payment = paymentRepository.findById(Long.parseLong(paymentId));
+            text += "Payment " + payment.get().getContent() + " with: " +payment.get().getContract().getAppointment().getApartment().getName() + "\n";
+
+            text += "Trân trọng,\n" +
+                    "Whalhome";
+        }
+        sendMailUtils.sendSimpleEmail(
+                "trungkiennguyen0310@gmail.com",
+                "Payment success - Whalehome",
+                text
+        );
+
     }
 }
