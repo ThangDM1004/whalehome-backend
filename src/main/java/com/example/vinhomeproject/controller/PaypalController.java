@@ -71,6 +71,7 @@ public class PaypalController {
 
         ModelAndView modelAndView = new ModelAndView(paypalService.paymentSuccessfully(id, paymentId, payerId));
         modelAndView.addObject("userId",paypalService.getUserByPaymentId(id));
+        modelAndView.addObject("userName",paypalService.getUserName(paypalService.getUserByPaymentId(id)));
         paypalService.sendMail(paypalService.getUserByPaymentId(id),id);
         return modelAndView;
     }
