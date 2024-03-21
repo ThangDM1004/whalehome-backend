@@ -136,13 +136,13 @@ public class UsersService {
                 userDTO.setDateOfBirth(user.get().getDateOfBirth());
             }
             if(userDTO.getIdentityCard() == null){
-                userDTO.setDateOfBirth(user.get().getDateOfBirth());
+                userDTO.setIdentityCard(user.get().getIdentityCard());
             }
             if(userDTO.getIdentityCardAddressProvide() == null){
-                userDTO.setDateOfBirth(user.get().getDateOfBirth());
+                userDTO.setIdentityCardAddressProvide(user.get().getIdentityCardAddressProvide());
             }
             if(userDTO.getIdentityCardDateProvide()== null){
-                userDTO.setDateOfBirth(user.get().getDateOfBirth());
+                userDTO.setIdentityCardDateProvide(user.get().getIdentityCardDateProvide());
             }
             mapper.updateUser(userDTO,user.get());
             repo.save(user.get());
