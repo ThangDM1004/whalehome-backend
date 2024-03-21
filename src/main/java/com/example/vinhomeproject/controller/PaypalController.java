@@ -11,9 +11,6 @@ import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,8 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/api/v1/paypal")
 public class PaypalController {
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
     @Autowired
     private PaypalService paypalService;
 
@@ -67,8 +62,6 @@ public class PaypalController {
             @RequestParam("paymentId") String paymentId,
             @RequestParam("PayerID") String payerId
     ) throws MessagingException {
-        messagingTemplate.convertAndSend("/topic/payment", "Payment successfully");
-
         ModelAndView modelAndView = new ModelAndView(paypalService.paymentSuccessfully(id, paymentId, payerId));
         modelAndView.addObject("userId",paypalService.getUserByPaymentId(id));
         modelAndView.addObject("userName",paypalService.getUserName(paypalService.getUserByPaymentId(id)));
@@ -79,17 +72,6 @@ public class PaypalController {
     @GetMapping("/cancel")
     public ModelAndView paymentCancel() {
         return new ModelAndView("payment-cancel");
-    }
-
-    @MessageMapping("/payment-success")
-    @SendTo("/topic/payment")
-    public String send(final String message) throws Exception {
-        return message;
-    }
-//
-    @GetMapping("/index")
-    public ModelAndView index() {
-        return new ModelAndView("index");
     }
 
 }
