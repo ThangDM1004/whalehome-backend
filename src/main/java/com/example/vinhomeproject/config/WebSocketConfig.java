@@ -18,7 +18,7 @@ import java.util.List;
 @Configuration
 @EnableWebSocket
 @EnableWebSocketMessageBroker
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
