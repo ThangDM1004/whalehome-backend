@@ -83,7 +83,7 @@ public class PaypalController {
     public String send(final String message) throws Exception {
         return message;
     }
-
+//
     @GetMapping("/index")
     public ModelAndView index() {
         return new ModelAndView("index");
