@@ -106,7 +106,7 @@ public class ApartmentService {
         if(apartment.isPresent()){
             if(apartmentRepository.findApartmentByNameAndBuilding(apartmentDTO.getName(),apartment.get().getBuilding()).isPresent()
             && !apartment.get().getName().equals(apartmentDTO.getName())){
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(
                         "Apartment have exist",
                         ""
                 ));
