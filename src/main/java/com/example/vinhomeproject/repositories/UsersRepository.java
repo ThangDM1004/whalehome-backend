@@ -44,4 +44,5 @@ public interface UsersRepository extends JpaRepository<Users,Long> {
             "GROUP BY u " +
             "ORDER BY COUNT(c) DESC")
     List<Object[]> findTop5UsersWithMostPaidContracts();
+
 }

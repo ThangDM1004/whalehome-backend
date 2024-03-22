@@ -6,9 +6,6 @@ import com.example.vinhomeproject.response.ResponseObject;
 import com.example.vinhomeproject.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -75,9 +72,5 @@ public class PaymentController {
     public ResponseEntity<ResponseObject> getAllPayment(@PathVariable Long id) {
         return sv.allPaymentInUser(id);
     }
-    @MessageMapping("/check-payment")
-    @SendTo("/payment/status")
-    public ResponseEntity<ResponseObject> checkPayment(@Payload String paymentId) {
-        return sv.checkPayment(paymentId);
-    }
+
 }
