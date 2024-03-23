@@ -27,7 +27,7 @@ public class AreaController {
     public ResponseEntity<ResponseObject> create(@RequestBody AreaDTO areaDTO){
         return areaService.create(areaDTO);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id){
         return areaService.delete(id);
     }

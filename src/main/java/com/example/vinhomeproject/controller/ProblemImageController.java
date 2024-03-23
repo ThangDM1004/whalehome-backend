@@ -27,7 +27,7 @@ public class ProblemImageController {
         return service.getById(id);
     }
 
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> delete(@PathVariable Long id) {
         return service.delete(id);
     }

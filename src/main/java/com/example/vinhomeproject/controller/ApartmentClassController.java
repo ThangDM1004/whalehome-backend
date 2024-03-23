@@ -27,7 +27,7 @@ public class ApartmentClassController {
     public ResponseEntity<String> create(@RequestBody ApartmentClassDTO apartmentClassDTO){
         return apartmentClassSerivce.create(apartmentClassDTO);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id){
         return apartmentClassSerivce.delete(id);
     }

@@ -28,7 +28,7 @@ public class IssueController {
     public ResponseEntity<ResponseObject> create(@RequestBody IssueDTO issueDTO){
         return service.createIssue(issueDTO);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> delete(@PathVariable Long id){
         return service.delete(id);
     }

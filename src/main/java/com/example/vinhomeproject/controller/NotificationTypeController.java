@@ -22,7 +22,7 @@ public class NotificationTypeController {
     public ResponseEntity<ResponseObject> getNotificationTypeById(@PathVariable Long id){
         return sv.getNotificationTypeById(id);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteNotificationType(Long id){return sv.deleteNotificationType(id);}
     @PutMapping("/update/{id}")
     public ResponseEntity<String>  updateNotificationType(@RequestBody NotificationType id){return sv.updateNotificationType(id);}

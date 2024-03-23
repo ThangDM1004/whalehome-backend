@@ -27,7 +27,7 @@ public class CardController {
     public ResponseEntity<ResponseObject> create(@RequestBody CartDTO cartDTO){
         return service.create(cartDTO);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> delete(@PathVariable Long id){
         return service.delete(id);
     }

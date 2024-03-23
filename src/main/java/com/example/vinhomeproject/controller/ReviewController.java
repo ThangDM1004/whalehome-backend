@@ -26,7 +26,7 @@ public class ReviewController {
     public  ResponseEntity<ResponseObject> createReview(@RequestBody ReviewDTO review){
         return serivce.createReview(review);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> deleteReview(@PathVariable Long id){
         return  serivce.deleteReview(id);
     }

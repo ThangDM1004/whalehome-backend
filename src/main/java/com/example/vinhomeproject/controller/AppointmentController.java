@@ -28,7 +28,7 @@ public class AppointmentController {
     public ResponseEntity<ResponseObject> create(@RequestBody AppointmentDTO appointmentDTO){
         return appointmentService.create(appointmentDTO);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> delete(@PathVariable Long id){
         return appointmentService.delete(id);
     }

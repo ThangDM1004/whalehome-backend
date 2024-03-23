@@ -32,7 +32,7 @@ public class UserController {
         return serivce.getAllUser();
     }
 
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> deleteUser(@PathVariable Long id) {
         return serivce.deleteUser(id);
     }

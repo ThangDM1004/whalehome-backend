@@ -24,7 +24,7 @@ public class PaymentTypeController {
     public ResponseEntity<ResponseObject> getPaymentTypeById(@PathVariable Long id){
         return sv.getPaymentTypeById(id);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletePaymentType(Long id){return sv.deletePaymentType(id);}
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updatePaymentType(@RequestBody PaymentType id){return sv.updatePaymentType(id);}

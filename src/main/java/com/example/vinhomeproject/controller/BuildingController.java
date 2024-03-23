@@ -32,7 +32,7 @@ public class BuildingController {
     public ResponseEntity<ResponseObject> create(@RequestBody BuildingDTO buildingDTO){
         return buildingService.create(buildingDTO);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id){
         return buildingService.delete(id);
     }

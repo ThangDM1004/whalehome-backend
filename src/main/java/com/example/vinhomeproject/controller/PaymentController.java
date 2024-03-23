@@ -28,7 +28,7 @@ public class PaymentController {
         return sv.getPaymentById(id);
     }
 
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletePayment(Long id) {
         return sv.deletePayment(id);
     }

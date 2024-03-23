@@ -28,7 +28,7 @@ public class ContractController {
     public ResponseEntity<ResponseObject> create(@RequestBody ContractDTO contractDTO){
         return contractService.create(contractDTO);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> delete(@PathVariable Long id){
         return contractService.delete(id);
     }

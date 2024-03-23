@@ -38,7 +38,7 @@ public class PostController {
         return sv.getPostId(id);
     }
 
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletePost(@RequestBody Long id) {
         return sv.deletePost(id);
     }

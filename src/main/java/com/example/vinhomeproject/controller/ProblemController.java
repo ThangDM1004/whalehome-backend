@@ -24,7 +24,7 @@ public class ProblemController {
     public  ResponseEntity<ResponseObject> createProblems(@RequestBody ProblemDTO problemDTO){
         return serivce.createProblems(problemDTO);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> deleteProblems(@PathVariable Long id){
         return  serivce.deleteProblems(id);
     }

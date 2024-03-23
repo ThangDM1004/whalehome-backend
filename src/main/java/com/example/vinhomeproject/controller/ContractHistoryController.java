@@ -27,7 +27,7 @@ public class ContractHistoryController {
     public ResponseEntity<ResponseObject> create(@RequestBody ContractHistoryDTO contractHistoryDTO){
         return contractHistoryService.create(contractHistoryDTO);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> delete(@PathVariable Long id){
         return contractHistoryService.delete(id);
     }

@@ -21,7 +21,7 @@ public class ZoneController {
     public  ResponseEntity<ResponseObject> createZone(@RequestBody ZoneDTO zone){
         return serivce.createZone(zone);
     }
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> deleteZone(@PathVariable Long id){
         return  serivce.deleteZone(id);
     }
