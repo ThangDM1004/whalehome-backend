@@ -43,4 +43,5 @@ public class Base {
     @Column
     private boolean status = true;
 
+
 }

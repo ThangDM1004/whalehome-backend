@@ -34,6 +34,10 @@ public class Users  implements UserDetails {
     private String gender;
     private String address;
     private boolean isVerified;
+    private String createBy;
+    private LocalDate createDate;
+    private String modifiedBy;
+    private LocalDate modifiedDate;
 
     @Enumerated(EnumType.STRING)
     private Role role;
