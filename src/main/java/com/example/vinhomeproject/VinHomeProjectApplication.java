@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
-@EnableWebSecurity
+//@EnableWebSecurity
 @OpenAPIDefinition(
         info = @Info(
                 title = "VINHOME_Apartment_Rent",
